@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenido a Netsus - Tu Espacio Privado</title>
+    
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Roboto (Standard for Android) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Applying the Roboto font, the standard for Android's Material Design */
+        body {
+            font-family: 'Roboto', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Custom background with a subtle, futuristic gradient */
+        .main-background {
+            background-color: #0c0a18;
+            background-image: radial-gradient(circle at 50% 50%, rgba(58, 52, 102, 0.3), transparent 70%);
+        }
+
+        /* Ripple effect for the button to mimic native Android touch feedback */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.6);
+            transform: scale(0);
+            animation: ripple-animation 0.6s linear;
+        }
+
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body class="main-background text-gray-200">
+
+    <!-- Main container that centers the content, mimicking an app screen -->
+    <div class="flex flex-col items-center justify-center min-h-screen p-6">
+        
+        <!-- Content wrapper with entrance animation -->
+        <div id="content-wrapper" class="w-full max-w-md text-center">
+            
+            <!-- Icon with a soft glow effect -->
+            <div class="mb-8">
+                <div class="inline-block p-5 bg-blue-500/10 rounded-full shadow-[0_0_30px_rgba(59,130,246,0.4)]">
+                    <svg class="w-20 h-20 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Main Heading: Larger, bolder, and more impactful -->
+            <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">
+                Bienvenido a Netsus
+            </h1>
+            
+            <!-- Subtitle/Description: Clear and concise message -->
+            <p class="text-lg text-gray-400 mb-12">
+                Tu espacio. Tus reglas. Tu privacidad.
+                <br>
+                Redescubre la libertad en línea.
+            </p>
+            
+            <!-- Call to Action Button: Styled like a native Android button with ripple effect -->
+            <a id="cta-button"
+               href="https://netsus.me/netsus" 
+               class="relative inline-block w-full max-w-xs bg-blue-600 text-white font-bold text-lg px-8 py-4 rounded-full shadow-lg overflow-hidden
+                      hover:bg-blue-700 transition-transform duration-300 ease-in-out transform hover:scale-105 
+                      focus:outline-none focus:ring-4 focus:ring-blue-500 focus:ring-opacity-50">
+                Empezar
+            </a>
+            
+        </div>
+        
+    </div>
+
+    <script>
+        // JavaScript to create the ripple effect on the button
+        const button = document.getElementById('cta-button');
+
+        button.addEventListener('click', function (e) {
+            // Get click coordinates relative to the button
+            const x = e.clientX - e.target.offsetLeft;
+            const y = e.clientY - e.target.offsetTop;
+
+            // Create the ripple element
+            const ripple = document.createElement('span');
+            ripple.classList.add('ripple');
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+
+            // Append, and then remove after the animation finishes
+            this.appendChild(ripple);
+            setTimeout(() => {
+                ripple.remove();
+            }, 600); // Corresponds to animation duration
+        });
+    </script>
+
+</body>
+</html>
