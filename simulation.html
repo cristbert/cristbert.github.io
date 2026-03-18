@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Interactive Map of Alpha Centauri</title>
+  <style>
+    :root {
+      --bg: #050816;
+      --panel: rgba(10, 16, 35, 0.88);
+      --panel-border: rgba(120, 180, 255, 0.25);
+      --text: #e8f0ff;
+      --muted: #9fb4d9;
+      --accent: #7cc7ff;
+      --ok: #7cffc2;
+      --candidate: #ffb86b;
+      --hypo: #c792ea;
+      --warn: #ffb86b;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      height: 100%;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(50,80,140,0.15), transparent 30%),
+        radial-gradient(circle at 80% 10%, rgba(120,80,160,0.12), transparent 28%),
+        radial-gradient(circle at 50% 70%, rgba(60,100,120,0.10), transparent 35%),
+        var(--bg);
+      color: var(--text);
+      font-family: Inter, system-ui, -apple-system, sans-serif;
+      overflow: hidden;
+    }
+
+    #app {
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      height: 100%;
+      width: 100%;
+    }
+
+    #viewport {
+      position: relative;
+      overflow: hidden;
+      border-right: 1px solid rgba(255,255,255,0.08);
+      cursor: grab;
+    }
+
+    #viewport.dragging { cursor: grabbing; }
+
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    #sidebar {
+      background: linear-gradient(180deg, rgba(12,18,36,0.95), rgba(8,12,24,0.98));
+      padding: 18px 16px 20px;
+      overflow: auto;
+    }
+
+    h1 { font-size: 1.2rem; margin: 0 0 8px; color: white; }
+    h2 { margin: 18px 0 8px; font-size: 0.95rem; color: var(--accent); }
+    p, li { color: var(--muted); line-height: 1.45; font-size: 0.93rem; }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--panel-border);
+      border-radius: 14px;
+      padding: 12px;
+      margin-bottom: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.22);
+      transition: border-color 0.2s;
+    }
+
+    .card.highlight {
+      border-color: var(--ok);
+      box-shadow: 0 0 15px rgba(124, 255, 194, 0.2);
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      margin-right: 6px;
+      margin-bottom: 6px;
+      border: 1px solid rgba(255,255,255,0.14);
+      color: var(--text);
+      background: rgba(255,255,255,0.06);
+    }
+
+    .pill.confirmed { border-color: rgba(124,255,194,0.35); color: var(--ok); }
+    .pill.candidate { border-color: rgba(255,184,107,0.35); color: var(--candidate); }
+    .pill.hypothetical { border-color: rgba(199,146,234,0.35); color: var(--hypo); }
+    .pill.distance { border-color: rgba(124,199,255,0.5); color: #cceaee; background: rgba(124,199,255,0.15); font-weight: bold; }
+    .pill.info { border-color: rgba(255,255,255,0.18); color: #d7e6ff; }
+
+    .controls { display: grid; gap: 8px; }
+    .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    button, input[type="range"] { width: 100%; }
+
+    button {
+      background: rgba(124,199,255,0.12);
+      color: var(--text);
+      border: 1px solid rgba(124,199,255,0.25);
+      border-radius: 10px;
+      padding: 10px 12px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    button:hover { background: rgba(124,199,255,0.18); }
+
+    label { font-size: 0.86rem; color: var(--muted); display: block; margin-bottom: 4px; }
+    .small { font-size: 0.82rem; color: var(--muted); }
+
+    #tooltip {
+      position: absolute;
+      pointer-events: none;
+      min-width: 200px;
+      background: rgba(9, 14, 28, 0.95);
+      border: 1px solid rgba(124, 199, 255, 0.28);
+      border-radius: 12px;
+      padding: 10px 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+      color: var(--text);
+      font-size: 0.88rem;
+      opacity: 0;
+      transform: translate(12px, 12px);
+      transition: opacity 120ms ease;
+      z-index: 10;
+    }
+
+    #tooltip strong { display: block; margin-bottom: 4px; color: white; }
+
+    #click-hint {
+      display: inline-block;
+      margin-top: 8px;
+      font-size: 0.75rem;
+      color: var(--warn);
+      font-style: italic;
+    }
+
+    @media (max-width: 980px) {
+      #app { grid-template-columns: 1fr; grid-template-rows: 1fr 42vh; }
+      #viewport { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div id="viewport">
+      <canvas id="space"></canvas>
+      <div id="tooltip"></div>
+    </div>
+
+    <aside id="sidebar">
+      <h1>Interactive Map of Alpha Centauri</h1>
+
+      <div class="card" id="selectionCard">
+        <h2>Information Panel</h2>
+        <p class="small">Click a planet or star to pin its information here.</p>
+      </div>
+
+      <div class="card">
+        <h2>Controls</h2>
+        <div class="controls">
+          <div>
+            <label for="speed">Animation speed</label>
+            <input id="speed" type="range" min="0" max="1.5" step="0.01" value="0.15" />
+          </div>
+
+          <div class="row">
+            <button id="resetView">Recenter view</button>
+            <button id="toggleLabels">Labels: ON</button>
+          </div>
+
+          <p class="small">
+            <strong>Zoom:</strong> mouse wheel<br />
+            <strong>Pan:</strong> drag<br />
+            <strong>Info:</strong> click a body
+          </p>
+        </div>
+      </div>
+
+      <div class="card">
+        <p>
+          This map represents <strong>how we think the Alpha Centauri system is structured</strong>.
+        </p>
+        <div>
+          <span class="pill confirmed">Confirmed</span>
+          <span class="pill candidate">Candidate</span>
+          <span class="pill hypothetical">Hypothetical</span>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <script>
+    const canvas = document.getElementById("space");
+    const ctx = canvas.getContext("2d");
+    const viewport = document.getElementById("viewport");
+    const tooltip = document.getElementById("tooltip");
+    const selectionCard = document.getElementById("selectionCard");
+    const speedSlider = document.getElementById("speed");
+    const resetViewBtn = document.getElementById("resetView");
+    const toggleLabelsBtn = document.getElementById("toggleLabels");
+
+    let width = 0, height = 0, dpr = Math.max(1, window.devicePixelRatio || 1);
+
+    const state = {
+      zoom: 1,
+      minZoom: 0.06,
+      maxZoom: 22,
+      offsetX: 0,
+      offsetY: 0,
+      dragging: false,
+      mouseX: 0, mouseY: 0,
+      hoverObject: null,
+      selectedObject: null,
+      time: 0,
+      speed: parseFloat(speedSlider.value),
+      showLabels: true,
+
+      // NEW: control how fast the AB binary rotates (visual multiplier)
+      // (keeps the same "orbitPeriod" values you already had, but lets you tweak easily)
+      binarySpeedMultiplier: 1.0
+    };
+
+    // Base scale
+    const AU = 120;
+
+    // Visual factor for Proxima Centauri (to make its planets visible)
+    const PROXIMA_SCALE_BOOST = 900;
+
+    // Helpers
+    function formatDaysToHuman(days) {
+      if (days == null || Number.isNaN(days)) return "—";
+      if (days >= 365) {
+        const years = days / 365.25;
+        return `${days} days (~${years.toFixed(2)} Earth years)`;
+      }
+      return `${days} days`;
+    }
+
+    function booleanToYesNo(v) {
+      if (v === true) return "Yes";
+      if (v === false) return "No";
+      return "—";
+    }
+
+    // NEW: convert status to a CSS class (English)
+    function statusClass(status) {
+      if (status === "confirmed") return "confirmed";
+      if (status === "candidate") return "candidate";
+      if (status === "hypothetical") return "hypothetical";
+      return "";
+    }
+
+    // Stars
+    const stars = {
+      // NEW: AB rotate around the barycenter (0,0). Give each one its own orbit radius.
+      A: {
+        id: "A", name: "Alpha Centauri A", category: "star", subtype: "G-type star",
+        color: "#ffd27a", radius: 11,
+        orbitRadius: 4.6 * AU, orbitPeriod: 79.9, phase: 0,
+        description: "Primary star of the Alpha Centauri AB binary. Similar to the Sun."
+      },
+      B: {
+        id: "B", name: "Alpha Centauri B", category: "star", subtype: "K-type star",
+        color: "#ffb27a", radius: 8.5,
+        orbitRadius: 5.8 * AU, orbitPeriod: 79.9, phase: Math.PI,
+        temperature: "23°F",
+        description: "Binary companion of Alpha Centauri A. Smaller and cooler."
+      },
+      Proxima: {
+        id: "Proxima", name: "Proxima Centauri", category: "star", subtype: "Red dwarf",
+        color: "#ff6b6b", radius: 6.5,
+        // Proxima's wide orbit (display-only)
+        orbitRadiusDisplay: 2400, orbitPeriod: 550000, phase: 1.2,
+        description: "A distant red dwarf. Its planetary region is visually expanded so its planets can be seen."
+      }
+    };
+
+    const habitableZones = [
+      { around: "A", inner: 1.15 * AU, outer: 1.85 * AU },
+      { around: "B", inner: 0.65 * AU, outer: 1.20 * AU },
+      { around: "Proxima", inner: 0.035 * PROXIMA_SCALE_BOOST, outer: 0.08 * PROXIMA_SCALE_BOOST }
+    ];
+
+    // Objects
+    const objects = [
+      {
+        id: "proxima-b", name: "Proxima Centauri b", category: "planet", status: "confirmed",
+        color: "#8ec5ff", radius: 4.8, host: "Proxima",
+        orbitRadius: 0.0485,
+        visualOrbitRadius: 0.0485 * PROXIMA_SCALE_BOOST,
+        orbitPeriodDays: 11.2, phase: 2.1,
+        rocky: true,
+        description: "An Earth-mass planet in Proxima's habitable zone."
+      },
+      {
+        id: "proxima-d", name: "Proxima Centauri d", category: "planet", status: "confirmed",
+        color: "#7fb3ff", radius: 3.6, host: "Proxima",
+        orbitRadius: 0.029, visualOrbitRadius: 0.029 * PROXIMA_SCALE_BOOST,
+        orbitPeriodDays: 5.1, phase: 4.4,
+        rocky: true,
+        description: "A very hot inner planet."
+      },
+      {
+        id: "proxima-c", name: "Proxima Centauri c", category: "planet", status: "candidate",
+        color: "#b49cff", radius: 5.2, host: "Proxima",
+        orbitRadius: 1.49, visualOrbitRadius: 1.49 * (PROXIMA_SCALE_BOOST * 0.15),
+        orbitPeriodDays: 1900, phase: 0.7,
+        rocky: null,
+        description: "A candidate planet on a distant, cold orbit."
+      },
+      {
+        id: "ac-a-hypo-1", name: "Plausible planet around Alpha Centauri A", category: "planet", status: "hypothetical",
+        color: "#9fd8ff", radius: 4.5, host: "A",
+        orbitRadius: 1.45, visualOrbitRadius: 1.45 * AU,
+        orbitPeriodDays: 500, phase: 3.3,
+        rocky: true,
+        description: "Example of where a terrestrial planet could orbit around star A."
+      }
+    ];
+
+    // NEW: positions for stars (A & B rotate around barycenter at (0,0))
+    // Planets orbit around their host star position (which now moves).
+    function getStarPosition(starId, tYears) {
+      if (starId === "A") {
+        const a = (tYears / stars.A.orbitPeriod) * Math.PI * 2 * state.binarySpeedMultiplier + stars.A.phase;
+        return { x: Math.cos(a) * stars.A.orbitRadius, y: Math.sin(a) * stars.A.orbitRadius * 0.72 };
+      }
+      if (starId === "B") {
+        const a = (tYears / stars.B.orbitPeriod) * Math.PI * 2 * state.binarySpeedMultiplier + stars.B.phase;
+        return { x: Math.cos(a) * stars.B.orbitRadius, y: Math.sin(a) * stars.B.orbitRadius * 0.72 };
+      }
+      if (starId === "Proxima") {
+        const a = (tYears / stars.Proxima.orbitPeriod) * Math.PI * 2 + stars.Proxima.phase;
+        return { x: Math.cos(a) * stars.Proxima.orbitRadiusDisplay, y: Math.sin(a) * stars.Proxima.orbitRadiusDisplay * 0.75 - 200 };
+      }
+      return { x: 0, y: 0 };
+    }
+
+    function worldToScreen(x, y) { return { x: x * state.zoom + state.offsetX, y: y * state.zoom + state.offsetY }; }
+    function screenToWorld(x, y) { return { x: (x - state.offsetX) / state.zoom, y: (y - state.offsetY) / state.zoom }; }
+
+    // Fit initial view to all 3 stars
+    function fitToAllStars() {
+      const posA = getStarPosition("A", state.time);
+      const posB = getStarPosition("B", state.time);
+      const posP = getStarPosition("Proxima", state.time);
+
+      const pts = [posA, posB, posP];
+
+      let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+      for (const p of pts) {
+        minX = Math.min(minX, p.x);
+        minY = Math.min(minY, p.y);
+        maxX = Math.max(maxX, p.x);
+        maxY = Math.max(maxY, p.y);
+      }
+
+      const marginWorld = 220;
+      minX -= marginWorld; minY -= marginWorld;
+      maxX += marginWorld; maxY += marginWorld;
+
+      const worldW = Math.max(1, maxX - minX);
+      const worldH = Math.max(1, maxY - minY);
+
+      const padScreen = 40;
+      const zoomX = (width - padScreen * 2) / worldW;
+      const zoomY = (height - padScreen * 2) / worldH;
+
+      state.zoom = Math.min(state.maxZoom, Math.max(state.minZoom, Math.min(zoomX, zoomY)));
+
+      const cx = (minX + maxX) / 2;
+      const cy = (minY + maxY) / 2;
+
+      state.offsetX = (width / 2) - cx * state.zoom;
+      state.offsetY = (height / 2) - cy * state.zoom;
+    }
+
+    function resize() {
+      width = viewport.clientWidth; height = viewport.clientHeight;
+      dpr = Math.max(1, window.devicePixelRatio || 1);
+      canvas.width = Math.floor(width * dpr); canvas.height = Math.floor(height * dpr);
+      canvas.style.width = width + "px"; canvas.style.height = height + "px";
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      fitToAllStars();
+    }
+
+    function resetView() {
+      fitToAllStars();
+    }
+
+    function drawHabitableZone(hostId, inner, outer) {
+      const center = getStarPosition(hostId, state.time);
+      const c = worldToScreen(center.x, center.y);
+      ctx.save();
+      ctx.beginPath();
+      ctx.ellipse(c.x, c.y, outer * state.zoom, outer * 0.72 * state.zoom, 0, 0, Math.PI * 2);
+      ctx.ellipse(c.x, c.y, inner * state.zoom, inner * 0.72 * state.zoom, 0, 0, Math.PI * 2, true);
+      ctx.fillStyle = "rgba(80,255,140,0.18)"; ctx.fill("evenodd");
+
+      ctx.beginPath();
+      ctx.ellipse(c.x, c.y, inner * state.zoom, inner * 0.72 * state.zoom, 0, 0, Math.PI * 2);
+      ctx.strokeStyle = "rgba(80,255,140,0.65)"; ctx.stroke();
+      ctx.restore();
+    }
+
+    function drawOrbit(center, rx, ry, color, dashed=false) {
+      const c = worldToScreen(center.x, center.y);
+      ctx.save(); ctx.beginPath();
+      if(dashed) ctx.setLineDash([6,6]);
+      ctx.strokeStyle = color;
+      ctx.ellipse(c.x, c.y, rx*state.zoom, ry*state.zoom, 0, 0, Math.PI*2);
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    function drawBody(obj, pos, isStar) {
+      const p = worldToScreen(pos.x, pos.y);
+      ctx.save();
+
+      if(isStar) {
+        const glow = 15 + obj.radius * 2;
+        const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, glow * state.zoom + 8);
+        grad.addColorStop(0, "rgba(255,255,255,0.4)");
+        grad.addColorStop(1, "rgba(255,255,255,0)");
+        ctx.fillStyle = grad;
+        ctx.beginPath(); ctx.arc(p.x, p.y, glow * state.zoom + 4, 0, Math.PI*2); ctx.fill();
+      }
+
+      let stroke = "rgba(255,255,255,0.25)";
+      if (obj.status === "confirmed") stroke = "rgba(124,255,194,0.7)";
+      if (obj.status === "candidate") stroke = "rgba(255,184,107,0.7)";
+
+      if (state.selectedObject && state.selectedObject.id === obj.id) {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, (obj.radius * state.zoom) + 6, 0, Math.PI*2);
+        ctx.strokeStyle = "rgba(255,255,255,0.8)";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      }
+
+      ctx.fillStyle = obj.color;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, Math.max(isStar?3:2.5, obj.radius * state.zoom), 0, Math.PI*2);
+      ctx.fill();
+      ctx.strokeStyle = stroke; ctx.lineWidth = 1; ctx.stroke();
+
+      if (state.showLabels) {
+        ctx.fillStyle = "rgba(255,255,255,0.9)";
+        ctx.font = isStar ? "12px sans-serif" : "10px sans-serif";
+        ctx.fillText(obj.name, p.x + 10, p.y - 10);
+      }
+
+      ctx.restore();
+      return { screenX: p.x, screenY: p.y, screenR: Math.max(8, obj.radius * state.zoom) };
+    }
+
+    function pickHover(targets, mx, my) {
+      let best = null, bestDist = Infinity;
+      for (const t of targets) {
+        const d = Math.sqrt((mx - t.screenX)**2 + (my - t.screenY)**2);
+        if (d <= Math.max(12, t.screenR + 8) && d < bestDist) { best = t; bestDist = d; }
+      }
+      return best ? best.ref : null;
+    }
+
+    function renderTooltip(obj) {
+      if (!obj) { tooltip.style.opacity = 0; return; }
+      tooltip.style.left = state.mouseX + 15 + "px";
+      tooltip.style.top = state.mouseY + 15 + "px";
+      tooltip.style.opacity = 1;
+
+      let extra = "";
+      if (obj.category === "planet") {
+        extra += `<div style="color:#7cc7ff; margin-top:4px; font-weight:bold;">${obj.orbitRadius} AU from its star</div>`;
+        extra += `<div style="color:#a9c0e6; margin-top:2px;">Year: <strong>${formatDaysToHuman(obj.orbitPeriodDays)}</strong></div>`;
+        extra += `<div style="color:#a9c0e6; margin-top:2px;">Rocky: <strong>${booleanToYesNo(obj.rocky)}</strong></div>`;
+      } else if (obj.category === "star" && obj.temperature) {
+        extra += `<div style="color:#a9c0e6; margin-top:4px;">Temperature: <strong>${obj.temperature}</strong></div>`;
+      }
+
+      tooltip.innerHTML = `
+        <strong>${obj.name}</strong>
+        <div style="color:#a9c0e6">${obj.subtype || "Planet"}</div>
+        ${extra}
+        <span id="click-hint">Click to pin info</span>
+      `;
+    }
+
+    function renderSelectionCard(o) {
+      if (!o) return;
+
+      selectionCard.classList.add("highlight");
+      setTimeout(() => selectionCard.classList.remove("highlight"), 300);
+
+      const status = o.status
+        ? `<span class="pill ${statusClass(o.status)}">${o.status}</span>`
+        : `<span class="pill">Star</span>`;
+
+      const distanceBadge = o.category === "planet"
+        ? `<span class="pill distance">Distance: ${o.orbitRadius} AU</span>`
+        : "";
+
+      const yearBadge = o.category === "planet"
+        ? `<span class="pill info">Year: ${formatDaysToHuman(o.orbitPeriodDays)}</span>`
+        : "";
+
+      const rockyBadge = o.category === "planet"
+        ? `<span class="pill info">Rocky: ${booleanToYesNo(o.rocky)}</span>`
+        : "";
+
+      const tempInfo = (o.category === "star" && o.temperature)
+        ? `<p class="small">Temperature: <strong>${o.temperature}</strong></p>`
+        : "";
+
+      selectionCard.innerHTML = `
+        <h2>Selected object</h2>
+        <div>${status} ${distanceBadge} ${yearBadge} ${rockyBadge}</div>
+        <p style="color:white; font-size:1.1rem; margin:10px 0 5px;"><strong>${o.name}</strong></p>
+        <p>${o.description}</p>
+        ${tempInfo}
+        ${o.category === "planet" ? `<p class="small">Orbits the star: <strong>${o.host}</strong></p>` : ""}
+      `;
+    }
+
+    function drawScene() {
+      ctx.clearRect(0, 0, width, height);
+
+      // NEW: AB barycentric orbits are centered at (0,0)
+      drawOrbit({x:0, y:0}, stars.A.orbitRadius, stars.A.orbitRadius*0.72, "rgba(255,255,255,0.12)");
+      drawOrbit({x:0, y:0}, stars.B.orbitRadius, stars.B.orbitRadius*0.72, "rgba(255,255,255,0.12)");
+
+      // Proxima orbit (visual reference)
+      drawOrbit({x:0, y:-200}, stars.Proxima.orbitRadiusDisplay, stars.Proxima.orbitRadiusDisplay*0.75, "rgba(255,255,255,0.08)", true);
+
+      // Habitable zones follow the stars (A, B and Proxima)
+      habitableZones.forEach(z => drawHabitableZone(z.around, z.inner, z.outer));
+
+      // Planet orbits follow their moving host star
+      for (const obj of objects) {
+        const hostPos = getStarPosition(obj.host, state.time);
+        drawOrbit(hostPos, obj.visualOrbitRadius, obj.visualOrbitRadius * 0.72, "rgba(255,255,255,0.16)");
+      }
+
+      const hitTargets = [];
+
+      // Draw stars (now moving)
+      const posA = getStarPosition("A", state.time);
+      const posB = getStarPosition("B", state.time);
+      const posP = getStarPosition("Proxima", state.time);
+
+      hitTargets.push({ ref: stars.A, ...drawBody(stars.A, posA, true) });
+      hitTargets.push({ ref: stars.B, ...drawBody(stars.B, posB, true) });
+      hitTargets.push({ ref: stars.Proxima, ...drawBody(stars.Proxima, posP, true) });
+
+      // Draw planets
+      for (const obj of objects) {
+        const hostPos = getStarPosition(obj.host, state.time);
+
+        const years = state.time;
+        const periodYears = (obj.orbitPeriodDays || 365) / 365.25;
+        const a = (years / periodYears) * Math.PI * 2 + obj.phase;
+
+        const pos = {
+          x: hostPos.x + Math.cos(a) * obj.visualOrbitRadius,
+          y: hostPos.y + Math.sin(a) * obj.visualOrbitRadius * 0.72
+        };
+
+        hitTargets.push({ ref: obj, ...drawBody(obj, pos, false) });
+      }
+
+      state.hoverObject = pickHover(hitTargets, state.mouseX, state.mouseY);
+      renderTooltip(state.hoverObject);
+
+      requestAnimationFrame(drawScene);
+    }
+
+    // Events
+    viewport.addEventListener("mousemove", (e) => {
+      const rect = viewport.getBoundingClientRect();
+      state.mouseX = e.clientX - rect.left; state.mouseY = e.clientY - rect.top;
+      if (state.dragging) {
+        state.offsetX = state.dragOriginX + (state.mouseX - state.dragStartX);
+        state.offsetY = state.dragOriginY + (state.mouseY - state.dragStartY);
+      }
+    });
+
+    viewport.addEventListener("mousedown", (e) => {
+      state.dragging = true; viewport.classList.add("dragging");
+      const rect = viewport.getBoundingClientRect();
+      state.dragStartX = e.clientX - rect.left; state.dragStartY = e.clientY - rect.top;
+      state.dragOriginX = state.offsetX; state.dragOriginY = state.offsetY;
+    });
+
+    window.addEventListener("mouseup", () => { state.dragging = false; viewport.classList.remove("dragging"); });
+    viewport.addEventListener("mouseleave", () => tooltip.style.opacity = 0);
+
+    viewport.addEventListener("click", () => {
+      if(state.hoverObject) {
+        state.selectedObject = state.hoverObject;
+        renderSelectionCard(state.selectedObject);
+      }
+    });
+
+    viewport.addEventListener("wheel", (e) => {
+      e.preventDefault();
+      const rect = viewport.getBoundingClientRect();
+      const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+      const worldBefore = screenToWorld(mx, my);
+      state.zoom = Math.min(state.maxZoom, Math.max(state.minZoom, state.zoom * (e.deltaY < 0 ? 1.15 : 0.85)));
+      state.offsetX = mx - worldBefore.x * state.zoom;
+      state.offsetY = my - worldBefore.y * state.zoom;
+    }, { passive: false });
+
+    speedSlider.addEventListener("input", () => state.speed = parseFloat(speedSlider.value));
+    resetViewBtn.addEventListener("click", resetView);
+    toggleLabelsBtn.addEventListener("click", () => {
+      state.showLabels = !state.showLabels;
+      toggleLabelsBtn.innerText = state.showLabels ? "Labels: ON" : "Labels: OFF";
+    });
+
+    let lastTs = performance.now();
+    function tick(ts) {
+      const dt = (ts - lastTs) / 1000; lastTs = ts;
+      // state.time is in "years" for our orbital math
+      state.time += dt * 0.1 * state.speed;
+      requestAnimationFrame(tick);
+    }
+
+    window.addEventListener("resize", resize);
+    resize(); requestAnimationFrame(tick); requestAnimationFrame(drawScene);
+  </script>
+</body>
+</html>
