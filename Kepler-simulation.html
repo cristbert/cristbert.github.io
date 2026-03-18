@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Interactive Map of Kepler-442</title>
+  <style>
+    :root {
+      --bg: #050816;
+      --panel: rgba(10, 16, 35, 0.88);
+      --panel-border: rgba(120, 180, 255, 0.25);
+      --text: #e8f0ff;
+      --muted: #9fb4d9;
+      --accent: #7cc7ff;
+      --ok: #7cffc2;
+      --candidate: #ffb86b;
+      --hypo: #c792ea;
+      --warn: #ffb86b;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      height: 100%;
+      background:
+        radial-gradient(circle at 20% 20%, rgba(50,80,140,0.15), transparent 30%),
+        radial-gradient(circle at 80% 10%, rgba(120,80,160,0.12), transparent 28%),
+        radial-gradient(circle at 50% 70%, rgba(60,100,120,0.10), transparent 35%),
+        var(--bg);
+      color: var(--text);
+      font-family: Inter, system-ui, -apple-system, sans-serif;
+      overflow: hidden;
+    }
+
+    #app {
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      height: 100%;
+      width: 100%;
+    }
+
+    #viewport {
+      position: relative;
+      overflow: hidden;
+      border-right: 1px solid rgba(255,255,255,0.08);
+      cursor: grab;
+    }
+
+    #viewport.dragging { cursor: grabbing; }
+
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    #sidebar {
+      background: linear-gradient(180deg, rgba(12,18,36,0.95), rgba(8,12,24,0.98));
+      padding: 18px 16px 20px;
+      overflow: auto;
+    }
+
+    h1 { font-size: 1.2rem; margin: 0 0 8px; color: white; }
+    h2 { margin: 18px 0 8px; font-size: 0.95rem; color: var(--accent); }
+    p, li { color: var(--muted); line-height: 1.45; font-size: 0.93rem; }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--panel-border);
+      border-radius: 14px;
+      padding: 12px;
+      margin-bottom: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.22);
+      transition: border-color 0.2s;
+    }
+
+    .card.highlight {
+      border-color: var(--ok);
+      box-shadow: 0 0 15px rgba(124, 255, 194, 0.2);
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      margin-right: 6px;
+      margin-bottom: 6px;
+      border: 1px solid rgba(255,255,255,0.14);
+      color: var(--text);
+      background: rgba(255,255,255,0.06);
+    }
+
+    .pill.confirmed { border-color: rgba(124,255,194,0.35); color: var(--ok); }
+    .pill.candidate { border-color: rgba(255,184,107,0.35); color: var(--candidate); }
+    .pill.distance { border-color: rgba(124,199,255,0.5); color: #cceaee; background: rgba(124,199,255,0.15); font-weight: bold; }
+    .pill.info { border-color: rgba(255,255,255,0.18); color: #d7e6ff; }
+
+    .controls { display: grid; gap: 8px; }
+    .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    button, input[type="range"] { width: 100%; }
+
+    button {
+      background: rgba(124,199,255,0.12);
+      color: var(--text);
+      border: 1px solid rgba(124,199,255,0.25);
+      border-radius: 10px;
+      padding: 10px 12px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    button:hover { background: rgba(124,199,255,0.18); }
+
+    label { font-size: 0.86rem; color: var(--muted); display: block; margin-bottom: 4px; }
+    .small { font-size: 0.82rem; color: var(--muted); }
+
+    #tooltip {
+      position: absolute;
+      pointer-events: none;
+      min-width: 220px;
+      background: rgba(9, 14, 28, 0.95);
+      border: 1px solid rgba(124, 199, 255, 0.28);
+      border-radius: 12px;
+      padding: 10px 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+      color: var(--text);
+      font-size: 0.88rem;
+      opacity: 0;
+      transform: translate(12px, 12px);
+      transition: opacity 120ms ease;
+      z-index: 10;
+    }
+
+    #tooltip strong { display: block; margin-bottom: 4px; color: white; }
+
+    #click-hint {
+      display: inline-block;
+      margin-top: 8px;
+      font-size: 0.75rem;
+      color: var(--warn);
+      font-style: italic;
+    }
+
+    @media (max-width: 980px) {
+      #app { grid-template-columns: 1fr; grid-template-rows: 1fr 42vh; }
+      #viewport { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div id="viewport">
+      <canvas id="space"></canvas>
+      <div id="tooltip"></div>
+    </div>
+
+    <aside id="sidebar">
+      <h1>Interactive Map of Kepler-442</h1>
+
+      <div class="card" id="selectionCard">
+        <h2>Information Panel</h2>
+        <p class="small">Click the star or a planet to pin its information here.</p>
+      </div>
+
+      <div class="card">
+        <h2>Controls</h2>
+        <div class="controls">
+          <div>
+            <label for="speed">Animation speed</label>
+            <input id="speed" type="range" min="0" max="1.5" step="0.01" value="0.18" />
+          </div>
+
+          <div class="row">
+            <button id="resetView">Recenter view</button>
+            <button id="toggleLabels">Labels: ON</button>
+          </div>
+
+          <p class="small">
+            <strong>Zoom:</strong> mouse wheel<br />
+            <strong>Pan:</strong> drag<br />
+            <strong>Info:</strong> click a body
+          </p>
+        </div>
+      </div>
+
+      <div class="card">
+        <p>
+          This visualization is a simplified educational model of the <strong>Kepler-442</strong> system.
+        </p>
+        <div>
+          <span class="pill confirmed">Confirmed</span>
+          <span class="pill candidate">Candidate</span>
+        </div>
+        <p class="small" style="margin-top:10px;">
+          Note: Orbits are not to scale in time/size; they are drawn for clarity.
+        </p>
+      </div>
+    </aside>
+  </div>
+
+  <script>
+    const canvas = document.getElementById("space");
+    const ctx = canvas.getContext("2d");
+    const viewport = document.getElementById("viewport");
+    const tooltip = document.getElementById("tooltip");
+    const selectionCard = document.getElementById("selectionCard");
+    const speedSlider = document.getElementById("speed");
+    const resetViewBtn = document.getElementById("resetView");
+    const toggleLabelsBtn = document.getElementById("toggleLabels");
+
+    let width = 0, height = 0, dpr = Math.max(1, window.devicePixelRatio || 1);
+
+    const state = {
+      zoom: 1,
+      minZoom: 0.08,
+      maxZoom: 30,
+      offsetX: 0,
+      offsetY: 0,
+      dragging: false,
+      mouseX: 0, mouseY: 0,
+      hoverObject: null,
+      selectedObject: null,
+      time: 0,            // "years" for our orbital math
+      speed: parseFloat(speedSlider.value),
+      showLabels: true,
+      dragStartX: 0, dragStartY: 0,
+      dragOriginX: 0, dragOriginY: 0
+    };
+
+    // Visual scale (not physical): 1 AU = AU pixels
+    const AU = 150;
+
+    function formatDaysToHuman(days) {
+      if (days == null || Number.isNaN(days)) return "—";
+      if (days >= 365) {
+        const years = days / 365.25;
+        return `${days} days (~${years.toFixed(2)} Earth years)`;
+      }
+      return `${days} days`;
+    }
+
+    function booleanToYesNo(v) {
+      if (v === true) return "Yes";
+      if (v === false) return "No";
+      return "—";
+    }
+
+    function statusClass(status) {
+      if (status === "confirmed") return "confirmed";
+      if (status === "candidate") return "candidate";
+      return "";
+    }
+
+    // Star (single-star system)
+    const stars = {
+      "Kepler-442": {
+        id: "Kepler-442",
+        name: "Kepler-442",
+        category: "star",
+        subtype: "K-type (orange) dwarf star",
+        color: "#ffcc7a",
+        radius: 10.5,
+        description: "A K-type main-sequence star in the constellation Lyra."
+      }
+    };
+
+    // Simple habitable zone (visual, approximate) — for display only
+    const habitableZones = [
+      { around: "Kepler-442", inner: 0.60 * AU, outer: 0.95 * AU }
+    ];
+
+    // Planets (no hypothetical planets)
+    // Kepler-442b is confirmed; additional planets are not included here.
+    const objects = [
+      {
+        id: "kepler-442b",
+        name: "Kepler-442b",
+        category: "planet",
+        status: "confirmed",
+        color: "#8ec5ff",
+        radius: 4.8,
+        host: "Kepler-442",
+        orbitRadius: 0.409,                 // AU (approx; informational)
+        visualOrbitRadius: 0.82 * AU,       // visual orbit for clarity
+        orbitPeriodDays: 112.3,             // days (approx; informational)
+        phase: 1.9,
+        rocky: null,
+        description: "An exoplanet discovered by Kepler; often discussed as a potentially habitable super-Earth candidate."
+      }
+    ];
+
+    // Star position: fixed at world origin
+    function getStarPosition() { return { x: 0, y: 0 }; }
+
+    function worldToScreen(x, y) {
+      return { x: x * state.zoom + state.offsetX, y: y * state.zoom + state.offsetY };
+    }
+    function screenToWorld(x, y) {
+      return { x: (x - state.offsetX) / state.zoom, y: (y - state.offsetY) / state.zoom };
+    }
+
+    function fitToSystem() {
+      // Fit a bounding circle that includes the largest orbit + margin
+      const largestOrbit = Math.max(...objects.map(o => o.visualOrbitRadius), 1);
+      const marginWorld = 220;
+
+      const minX = -largestOrbit - marginWorld;
+      const maxX =  largestOrbit + marginWorld;
+      const minY = -largestOrbit * 0.72 - marginWorld;
+      const maxY =  largestOrbit * 0.72 + marginWorld;
+
+      const worldW = Math.max(1, maxX - minX);
+      const worldH = Math.max(1, maxY - minY);
+
+      const padScreen = 40;
+      const zoomX = (width - padScreen * 2) / worldW;
+      const zoomY = (height - padScreen * 2) / worldH;
+
+      state.zoom = Math.min(state.maxZoom, Math.max(state.minZoom, Math.min(zoomX, zoomY)));
+      state.offsetX = (width / 2);
+      state.offsetY = (height / 2);
+    }
+
+    function resize() {
+      width = viewport.clientWidth; height = viewport.clientHeight;
+      dpr = Math.max(1, window.devicePixelRatio || 1);
+      canvas.width = Math.floor(width * dpr); canvas.height = Math.floor(height * dpr);
+      canvas.style.width = width + "px"; canvas.style.height = height + "px";
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      fitToSystem();
+    }
+
+    function drawHabitableZone(hostId, inner, outer) {
+      const center = getStarPosition(hostId, state.time);
+      const c = worldToScreen(center.x, center.y);
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.ellipse(c.x, c.y, outer * state.zoom, outer * 0.72 * state.zoom, 0, 0, Math.PI * 2);
+      ctx.ellipse(c.x, c.y, inner * state.zoom, inner * 0.72 * state.zoom, 0, 0, Math.PI * 2, true);
+      ctx.fillStyle = "rgba(80,255,140,0.16)";
+      ctx.fill("evenodd");
+
+      ctx.beginPath();
+      ctx.ellipse(c.x, c.y, inner * state.zoom, inner * 0.72 * state.zoom, 0, 0, Math.PI * 2);
+      ctx.strokeStyle = "rgba(80,255,140,0.55)";
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    function drawOrbit(center, rx, ry, color, dashed=false) {
+      const c = worldToScreen(center.x, center.y);
+      ctx.save();
+      ctx.beginPath();
+      if (dashed) ctx.setLineDash([6,6]);
+      ctx.strokeStyle = color;
+      ctx.ellipse(c.x, c.y, rx * state.zoom, ry * state.zoom, 0, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    function drawBody(obj, pos, isStar) {
+      const p = worldToScreen(pos.x, pos.y);
+      ctx.save();
+
+      if (isStar) {
+        const glow = 18 + obj.radius * 2;
+        const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, glow * state.zoom + 8);
+        grad.addColorStop(0, "rgba(255,255,255,0.35)");
+        grad.addColorStop(1, "rgba(255,255,255,0)");
+        ctx.fillStyle = grad;
+        ctx.beginPath(); ctx.arc(p.x, p.y, glow * state.zoom + 4, 0, Math.PI * 2); ctx.fill();
+      }
+
+      let stroke = "rgba(255,255,255,0.25)";
+      if (obj.status === "confirmed") stroke = "rgba(124,255,194,0.7)";
+      if (obj.status === "candidate") stroke = "rgba(255,184,107,0.7)";
+
+      if (state.selectedObject && state.selectedObject.id === obj.id) {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, (obj.radius * state.zoom) + 6, 0, Math.PI * 2);
+        ctx.strokeStyle = "rgba(255,255,255,0.85)";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      }
+
+      ctx.fillStyle = obj.color;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, Math.max(isStar ? 3 : 2.5, obj.radius * state.zoom), 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = stroke;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      if (state.showLabels) {
+        ctx.fillStyle = "rgba(255,255,255,0.9)";
+        ctx.font = isStar ? "12px sans-serif" : "10px sans-serif";
+        ctx.fillText(obj.name, p.x + 10, p.y - 10);
+      }
+
+      ctx.restore();
+      return { screenX: p.x, screenY: p.y, screenR: Math.max(8, obj.radius * state.zoom) };
+    }
+
+    function pickHover(targets, mx, my) {
+      let best = null, bestDist = Infinity;
+      for (const t of targets) {
+        const d = Math.sqrt((mx - t.screenX) ** 2 + (my - t.screenY) ** 2);
+        if (d <= Math.max(12, t.screenR + 8) && d < bestDist) {
+          best = t; bestDist = d;
+        }
+      }
+      return best ? best.ref : null;
+    }
+
+    function renderTooltip(obj) {
+      if (!obj) { tooltip.style.opacity = 0; return; }
+
+      tooltip.style.left = state.mouseX + 15 + "px";
+      tooltip.style.top = state.mouseY + 15 + "px";
+      tooltip.style.opacity = 1;
+
+      let extra = "";
+      if (obj.category === "planet") {
+        extra += `<div style="color:#7cc7ff; margin-top:4px; font-weight:bold;">${obj.orbitRadius} AU from its star</div>`;
+        extra += `<div style="color:#a9c0e6; margin-top:2px;">Year: <strong>${formatDaysToHuman(obj.orbitPeriodDays)}</strong></div>`;
+        extra += `<div style="color:#a9c0e6; margin-top:2px;">Rocky: <strong>${booleanToYesNo(obj.rocky)}</strong></div>`;
+      }
+
+      tooltip.innerHTML = `
+        <strong>${obj.name}</strong>
+        <div style="color:#a9c0e6">${obj.subtype || "Planet"}</div>
+        ${extra}
+        <span id="click-hint">Click to pin info</span>
+      `;
+    }
+
+    function renderSelectionCard(o) {
+      if (!o) return;
+
+      selectionCard.classList.add("highlight");
+      setTimeout(() => selectionCard.classList.remove("highlight"), 300);
+
+      const status = o.category === "planet"
+        ? `<span class="pill ${statusClass(o.status)}">${o.status}</span>`
+        : `<span class="pill">Star</span>`;
+
+      const distanceBadge = o.category === "planet"
+        ? `<span class="pill distance">Distance: ${o.orbitRadius} AU</span>`
+        : "";
+
+      const yearBadge = o.category === "planet"
+        ? `<span class="pill info">Year: ${formatDaysToHuman(o.orbitPeriodDays)}</span>`
+        : "";
+
+      const rockyBadge = o.category === "planet"
+        ? `<span class="pill info">Rocky: ${booleanToYesNo(o.rocky)}</span>`
+        : "";
+
+      selectionCard.innerHTML = `
+        <h2>Selected object</h2>
+        <div>${status} ${distanceBadge} ${yearBadge} ${rockyBadge}</div>
+        <p style="color:white; font-size:1.1rem; margin:10px 0 5px;"><strong>${o.name}</strong></p>
+        <p>${o.description || ""}</p>
+        ${o.category === "planet" ? `<p class="small">Orbits the star: <strong>${o.host}</strong></p>` : ""}
+      `;
+    }
+
+    function drawScene() {
+      ctx.clearRect(0, 0, width, height);
+
+      // Habitable zone
+      habitableZones.forEach(z => drawHabitableZone(z.around, z.inner, z.outer));
+
+      // Orbits
+      const starPos = getStarPosition("Kepler-442", state.time);
+      for (const obj of objects) {
+        drawOrbit(starPos, obj.visualOrbitRadius, obj.visualOrbitRadius * 0.72, "rgba(255,255,255,0.16)");
+      }
+
+      const hitTargets = [];
+
+      // Draw star
+      hitTargets.push({ ref: stars["Kepler-442"], ...drawBody(stars["Kepler-442"], starPos, true) });
+
+      // Draw planets
+      for (const obj of objects) {
+        const years = state.time;
+        const periodYears = (obj.orbitPeriodDays || 365) / 365.25;
+        const a = (years / periodYears) * Math.PI * 2 + obj.phase;
+
+        const pos = {
+          x: starPos.x + Math.cos(a) * obj.visualOrbitRadius,
+          y: starPos.y + Math.sin(a) * obj.visualOrbitRadius * 0.72
+        };
+
+        hitTargets.push({ ref: obj, ...drawBody(obj, pos, false) });
+      }
+
+      state.hoverObject = pickHover(hitTargets, state.mouseX, state.mouseY);
+      renderTooltip(state.hoverObject);
+
+      requestAnimationFrame(drawScene);
+    }
+
+    // Events
+    viewport.addEventListener("mousemove", (e) => {
+      const rect = viewport.getBoundingClientRect();
+      state.mouseX = e.clientX - rect.left;
+      state.mouseY = e.clientY - rect.top;
+
+      if (state.dragging) {
+        state.offsetX = state.dragOriginX + (state.mouseX - state.dragStartX);
+        state.offsetY = state.dragOriginY + (state.mouseY - state.dragStartY);
+      }
+    });
+
+    viewport.addEventListener("mousedown", (e) => {
+      state.dragging = true;
+      viewport.classList.add("dragging");
+      const rect = viewport.getBoundingClientRect();
+      state.dragStartX = e.clientX - rect.left;
+      state.dragStartY = e.clientY - rect.top;
+      state.dragOriginX = state.offsetX;
+      state.dragOriginY = state.offsetY;
+    });
+
+    window.addEventListener("mouseup", () => {
+      state.dragging = false;
+      viewport.classList.remove("dragging");
+    });
+
+    viewport.addEventListener("mouseleave", () => tooltip.style.opacity = 0);
+
+    viewport.addEventListener("click", () => {
+      if (state.hoverObject) {
+        state.selectedObject = state.hoverObject;
+        renderSelectionCard(state.selectedObject);
+      }
+    });
+
+    viewport.addEventListener("wheel", (e) => {
+      e.preventDefault();
+      const rect = viewport.getBoundingClientRect();
+      const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+      const worldBefore = screenToWorld(mx, my);
+
+      state.zoom = Math.min(state.maxZoom, Math.max(state.minZoom, state.zoom * (e.deltaY < 0 ? 1.15 : 0.85)));
+
+      state.offsetX = mx - worldBefore.x * state.zoom;
+      state.offsetY = my - worldBefore.y * state.zoom;
+    }, { passive: false });
+
+    speedSlider.addEventListener("input", () => state.speed = parseFloat(speedSlider.value));
+    resetViewBtn.addEventListener("click", () => fitToSystem());
+    toggleLabelsBtn.addEventListener("click", () => {
+      state.showLabels = !state.showLabels;
+      toggleLabelsBtn.innerText = state.showLabels ? "Labels: ON" : "Labels: OFF";
+    });
+
+    let lastTs = performance.now();
+    function tick(ts) {
+      const dt = (ts - lastTs) / 1000;
+      lastTs = ts;
+      state.time += dt * 0.12 * state.speed;
+      requestAnimationFrame(tick);
+    }
+
+    window.addEventListener("resize", resize);
+    resize();
+    requestAnimationFrame(tick);
+    requestAnimationFrame(drawScene);
+
+    // Initial selection
+    renderSelectionCard(stars["Kepler-442"]);
+  </script>
+</body>
+</html>
