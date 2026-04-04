@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#05070D" />
+    <title>Términos y Condiciones - Netsus</title>
+
+    <style>
+        /* Fondo más oscuro, menos colorido, look moderno (Android/Material-ish) */
+        :root{
+          --bg0: #05070D;
+          --bg1: #070A12;
+          --bg2: #0A1020;
+
+          --card: rgba(255,255,255,0.06);
+          --card2: rgba(255,255,255,0.085);
+          --stroke: rgba(255,255,255,0.12);
+
+          --text: rgba(255,255,255,0.94);
+          --muted: rgba(255,255,255,0.72);
+
+          /* Acento único (menos “arcoíris”) */
+          --accent: #6D7CFF;
+
+          --shadow: 0 18px 48px rgba(0,0,0,0.62);
+          --radius: 18px;
+          --radius2: 14px;
+
+          --ring: 0 0 0 4px rgba(109,124,255,0.22);
+        }
+
+        *{ box-sizing: border-box; }
+        html, body { height: 100%; }
+
+        body{
+          margin: 0;
+          font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+          color: var(--text);
+          min-height: 100vh;
+          padding: 18px;
+          padding-top: max(18px, env(safe-area-inset-top));
+          padding-bottom: max(18px, env(safe-area-inset-bottom));
+          -webkit-tap-highlight-color: transparent;
+
+          /* Menos colorido: 1 acento sutil + grises profundos */
+          background:
+            radial-gradient(900px 560px at 18% 12%, rgba(109,124,255,0.10) 0%, transparent 62%),
+            radial-gradient(800px 520px at 85% 88%, rgba(255,255,255,0.035) 0%, transparent 60%),
+            linear-gradient(180deg, var(--bg2), var(--bg0));
+          background-attachment: fixed;
+        }
+
+        .wrap{
+          width: min(980px, 100%);
+          margin: 0 auto;
+        }
+
+        .card{
+          position: relative;
+          background: linear-gradient(180deg, var(--card2), var(--card));
+          border: 1px solid var(--stroke);
+          border-radius: var(--radius);
+          padding: 18px;
+          box-shadow: var(--shadow);
+          backdrop-filter: blur(14px);
+          -webkit-backdrop-filter: blur(14px);
+          overflow: hidden;
+        }
+
+        /* Barra superior más sobria */
+        .card::before{
+          content:"";
+          position:absolute;
+          inset: 0 0 auto 0;
+          height: 3px;
+          background: linear-gradient(90deg, transparent, rgba(109,124,255,0.9), transparent);
+          opacity: 0.9;
+        }
+
+        .card::after{
+          content:"";
+          position:absolute;
+          inset:-2px;
+          pointer-events:none;
+          border-radius: calc(var(--radius) + 2px);
+          background:
+            radial-gradient(700px 260px at 30% 0%, rgba(255,255,255,0.06), transparent 58%),
+            radial-gradient(700px 260px at 70% 0%, rgba(109,124,255,0.05), transparent 60%);
+          opacity: 0.75;
+          mix-blend-mode: screen;
+        }
+
+        header{
+          position: relative;
+          z-index: 1;
+          display:flex;
+          align-items:flex-start;
+          gap: 12px;
+          margin-bottom: 10px;
+        }
+
+        .icon{
+          width: 44px;
+          height: 44px;
+          border-radius: 14px;
+          display: grid;
+          place-items: center;
+          flex: 0 0 auto;
+          background:
+            radial-gradient(120px 60px at 30% 25%, rgba(109,124,255,0.22), transparent 60%),
+            rgba(109,124,255,0.08);
+          border: 1px solid rgba(109,124,255,0.24);
+          box-shadow: 0 10px 26px rgba(109,124,255,0.10);
+        }
+
+        h1{
+          margin: 0;
+          font-size: 20px;
+          letter-spacing: 0.2px;
+          line-height: 1.2;
+        }
+
+        .subtitle{
+          margin: 8px 0 0 0;
+          color: var(--muted);
+          line-height: 1.55;
+          font-size: 14px;
+        }
+
+        .meta{
+          position: relative;
+          z-index: 1;
+          margin-top: 12px;
+          display: grid;
+          gap: 10px;
+        }
+
+        .pill{
+          display:inline-flex;
+          align-items:center;
+          gap: 8px;
+          padding: 8px 10px;
+          border-radius: 999px;
+          background: rgba(255,255,255,0.04);
+          border: 1px solid var(--stroke);
+          color: rgba(255,255,255,0.85);
+          font-size: 12.5px;
+          width: fit-content;
+          max-width: 100%;
+        }
+
+        .pill b{ color: rgba(255,255,255,0.95); }
+        .pill .dot{
+          width: 8px; height: 8px; border-radius: 99px;
+          background: var(--accent);
+          box-shadow: 0 0 0 4px rgba(109,124,255,0.16);
+          flex: 0 0 auto;
+        }
+
+        .warn{
+          border: 1px solid rgba(255,255,255,0.12);
+          background:
+            radial-gradient(900px 220px at 10% 10%, rgba(255,255,255,0.05), transparent 60%),
+            rgba(255,255,255,0.035);
+          color: rgba(255,255,255,0.90);
+          padding: 12px 12px;
+          border-radius: var(--radius2);
+          font-size: 13px;
+          line-height: 1.5;
+          position: relative;
+          z-index: 1;
+        }
+        .warn b{ color: rgba(255,255,255,0.98); }
+
+        .content{
+          position: relative;
+          z-index: 1;
+          margin-top: 14px;
+          display: grid;
+          gap: 12px;
+        }
+
+        .section{
+          background: rgba(255,255,255,0.025);
+          border: 1px solid rgba(255,255,255,0.10);
+          border-radius: var(--radius2);
+          padding: 14px;
+        }
+
+        h2{
+          margin: 0 0 8px 0;
+          font-size: 15px;
+          letter-spacing: 0.2px;
+        }
+
+        p{
+          margin: 0;
+          color: var(--muted);
+          font-size: 13.5px;
+          line-height: 1.65;
+        }
+
+        ul{
+          margin: 10px 0 0 18px;
+          padding: 0;
+          color: rgba(255,255,255,0.82);
+          font-size: 13.5px;
+          line-height: 1.6;
+        }
+
+        li{ margin: 6px 0; }
+
+        code{
+          font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+          font-size: 12px;
+          color: rgba(255,255,255,0.88);
+          background: rgba(255,255,255,0.055);
+          border: 1px solid rgba(255,255,255,0.12);
+          padding: 2px 6px;
+          border-radius: 10px;
+          white-space: nowrap;
+        }
+
+        .actions{
+          position: relative;
+          z-index: 1;
+          margin-top: 14px;
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 10px;
+        }
+
+        .btn{
+          appearance: none;
+          border: 1px solid var(--stroke);
+          background: rgba(255,255,255,0.04);
+          color: var(--text);
+          padding: 14px 14px;
+          border-radius: 14px;
+          font-weight: 800;
+          cursor: pointer;
+          transition: transform .06s ease, background .15s ease, border-color .15s ease, box-shadow .15s ease;
+          user-select: none;
+          min-height: 48px;
+          text-align: center;
+          position: relative;
+          overflow: hidden;
+          touch-action: manipulation; /* optimización táctil en Android */
+        }
+
+        .btn:active{ transform: translateY(1px) scale(0.99); }
+        .btn:focus-visible{ outline: none; box-shadow: var(--ring); }
+
+        .btn-primary{
+          border-color: rgba(109,124,255,0.36);
+          background:
+            radial-gradient(260px 90px at 20% 15%, rgba(109,124,255,0.22), transparent 60%),
+            rgba(109,124,255,0.08);
+        }
+
+        .btn-ghost{
+          background: rgba(255,255,255,0.028);
+        }
+
+        .small{
+          position: relative;
+          z-index: 1;
+          margin-top: 10px;
+          font-size: 12.5px;
+          color: var(--muted);
+          line-height: 1.5;
+        }
+
+        .toc{
+          display:flex;
+          flex-wrap: wrap;
+          gap: 8px;
+          margin-top: 10px;
+        }
+        .toc a{
+          display:inline-flex;
+          align-items:center;
+          padding: 8px 10px;
+          border-radius: 999px;
+          border: 1px solid rgba(255,255,255,0.12);
+          background: rgba(255,255,255,0.03);
+          color: rgba(255,255,255,0.86);
+          text-decoration:none;
+          font-size: 12.5px;
+        }
+        .toc a:focus-visible{ outline:none; box-shadow: var(--ring); }
+
+        /* Reduce animaciones si el usuario lo pide (mejor UX/Android) */
+        @media (prefers-reduced-motion: reduce){
+          .btn{ transition: none; }
+          .btn:active{ transform: none; }
+        }
+
+        @media (min-width: 680px){
+          .card{ padding: 22px; }
+          .actions{ grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+</head>
+
+<body>
+<div class="wrap">
+    <div class="card" role="region" aria-label="Términos y Condiciones">
+        <header>
+            <div class="icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                    <path d="M7 3h8l4 4v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" stroke="rgba(255,255,255,0.70)" stroke-width="1.5"/>
+                    <path d="M15 3v5h5" stroke="rgba(255,255,255,0.70)" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M8 12h8M8 16h8" stroke="rgba(255,255,255,0.70)" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+            </div>
+            <div>
+                <h1>Términos y Condiciones</h1>
+                <div class="subtitle">
+                    Estos términos regulan el uso de <b>Netsus</b> (el “Servicio”). Al usar el Servicio, aceptas estos términos.
+                </div>
+
+                <div class="meta">
+                    <div class="pill"><span class="dot"></span> <b>Vigencia:</b> <span id="effectiveDate">2026-02-20</span></div>
+                    <div class="pill"><b>Última actualización:</b> <span id="lastUpdated">2026-02-20</span></div>
+                </div>
+
+                <div class="toc" aria-label="Tabla de contenido">
+                    <a href="#definiciones">Definiciones</a>
+                    <a href="#uso-aceptable">Uso aceptable</a>
+                    <a href="#abuso-seguridad">Abuso y seguridad</a>
+                    <a href="#contenido">Contenido</a>
+                    <a href="#privacidad">Privacidad</a>
+                    <a href="#suspension">Suspensión</a>
+                    <a href="#responsabilidad">Responsabilidad</a>
+                    <a href="#contacto">Contacto</a>
+                </div>
+            </div>
+        </header>
+
+        <div class="warn" role="note">
+            <b>Importante:</b> si usas el Servicio para acosar, enviar spam, suplantar identidades, intentar vulnerar sistemas o distribuir contenido ilegal,
+            <b>podemos suspender o eliminar tu cuenta</b> y colaborar con autoridades cuando corresponda.
+        </div>
+
+        <div class="content">
+            <section class="section" id="definiciones">
+                <h2>1) Definiciones</h2>
+                <p>
+                    Para efectos de este documento:
+                </p>
+                <ul>
+                    <li><b>“Servicio”</b>: la app/sitio Netsus y sus funciones (chats, perfiles, multimedia, etc.).</li>
+                    <li><b>“Usuario”</b>: cualquier persona que accede o usa el Servicio.</li>
+                    <li><b>“Contenido”</b>: texto, fotos, videos, audios, archivos, enlaces, nombre de usuario, avatar u otro material que subas o envíes.</li>
+                </ul>
+            </section>
+
+            <section class="section" id="cuenta">
+                <h2>2) Cuenta y elegibilidad</h2>
+                <ul>
+                    <li>Debes proporcionar información veraz y mantenerla actualizada.</li>
+                    <li>Eres responsable de mantener la seguridad de tu cuenta (contraseña, acceso al dispositivo, etc.).</li>
+                    <li>Si sospechas acceso no autorizado, debes cambiar tu contraseña o hablar con soporte si pierdes el acceso a tu cuenta</li>
+                </ul>
+            </section>
+
+            <section class="section" id="uso-aceptable">
+                <h2>3) Uso aceptable (reglas)</h2>
+                <p>Te comprometes a usar el Servicio de forma legal y respetuosa. En particular, está prohibido:</p>
+                <ul>
+                    <li>Acosar, amenazar, extorsionar, difamar o humillar a otras personas.</li>
+                    <li>Enviar spam, fraude, phishing, cadenas, publicidad no solicitada o automatizada.</li>
+                    <li>Suplantar identidades (hacerte pasar por otra persona, marca o entidad).</li>
+                    <li>Publicar o compartir contenido ilegal, violento, de odio, o que promueva actividades delictivas.</li>
+                    <li>Compartir contenido sexual explícito no permitido por la ley aplicable, o material de explotación infantil (tolerancia cero).</li>
+                    <li>Infringir derechos de autor, marcas u otros derechos de terceros.</li>
+                </ul>
+            </section>
+
+            <section class="section" id="abuso-seguridad">
+                <h2>4) Abuso, seguridad y uso indebido del sistema</h2>
+                <p>Para protegerte a ti, a otros usuarios y al proyecto, también está prohibido:</p>
+                <ul>
+                    <li>Intentar vulnerar el Servicio (exploits, inyección, scraping agresivo, fuerza bruta, ingeniería inversa, etc.).</li>
+                    <li>Interferir con el funcionamiento (DDoS, pruebas de carga no autorizadas, abuso de endpoints, etc.).</li>
+                    <li>Usar bots o automatizaciones sin permiso explícito.</li>
+                    <li>Intentar acceder a datos de otros usuarios sin autorización.</li>
+                    <li>Distribuir malware, enlaces maliciosos o archivos dañinos.</li>
+                </ul>
+                <p style="margin-top:10px">
+                    Podemos implementar límites, medidas antiabuso y monitoreo técnico (por ejemplo: rate limits, detección de patrones) para mantener el Servicio estable.
+                </p>
+            </section>
+
+            <section class="section" id="contenido">
+                <h2>5) Contenido del usuario y moderación</h2>
+                <ul>
+                    <li><b>Tú</b> eres responsable del Contenido que envías o publicas.</li>
+                    <li>No garantizamos que todo Contenido sea revisado. Sin embargo, <b>podemos</b> revisar, bloquear, limitar, ocultar o eliminar Contenido si lo consideramos necesario para cumplir estos términos, la ley o para proteger el Servicio.</li>
+                    <li>Al subir Contenido, declaras que tienes los derechos necesarios para hacerlo.</li>
+                </ul>
+                <p style="margin-top:10px">
+
+                </p>
+            </section>
+
+            <section class="section" id="privacidad">
+                <h2>6) Privacidad y datos</h2>
+                <ul>
+                    <li>El Servicio puede recolectar y procesar datos necesarios para autenticación, seguridad yfuncionamiento (p. ej., datos de sesión, identificadores y metadatos técnicos).</li>
+                    <li>La app puede almacenar archivos multimedia y mensajes según tu uso del Servicio.</li>
+                    <li>Si existe una Política de Privacidad separada, esta complementa estos términos.</li>
+                </ul>
+                <p style="margin-top:10px">
+                    Si el Servicio usa un proveedor externo (por ejemplo, infraestructura de base de datos/almacenamiento), aceptas que parte del procesamiento ocurra a través de dichos servicios.
+                </p>
+            </section>
+
+            <section class="section" id="suspension">
+                <h2>7) Suspensión, restricciones y eliminación de cuentas</h2>
+                <ul>
+                    <li>Podemos <b>suspender</b> o <b>cerrar</b> cuentas que violen estos términos o representen riesgo para otros usuarios o para el proyecto.</li>
+                    <li>Podemos aplicar medidas escalonadas: advertencias, limitaciones, bloqueos temporales o cierre definitivo.</li>
+                    <li>Cuando sea razonable, intentaremos notificarte, pero en casos graves podemos actuar sin aviso previo (por ejemplo: abuso, fraude, seguridad).</li>
+                </ul>
+                <p style="margin-top:10px">
+                    También puedes solicitar la eliminación de tu cuenta desde las opciones del Servicio, cuando esté disponible.
+                </p>
+            </section>
+
+            <section class="section" id="disponibilidad">
+                <h2>8) Disponibilidad y cambios del Servicio</h2>
+                <ul>
+                    <li>El Servicio se ofrece “tal cual” y puede cambiar, fallar o interrumpirse temporalmente.</li>
+                    <li>Podemos modificar o descontinuar funciones (total o parcialmente) por mantenimiento, seguridad o mejoras.</li>
+                </ul>
+            </section>
+
+            <section class="section" id="responsabilidad">
+                <h2>9) Limitación de responsabilidad</h2>
+                <ul>
+                    <li>En la medida permitida por la ley aplicable, no somos responsables por pérdidas indirectas, incidentales o consecuentes derivadas del uso del Servicio.</li>
+                    <li>No garantizamos que el Servicio sea ininterrumpido, libre de errores o completamente seguro (aunque trabajamos para ello).</li>
+                    <li>Eres responsable del uso que hagas del Servicio y de tu interacción con otros usuarios.</li>
+                </ul>
+            </section>
+
+            <section class="section" id="indemnidad">
+                <h2>10) Indemnidad</h2>
+                <p>
+                    Aceptas defender e indemnizar al responsable del Servicio frente a reclamos, daños, pérdidas y gastos (incluyendo honorarios razonables)
+                    derivados de: (a) tu uso indebido del Servicio, (b) tu Contenido, o (c) tu violación de estos términos o de la ley.
+                </p>
+            </section>
+
+            <section class="section" id="ley">
+                <h2>11) Ley aplicable</h2>
+                <p>
+                    Estos términos se interpretan de acuerdo con la legislación aplicable en tu jurisdicción. Si deseas, puedes especificar un país/ciudad para mayor claridad.
+                </p>
+            </section>
+
+            <section class="section" id="cambios">
+                <h2>12) Cambios a estos términos</h2>
+                <p>
+                    Podemos actualizar estos términos. Si los cambios son importantes, podremos mostrar un aviso en la app.
+                    El uso continuado del Servicio después de una actualización implica aceptación de los cambios.
+                </p>
+            </section>
+
+            <section class="section" id="contacto">
+                <h2>13) Contacto</h2>
+                <p>
+                    Para soporte, reportes de abuso, solicitudes legales o privacidad, define un correo de contacto.
+                </p>
+                <ul>
+                    <li>Email: <code>cristian@netsus.me</code></li>
+                    <li>Proyecto: <code>Netsus</code></li>
+                </ul>
+            </section>
+        </div>
+
+        <div class="actions" aria-label="Acciones">
+            <button class="btn btn-primary" id="acceptBtn" type="button">Entendido</button>
+            <button class="btn btn-ghost" id="backBtn" type="button">Volver</button>
+        </div>
+
+        <div class="small">
+            Consejo: personaliza el texto de <b>Ley aplicable</b> y <b>Contacto</b>, y si tienes Política de Privacidad separada, enlázala aquí.
+        </div>
+    </div>
+</div>
+
+<script>
+    // Puedes editar estas fechas desde aquí si quieres automatizarlo
+    const EFFECTIVE_DATE = "2026-02-20";
+    const LAST_UPDATED = "2026-02-20";
+
+    document.getElementById("effectiveDate").textContent = EFFECTIVE_DATE;
+    document.getElementById("lastUpdated").textContent = LAST_UPDATED;
+
+    // Redirigir siempre a login.html al presionar "Entendido" o "Volver"
+    const goToLogin = () => {
+      location.href = "login.html";
+    };
+
+    document.getElementById("acceptBtn").addEventListener("click", goToLogin);
+    document.getElementById("backBtn").addEventListener("click", goToLogin);
+</script>
+</body>
+</html>
