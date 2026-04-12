@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Netsus | Invitación a chatear</title>
+    <meta name="description" content="Te han invitado a ver un perfil en Netsus. Abre la app para conectar de forma segura.">
+    <meta name="theme-color" content="#0D1117">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Invitación a chatear en Netsus">
+    <meta property="og:description" content="Alguien quiere conectar contigo en Netsus. Abre el enlace para ver su perfil.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://netsus.me/profile/">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+
+    <style>
+        /* ===== CSS Reset & Variables ===== */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Netsus Obsidian Design System - from Stitch */
+            --surface: #10141a;
+            --surface-bright: #353940;
+            --surface-container: #1c2026;
+            --surface-container-high: #262a31;
+            --surface-container-highest: #31353c;
+            --surface-container-low: #181c22;
+            --surface-container-lowest: #0a0e14;
+
+            --primary: #adc6ff;
+            --primary-container: #4d8eff;
+            --on-primary: #002e6a;
+            --on-surface: #dfe2eb;
+            --on-surface-variant: #c2c6d6;
+            --outline: #8c909f;
+            --outline-variant: #424754;
+
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        html, body {
+            height: 100%;
+            font-family: var(--font-family);
+            background: var(--surface);
+            color: var(--on-surface);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* ===== Background Effects ===== */
+        body {
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(ellipse at 20% 20%, rgba(77, 142, 255, 0.06) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(77, 142, 255, 0.04) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(173, 198, 255, 0.02) 0%, transparent 70%);
+            animation: ambientShift 20s ease-in-out infinite alternate;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes ambientShift {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(-2%, 1%) rotate(1deg); }
+            100% { transform: translate(1%, -1%) rotate(-0.5deg); }
+        }
+
+        /* ===== Animated Particles ===== */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--primary);
+            border-radius: 50%;
+            opacity: 0;
+            animation: particleFade 6s ease-in-out infinite;
+        }
+
+        .particle:nth-child(1) { left: 15%; top: 25%; animation-delay: 0s; animation-duration: 7s; }
+        .particle:nth-child(2) { left: 75%; top: 15%; animation-delay: 1s; animation-duration: 5s; }
+        .particle:nth-child(3) { left: 40%; top: 70%; animation-delay: 2s; animation-duration: 8s; }
+        .particle:nth-child(4) { left: 85%; top: 55%; animation-delay: 3s; animation-duration: 6s; }
+        .particle:nth-child(5) { left: 25%; top: 85%; animation-delay: 1.5s; animation-duration: 7s; }
+        .particle:nth-child(6) { left: 60%; top: 40%; animation-delay: 4s; animation-duration: 5.5s; }
+
+        @keyframes particleFade {
+            0%, 100% { opacity: 0; transform: translateY(0) scale(1); }
+            50% { opacity: 0.4; transform: translateY(-30px) scale(1.5); }
+        }
+
+        /* ===== Main Layout ===== */
+        .page {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 24px 20px;
+        }
+
+        /* ===== Logo ===== */
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 48px;
+            animation: slideDown 0.8s cubic-bezier(0.2, 0, 0, 1) both;
+        }
+
+        .logo-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-container));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 20px rgba(77, 142, 255, 0.25);
+        }
+
+        .logo-icon .material-icons-round {
+            font-size: 24px;
+            color: var(--on-primary);
+        }
+
+        .logo-text {
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, var(--on-surface), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ===== Glassmorphism Card ===== */
+        .invitation-card {
+            width: 100%;
+            max-width: 400px;
+            background: rgba(28, 32, 38, 0.6);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border-radius: 24px;
+            border: 1px solid rgba(66, 71, 84, 0.15);
+            padding: 48px 32px 40px;
+            text-align: center;
+            box-shadow: 
+                0 16px 32px rgba(0, 0, 0, 0.12),
+                0 0 0 1px rgba(173, 198, 255, 0.03) inset;
+            animation: cardAppear 1s cubic-bezier(0.2, 0, 0, 1) 0.2s both;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .invitation-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(173, 198, 255, 0.15), transparent);
+        }
+
+        /* ===== Avatar ===== */
+        .avatar-wrapper {
+            position: relative;
+            width: 96px;
+            height: 96px;
+            margin: 0 auto 28px;
+        }
+
+        .avatar-ring {
+            position: absolute;
+            inset: -3px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-container), var(--primary));
+            animation: ringRotate 4s linear infinite;
+            opacity: 0.8;
+        }
+
+        @keyframes ringRotate {
+            to { transform: rotate(360deg); }
+        }
+
+        .avatar-inner {
+            position: absolute;
+            inset: 2px;
+            border-radius: 50%;
+            background: var(--surface-container-high);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1;
+        }
+
+        .avatar-inner .material-icons-round {
+            font-size: 40px;
+            color: var(--on-surface-variant);
+            opacity: 0.7;
+        }
+
+        /* ===== Text Content ===== */
+        .card-heading {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--on-surface);
+            margin-bottom: 12px;
+            line-height: 1.2;
+        }
+
+        .card-description {
+            font-size: 15px;
+            font-weight: 400;
+            color: var(--on-surface-variant);
+            line-height: 1.6;
+            margin-bottom: 36px;
+        }
+
+        /* ===== CTA Button ===== */
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 16px 32px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-container));
+            color: var(--on-primary);
+            border: none;
+            border-radius: 16px;
+            font-family: var(--font-family);
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
+            box-shadow: 
+                0 8px 24px rgba(77, 142, 255, 0.3),
+                0 0 0 0 rgba(77, 142, 255, 0);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 
+                0 12px 32px rgba(77, 142, 255, 0.4),
+                0 0 0 4px rgba(77, 142, 255, 0.1);
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 16px rgba(77, 142, 255, 0.25);
+        }
+
+        .cta-button .material-icons-round {
+            font-size: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .cta-button:hover .material-icons-round {
+            transform: translateX(4px);
+        }
+
+        /* ===== Sub text ===== */
+        .sub-text {
+            margin-top: 16px;
+            font-size: 13px;
+            font-weight: 400;
+            color: var(--outline);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .sub-text .material-icons-round {
+            font-size: 14px;
+        }
+
+        /* ===== Security Badge ===== */
+        .security-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 40px;
+            padding: 10px 20px;
+            background: rgba(49, 53, 60, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 100px;
+            border: 1px solid rgba(66, 71, 84, 0.15);
+            animation: badgeAppear 0.8s cubic-bezier(0.2, 0, 0, 1) 0.6s both;
+        }
+
+        .security-badge .material-icons-round {
+            font-size: 16px;
+            color: var(--primary);
+        }
+
+        .security-badge span {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--on-surface-variant);
+            letter-spacing: -0.01em;
+        }
+
+        /* ===== Footer ===== */
+        .footer {
+            margin-top: 48px;
+            text-align: center;
+            animation: fadeIn 0.8s cubic-bezier(0.2, 0, 0, 1) 0.8s both;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--outline);
+            margin-bottom: 8px;
+        }
+
+        .footer-brand .material-icons-round {
+            font-size: 14px;
+            color: var(--primary-container);
+        }
+
+        .footer-copy {
+            font-size: 11px;
+            color: var(--outline-variant);
+            letter-spacing: 0.02em;
+        }
+
+        /* ===== Animations ===== */
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes cardAppear {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.96);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes badgeAppear {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* ===== Loading Pulse ===== */
+        .loading-state {
+            display: none;
+        }
+
+        .loading-state.active {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .loading-spinner {
+            width: 28px;
+            height: 28px;
+            border: 3px solid var(--surface-container-high);
+            border-top-color: var(--primary-container);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            font-size: 14px;
+            color: var(--on-surface-variant);
+        }
+
+        /* ===== Responsive ===== */
+        @media (min-width: 768px) {
+            .invitation-card {
+                padding: 56px 48px 48px;
+            }
+
+            .card-heading {
+                font-size: 28px;
+            }
+        }
+
+        @media (max-height: 600px) {
+            .logo-section {
+                margin-bottom: 24px;
+            }
+            .invitation-card {
+                padding: 32px 24px 28px;
+            }
+            .security-badge {
+                margin-top: 24px;
+            }
+            .footer {
+                margin-top: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Ambient Particles -->
+    <div class="particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+
+    <div class="page">
+        <!-- Logo -->
+        <div class="logo-section">
+            <div class="logo-icon">
+                <span class="material-icons-round">chat_bubble</span>
+            </div>
+            <span class="logo-text">Netsus</span>
+        </div>
+
+        <!-- Invitation Card -->
+        <div class="invitation-card">
+            <!-- Avatar -->
+            <div class="avatar-wrapper">
+                <div class="avatar-ring"></div>
+                <div class="avatar-inner">
+                    <span class="material-icons-round">person</span>
+                </div>
+            </div>
+
+            <!-- Content -->
+            <h1 class="card-heading">Invitación a chatear</h1>
+            <p class="card-description">Te han invitado a ver un perfil en Netsus. Abre la app para conectar de forma segura.</p>
+
+            <!-- CTA Button -->
+            <div id="ctaContainer">
+                <a href="#" id="ctaButton" class="cta-button" onclick="openProfile()">
+                    <span>Ver perfil</span>
+                    <span class="material-icons-round">arrow_forward</span>
+                </a>
+            </div>
+
+            <!-- Loading State (shown while redirecting) -->
+            <div id="loadingState" class="loading-state">
+                <div class="loading-spinner"></div>
+                <span class="loading-text">Abriendo Netsus...</span>
+            </div>
+
+            <p class="sub-text">
+                <span class="material-icons-round">open_in_new</span>
+                Se abrirá la app de Netsus
+            </p>
+        </div>
+
+        <!-- Security Badge -->
+        <div class="security-badge">
+            <span class="material-icons-round">lock</span>
+            <span>Mensajería cifrada de extremo a extremo</span>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-brand">
+                <span class="material-icons-round">verified_user</span>
+                <span>Netsus — Mensajería segura</span>
+            </div>
+            <p class="footer-copy">© 2025 Netsus. Protegido con cifrado de extremo a extremo.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Extract userId from the URL path or query parameter
+        function getUserId() {
+            // Check query parameter first (from 404.html redirect on GitHub Pages)
+            var params = new URLSearchParams(window.location.search);
+            var fromQuery = params.get('p');
+            if (fromQuery) return fromQuery;
+
+            // Check URL path: /profile/{userId}
+            var path = window.location.pathname;
+            var parts = path.split('/').filter(Boolean);
+            var profileIndex = parts.indexOf('profile');
+            if (profileIndex !== -1 && parts.length > profileIndex + 1) {
+                return parts[profileIndex + 1];
+            }
+            return null;
+        }
+
+        function openProfile() {
+            const userId = getUserId();
+            if (!userId) {
+                alert('Enlace de perfil inválido');
+                return;
+            }
+
+            // Show loading state
+            document.getElementById('ctaContainer').style.display = 'none';
+            document.getElementById('loadingState').classList.add('active');
+
+            // Deep link scheme for the Netsus app
+            const deepLink = 'netsus://profile/' + userId;
+
+            // Try to open the app via deep link
+            const start = Date.now();
+            window.location.href = deepLink;
+
+            // If the app doesn't open within 2 seconds, restore the button
+            setTimeout(function() {
+                if (Date.now() - start < 3000) {
+                    // App likely opened
+                    return;
+                }
+                // App didn't open - restore button
+                document.getElementById('ctaContainer').style.display = 'block';
+                document.getElementById('loadingState').classList.remove('active');
+            }, 2500);
+        }
+
+        // Try an automatic redirect via intent on Android
+        function tryAndroidIntent() {
+            const userId = getUserId();
+            if (!userId) return;
+
+            // Update the CTA button href for Android intent
+            const ctaBtn = document.getElementById('ctaButton');
+            if (ctaBtn) {
+                ctaBtn.href = 'intent://profile/' + userId + 
+                    '#Intent;scheme=netsus;package=com.projectbert.netsus;end';
+            }
+        }
+
+        // Check if mobile Android
+        const isAndroid = /android/i.test(navigator.userAgent);
+        if (isAndroid) {
+            tryAndroidIntent();
+        }
+    </script>
+</body>
+</html>

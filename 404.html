@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>body { background: #10141a; }</style>
+    <script>
+        // GitHub Pages SPA redirect for dynamic routes
+        // When accessing /profile/{userId}, GitHub returns 404
+        // This redirects to /profile/?p={userId} which serves the invitation page
+        var path = window.location.pathname;
+        if (path.indexOf('/profile/') === 0) {
+            var segments = path.split('/').filter(Boolean);
+            if (segments.length > 1) {
+                var userId = segments[1];
+                window.location.replace('/profile/?p=' + userId);
+            }
+        }
+    </script>
+</head>
+<body></body>
+</html>
