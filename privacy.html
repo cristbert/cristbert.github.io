@@ -1,0 +1,440 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light dark" />
+  <title>Política de Privacidad | Netsus</title>
+  <style>
+  :root{
+    --bg: #000;
+    --text: rgba(255,255,255,.92);
+    --muted: rgba(255,255,255,.68);
+    --line: rgba(255,255,255,.14);
+    --max: 980px;
+    --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
+  }
+
+  *{ box-sizing: border-box; }
+  html, body { height: 100%; }
+  html{ scroll-behavior: smooth; }
+
+  body{
+    margin:0;
+    font-family: var(--sans);
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.65;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  a{ color: inherit; text-decoration-thickness: .08em; text-underline-offset: .18em; }
+  a:hover{ text-decoration-thickness: .12em; }
+
+  .wrap{
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 22px 16px 64px;
+  }
+
+  /* Top bar */
+  header{
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: rgba(0,0,0,.86);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .topbar{
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 12px 16px;
+    display:flex;
+    align-items:center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap: 10px;
+    min-width: 180px;
+  }
+  .logo{
+    width: 30px; height:30px;
+    border-radius: 10px;
+    border: 1px solid var(--line);
+    background: transparent;
+  }
+  .brand h1{
+    margin:0;
+    font-size: 14px;
+    line-height: 1.2;
+    letter-spacing: .2px;
+  }
+  .brand small{
+    display:block;
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  .actions{
+    display:flex;
+    align-items:center;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap: 8px;
+    padding: 9px 11px;
+    border-radius: 12px;
+    border: 1px solid var(--line);
+    background: transparent;
+    text-decoration: none;
+    font-weight: 650;
+    font-size: 13px;
+    white-space: nowrap;
+    transition: background .12s ease, border-color .12s ease, transform .12s ease;
+  }
+  .btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.04); border-color: rgba(255,255,255,.24); }
+  .btn.primary{
+    border-color: rgba(255,255,255,.28);
+  }
+  .kbd{
+    font-family: var(--mono);
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    color: var(--muted);
+    background: transparent;
+  }
+
+  /* Hero */
+  .hero{
+    padding: 22px 0 10px;
+    border-bottom: 1px solid var(--line);
+  }
+  .hero h2{
+    margin: 0 0 8px;
+    font-size: clamp(22px, 4.2vw, 34px);
+    letter-spacing: -0.4px;
+  }
+  .hero p{
+    margin: 0;
+    color: var(--muted);
+    max-width: 72ch;
+    font-size: 15px;
+  }
+  .meta{
+    margin-top: 14px;
+    display:flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .pill{
+    border: 1px solid var(--line);
+    background: transparent;
+    border-radius: 999px;
+    padding: 6px 10px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .pill strong{ color: var(--text); }
+
+  /* Layout */
+  .grid{
+    margin-top: 14px;
+    display:grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  /* Sections: no panels, only lines */
+  .card{
+    border: none;
+    border-top: 1px solid var(--line);
+    background: transparent;
+    border-radius: 0;
+    padding: 18px 0;
+    box-shadow: none;
+    overflow: visible;
+  }
+  /* Keep the first section aligned without a double line (hero already has bottom border) */
+  .grid > .card:first-child{
+    border-top: none;
+    padding-top: 16px;
+  }
+
+  .card h3{
+    margin: 0 0 10px;
+    font-size: 16px;
+    letter-spacing: -0.2px;
+  }
+  .card p{ margin: 0 0 10px; color: var(--muted); }
+  .card p:last-child{ margin-bottom: 0; }
+
+  .list{
+    margin: 10px 0 0;
+    padding: 0;
+    list-style: none;
+    display:grid;
+    gap: 0;
+    border-top: 1px solid var(--line);
+  }
+  .list li{
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line);
+    background: transparent;
+    color: var(--muted);
+  }
+  .list li strong{ color: var(--text); }
+
+  .note{
+    margin-top: 12px;
+    padding: 12px 0 0;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+  }
+  .note strong{ color: var(--text); }
+
+  .two{
+    display:grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    border-top: 1px solid var(--line);
+    margin-top: 12px;
+  }
+  @media (min-width: 880px){
+    .two{ grid-template-columns: 1fr 1fr; }
+    .two > *:first-child{ border-right: 1px solid var(--line); }
+  }
+  .two .card{
+    border-top: none;
+    padding: 14px 0;
+  }
+  .two .card h3{ margin-top: 0; }
+
+  footer{
+    margin-top: 18px;
+    color: var(--muted);
+    font-size: 12px;
+    text-align: center;
+    padding: 18px 0 0;
+    border-top: 1px solid var(--line);
+  }
+
+  /* Print */
+  @media print{
+    header{ position: static; background: transparent; border: none; }
+    .btn, .actions{ display:none !important; }
+    body{ background: white; color: #111; }
+    .hero{ border-bottom: 1px solid #ddd; }
+    .card{ border-top: 1px solid #ddd; }
+    .list{ border-top: 1px solid #ddd; }
+    .list li{ border-bottom: 1px solid #ddd; }
+    footer{ border-top: 1px solid #ddd; }
+  }
+</style>
+</head>
+
+<body>
+  <header>
+    <div class="topbar">
+      <div class="brand" aria-label="Marca">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <h1>Política de Privacidad</h1>
+          <small>Netsus</small>
+        </div>
+      </div>
+
+      <div class="actions">
+        <a class="btn" href="#datos">Qué datos</a>
+        <a class="btn" href="#uso">Cómo se usan</a>
+        <a class="btn" href="#almacenamiento">Mensajes & archivos</a>
+        <a class="btn" href="#eliminar">Eliminar cuenta</a>
+        <a class="btn primary" href="https://nextsus.netlify.app/account/delete" target="_blank" rel="noopener">
+          Ir a eliminar cuenta <span class="kbd">↗</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <h2>Política de Privacidad – Netsus</h2>
+      <p>
+        Esta política explica cómo recopilamos, usamos y protegemos la información cuando usas Netsus,
+        una aplicación de chat para enviar mensajes y contenido multimedia.
+      </p>
+      <div class="meta">
+        <div class="pill"><strong>Entrada en vigor:</strong> <span>18/02/2026</span></div>
+        <div class="pill"><strong>Responsable:</strong> <span> Netsus </span></div>
+        <div class="pill"><strong>Contacto:</strong> <span> cristian@netsus.me </span></div>
+      </div>
+    </section>
+
+    <section class="grid">
+      <article class="card" id="resumen">
+        <h3>Resumen</h3>
+        <p>
+          Netsus utiliza información mínima para operar el chat y mantener la seguridad del servicio.
+          No vendemos tu información ni la compartimos con empresas para fines publicitarios o comerciales.
+        </p>
+        <div class="note">
+          <strong>Importante:</strong> Los archivos multimedia solo se guardan si el usuario lo desea.
+          Algunos datos pueden conservarse con fines de <strong>prevención de fraude</strong>.
+          Si eliminas tu cuenta, se elimina la información asociada.
+        </div>
+      </article>
+
+      <article class="card" id="datos">
+        <h3>1) Qué información recopilamos</h3>
+        <p>Dependiendo de tu uso de la app, podemos recopilar:</p>
+        <ul class="list">
+          <li><strong>Información personal (cuenta y perfil):</strong> nombre, correo electrónico, ID de usuario.</li>
+          <li><strong>Ubicación:</strong> ubicación aproximada basado en tu IP</li>
+          <li><strong>Contenido y archivos:</strong> fotos, videos, audios y documentos.</li>
+          <li><strong>Información de la app y diagnóstico:</strong> registros de fallas (crash logs), diagnóstico y datos de rendimiento (opcionales).</li>
+          <li><strong>Actividad en la app:</strong> acciones dentro de la app necesarias para funcionamiento y/o seguridad.</li>
+          <li><strong>Dispositivo u otros identificadores:</strong> IDs usados principalmente para seguridad, cumplimiento y prevención de fraude.</li>
+        </ul>
+      </article>
+
+      <article class="card" id="uso">
+        <h3>2) Cómo usamos tu información</h3>
+        <ul class="list">
+          <li><strong>Funciones del servicio:</strong> crear/gestionar tu cuenta y permitir el chat.</li>
+          <li><strong>Seguridad y prevención de fraude:</strong> detectar abuso, actividades sospechosas e intentos de fraude.</li>
+          <li><strong>Soporte y estabilidad:</strong> resolver incidencias y mejorar rendimiento (cuando se recopilen diagnósticos).</li>
+          <li><strong>Cumplimiento legal:</strong> cuando sea aplicable y requerido.</li>
+        </ul>
+      </article>
+
+      <article class="card" id="almacenamiento">
+        <h3>3) Mensajes y archivos: transmisión y almacenamiento</h3>
+        <p>
+          Los mensajes y archivos pueden pasar por nuestros servidores para habilitar la entrega entre usuarios.
+        </p>
+        <div class="two">
+          <div class="card" style="box-shadow:none; background: transparent; border-color: var(--line);">
+            <h3 style="margin-top:0;">Procesamiento (en tránsito)</h3>
+            <p>
+              Cuando envías contenido, éste puede procesarse “al vuelo” para que llegue al destinatario.
+              Si el usuario no desea que se guarden los archivos multimedia en nuestra base de datos, puede eliminar el archivo de el chat y el archivo será eliminado de nuestra base de datos.
+            </p>
+          </div>
+          <div class="card" style="box-shadow:none; background: transparent; border-color: var(--line);">
+            <h3 style="margin-top:0;">Almacenamiento en Supabase. </h3>
+            <p>
+              Los <strong>archivos multimedia</strong> (fotos, videos, audios, documentos) se almacenan en
+              <strong>Supabase</strong> únicamente si el usuario mantiene el archivo multimedia en el chat sin eliminar, esto con el fin permitir el acceso al archivo en otros dispositivos o para guardar el archivo si no estaba guardado en el dispositivo.
+            </p>
+          </div>
+        </div>
+        <div class="note">
+          <strong>Prevención de fraude:</strong> Podemos conservar ciertos datos (por ejemplo, identificadores
+          del dispositivo, ubicación aproximada y/o actividad en la app) con fines de seguridad y prevención de fraude.
+        </div>
+      </article>
+
+      <article class="card" id="terceros">
+        <h3>4) Compartición de datos con terceros</h3>
+        <p>
+          No vendemos tu información personal y no la compartimos con otras empresas para fines publicitarios,
+          de marketing o comerciales.
+        </p>
+        <p>
+          Podemos usar proveedores necesarios para operar el servicio (por ejemplo, <strong>Supabase</strong>
+          para base de datos/almacenamiento). Estos proveedores procesan datos en nuestro nombre para prestar
+          el servicio, bajo obligaciones de confidencialidad y seguridad.
+        </p>
+        <p>
+          Podríamos divulgar información si es requerido por ley, por una orden válida, o para proteger derechos,
+          seguridad e integridad del servicio.
+        </p>
+      </article>
+
+      <article class="card" id="retencion">
+        <h3>5) Conservación de la información</h3>
+        <p>
+          Conservamos la información solo el tiempo necesario para proporcionar el servicio,
+          prevenir fraude/abuso, resolver incidencias y cumplir obligaciones legales cuando aplique.
+        </p>
+      </article>
+
+      <article class="card" id="eliminar">
+        <h3>6) Eliminación de cuenta y datos</h3>
+        <p>
+          Puedes solicitar la eliminación de tu cuenta desde el siguiente enlace:
+        </p>
+        <p style="margin-top: 12px;">
+          <a class="btn primary" href="https://nextsus.netlify.app/account/delete" target="_blank" rel="noopener">
+            https://netsus.netlify.app/account/delete <span class="kbd">↗</span>
+          </a>
+        </p>
+        <ul class="list" style="margin-top: 12px;">
+          <li><strong>Al eliminar tu cuenta:</strong> se elimina la información asociada a tu cuenta en nuestros sistemas activos.</li>
+          <li><strong>Multimedia guardada:</strong> los archivos multimedia y informacion personal serán eliminados junto con la cuenta.</li>
+          <li><strong>Backups:</strong> algunas copias residuales pueden permanecer temporalmente en copias de seguridad hasta completar su ciclo de rotación.</li>
+        </ul>
+      </article>
+
+      <article class="card" id="seguridad">
+        <h3>7) Seguridad</h3>
+        <ul class="list">
+          <li><strong>Cifrado en tránsito:</strong> usamos conexiones seguras (por ejemplo HTTPS/TLS) cuando corresponde.</li>
+          <li><strong>Controles de acceso:</strong> limitamos el acceso a datos a personal y procesos autorizados.</li>
+          <li><strong>Protecciones antifraude:</strong> medidas para detectar abuso y proteger el servicio.</li>
+        </ul>
+      </article>
+
+      <article class="card" id="menores">
+        <h3>8) Privacidad de menores</h3>
+        <p>
+          La app no está dirigida a menores de edad. Si detectamos que un menor nos proporcionó información personal
+          sin autorización, podremos eliminarla.
+        </p>
+      </article>
+
+      <article class="card" id="cambios">
+        <h3>9) Cambios a esta política</h3>
+        <p>
+          Podemos actualizar esta Política de Privacidad. Si realizamos cambios importantes, lo notificaremos por medios razonables
+          dentro de la app y actualizaremos la fecha de entrada en vigor.
+        </p>
+      </article>
+
+      <article class="card" id="contacto">
+        <h3>10) Contacto</h3>
+        <p>
+          Si tienes preguntas o solicitudes sobre privacidad, contáctanos:
+        </p>
+        <ul class="list">
+          <li><strong> Responsable:</strong> Netus</li>
+          <li><strong> Email:</strong> cristian@netsus.me</li>
+        </ul>
+      </article>
+
+      <footer>
+        © <span id="year"></span> Netsus — Política de Privacidad
+      </footer>
+    </section>
+  </main>
+
+  <script>
+    // Año automático para el footer
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
