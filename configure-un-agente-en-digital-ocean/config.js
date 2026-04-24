@@ -12,7 +12,7 @@ window.CHAT_CONFIG = {
     accessKey: "6RtiII9842v-Pzn9CCB5YTkaw44YGeII"
   },
 
-  stream: false,
+  stream: true,
   historyLimit: 12,
   storageKey: "digitalocean-agent-chat-demo",
   suggestions: [
