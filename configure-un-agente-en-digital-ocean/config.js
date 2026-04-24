@@ -8,8 +8,8 @@ window.CHAT_CONFIG = {
 
   // Ojo: esta access key sera visible para cualquiera que abra el codigo de la pagina.
   digitalOcean: {
-    endpoint: "https://TU-AGENTE.agents.do-ai.run",
-    accessKey: "PEGA_AQUI_TU_ACCESS_KEY"
+    endpoint: "https://s64yezyaqvk2oaio7ouckgfj.agents.do-ai.run",
+    accessKey: "6RtiII9842v-Pzn9CCB5YTkaw44YGeII"
   },
 
   stream: false,
