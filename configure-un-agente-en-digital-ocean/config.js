@@ -16,7 +16,7 @@ window.CHAT_CONFIG = {
   historyLimit: 12,
   storageKey: "digitalocean-agent-chat-demo",
   suggestions: [
-    "Quiero automatizar respuestas frecuentes para clientes",
+    "Quiero automatizar respuestas frecuentes para clientes.",
     "Explícame nuestros servicios en pocas palabras",
     "Ayúdame a redactar una propuesta comercial",
     "Resume esta consulta y dame una respuesta clara"
