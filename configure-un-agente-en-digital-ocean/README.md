@@ -1,99 +1,37 @@
-# Chat web para agente de DigitalOcean
+# Chat web directo para agente de DigitalOcean
 
-Esta carpeta incluye una base lista para subir a tu sitio:
+Esta version no usa backend. El navegador llama directamente al endpoint del agente.
+
+Archivos:
 
 - `index.html`: estructura de la interfaz.
-- `styles.css`: diseño responsive.
-- `config.js`: textos y configuración editable.
-- `app.js`: lógica del chat, persistencia y consumo del backend.
-- `proxy-server.example.js`: ejemplo mínimo de backend seguro en Node.js.
+- `styles.css`: diseno responsive.
+- `config.js`: endpoint, access key y textos editables.
+- `app.js`: logica del chat y llamada directa a DigitalOcean.
 
-## Integración recomendada
+## Como conectarlo
 
-La forma más segura y escalable es:
-
-1. Tu página web carga este frontend.
-2. El frontend envía el mensaje a `POST /api/chat`.
-3. Tu backend o función serverless usa la access key y llama al endpoint del agente.
-4. El backend devuelve solo la respuesta al navegador.
-
-## Por qué no conviene llamar al agente directo desde este JavaScript
-
-DigitalOcean indica que las solicitudes directas al endpoint del agente siguen requiriendo access key, incluso si el endpoint es público para el chatbot embebido. Exponer esa key en el navegador no es recomendable.
-
-## Contrato sugerido para tu backend
-
-Request del frontend:
-
-```json
-{
-  "message": "Hola",
-  "sessionId": "uuid",
-  "messages": [
-    { "role": "assistant", "content": "Hola, soy tu asistente." },
-    { "role": "user", "content": "Hola" }
-  ]
-}
-```
-
-Response recomendada:
-
-```json
-{
-  "reply": "Hola, ¿en qué puedo ayudarte?",
-  "citations": [
-    {
-      "title": "Documento de ayuda",
-      "url": "https://example.com/documento"
-    }
-  ]
-}
-```
-
-## Si tu backend reenvía la respuesta cruda del agente
-
-`app.js` también intenta leer formatos tipo:
-
-- `reply`
-- `message`
-- `content`
-- `choices[0].message.content`
-
-## Endpoint del agente según la documentación de DigitalOcean
-
-La documentación oficial muestra llamadas tipo:
-
-```bash
-POST https://TU-AGENTE/api/v1/chat/completions?agent=true
-Authorization: Bearer TU_AGENT_ACCESS_KEY
-```
-
-## Personalización rápida
-
-Edita `config.js` para cambiar:
-
-- nombre del asistente
-- descripción
-- mensaje inicial
-- prompts rápidos
-- `apiUrl`
-
-## Proxy de ejemplo
-
-Si quieres probarlo en local o adaptarlo a tu hosting Node.js:
-
-```bash
-set DO_AGENT_ENDPOINT=https://TU-AGENTE.agents.do-ai.run
-set DO_AGENT_ACCESS_KEY=TU_ACCESS_KEY
-node proxy-server.example.js
-```
-
-Y deja en `config.js`:
+Edita `config.js` y cambia estos valores:
 
 ```js
-apiUrl: "http://localhost:3000/api/chat"
+digitalOcean: {
+  endpoint: "https://TU-AGENTE.agents.do-ai.run",
+  accessKey: "PEGA_AQUI_TU_ACCESS_KEY"
+}
 ```
 
-## Siguiente paso recomendado
+El `endpoint` es la URL base del agente. No agregues `/api/v1/chat/completions?agent=true`, porque `app.js` lo agrega automaticamente.
 
-Si quieres, en el siguiente paso te puedo dejar también el `proxy` backend listo para DigitalOcean en Node.js o como función serverless para que esta página quede operativa de punta a punta.
+## Donde conseguir esos datos
+
+1. Entra a tu agente en DigitalOcean.
+2. Copia la URL de `ENDPOINT`.
+3. Ve a `Settings`.
+4. Crea una key en `Endpoint Access Keys`.
+5. Pega la URL y la key en `config.js`.
+
+## Importante
+
+Esta forma sirve para una prueba personal, pero la access key queda visible en el navegador mientras la pagina este publicada. Cuando termines la prueba, elimina la key en DigitalOcean.
+
+Si aparece un error de conexion aunque la key este correcta, es posible que el navegador haya bloqueado la llamada por CORS. En ese caso no hay un arreglo 100% desde HTML/JS estatico; tendrias que usar el snippet publico que DigitalOcean da para el chatbot embebido.

@@ -2,10 +2,16 @@ window.CHAT_CONFIG = {
   siteName: "Tu sitio web",
   assistantName: "Asistente DigitalOcean",
   assistantDescription:
-    "Un asistente conectado a tu agente para responder preguntas, guiar clientes o automatizar soporte.",
+    "Un asistente conectado directamente a tu agente para pruebas personales.",
   welcomeMessage:
     "Hola, soy tu asistente. Estoy listo para ayudarte desde tu web. ¿Qué necesitas hoy?",
-  apiUrl: "/api/chat",
+
+  // Ojo: esta access key sera visible para cualquiera que abra el codigo de la pagina.
+  digitalOcean: {
+    endpoint: "https://TU-AGENTE.agents.do-ai.run",
+    accessKey: "PEGA_AQUI_TU_ACCESS_KEY"
+  },
+
   stream: false,
   historyLimit: 12,
   storageKey: "digitalocean-agent-chat-demo",

@@ -23,19 +23,19 @@
         <p class="eyebrow">DigitalOcean Agent Frontend</p>
         <h1>Una página lista para hablar con tu agente desde tu propia web.</h1>
         <p class="hero__text">
-          Esta interfaz está pensada para usar un endpoint seguro como <code>/api/chat</code>,
-          mantener tu access key fuera del navegador y dejarte una base mucho más escalable
-          que un script embebido genérico.
+          Esta versión llama al agente directamente desde el navegador para pruebas personales.
+          Pega tu endpoint y access key en <code>config.js</code>, prueba el flujo y elimina la key
+          cuando termines.
         </p>
 
         <div class="hero__grid">
           <article class="info-card">
-            <p class="info-card__label">Arquitectura recomendada</p>
-            <p class="info-card__value">Frontend + proxy seguro + agente</p>
+            <p class="info-card__label">Conexión</p>
+            <p class="info-card__value">Frontend directo temporal</p>
           </article>
           <article class="info-card">
             <p class="info-card__label">Estado esperado</p>
-            <p class="info-card__value">Listo para conectar</p>
+            <p class="info-card__value">Listo para probar</p>
           </article>
           <article class="info-card">
             <p class="info-card__label">Persistencia local</p>
@@ -48,7 +48,7 @@
         <span class="status-pill" id="statusPill">Configuración pendiente</span>
         <h2 id="assistantName">Asistente DigitalOcean</h2>
         <p id="assistantDescription">
-          Responde consultas desde un agente alojado en DigitalOcean mediante una integración segura.
+          Responde consultas desde un agente alojado en DigitalOcean mediante una conexión directa temporal.
         </p>
         <ul class="feature-list">
           <li>Diseño responsive para desktop y móvil.</li>
@@ -113,8 +113,8 @@
               <dd id="configAssistantName">Asistente DigitalOcean</dd>
             </div>
             <div>
-              <dt>API del frontend</dt>
-              <dd id="configApiUrl">/api/chat</dd>
+              <dt>Endpoint usado</dt>
+              <dd id="configApiUrl">Endpoint pendiente</dd>
             </div>
             <div>
               <dt>Streaming</dt>
@@ -130,9 +130,9 @@
         <section class="panel-card">
           <p class="section-label">Importante</p>
           <ul class="notes-list">
-            <li>No pongas la access key del agente en este JavaScript público.</li>
-            <li>Conecta esta página a un backend o función que llame al agente.</li>
-            <li>Puedes cambiar textos y prompts desde <code>config.js</code>.</li>
+            <li>La access key queda visible mientras esta página esté publicada.</li>
+            <li>Úsala solo para tu prueba personal y elimina la key al terminar.</li>
+            <li>Si el navegador bloquea la conexión, puede ser un bloqueo de CORS del endpoint.</li>
           </ul>
         </section>
       </aside>

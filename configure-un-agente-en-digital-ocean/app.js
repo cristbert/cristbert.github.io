@@ -2,11 +2,13 @@
   const DEFAULT_CONFIG = {
     siteName: "Tu sitio web",
     assistantName: "Asistente DigitalOcean",
-    assistantDescription:
-      "Un asistente conectado a un agente remoto mediante una integración segura.",
+    assistantDescription: "Un asistente conectado a un agente remoto.",
     welcomeMessage:
       "Hola, soy tu asistente. Estoy listo para ayudarte desde esta web.",
-    apiUrl: "/api/chat",
+    digitalOcean: {
+      endpoint: "",
+      accessKey: ""
+    },
     stream: false,
     historyLimit: 12,
     storageKey: "digitalocean-agent-chat",
@@ -19,7 +21,11 @@
 
   const config = {
     ...DEFAULT_CONFIG,
-    ...(window.CHAT_CONFIG || {})
+    ...(window.CHAT_CONFIG || {}),
+    digitalOcean: {
+      ...DEFAULT_CONFIG.digitalOcean,
+      ...((window.CHAT_CONFIG && window.CHAT_CONFIG.digitalOcean) || {})
+    }
   };
 
   const state = {
@@ -63,11 +69,10 @@
     elements.assistantName.textContent = config.assistantName;
     elements.assistantDescription.textContent = config.assistantDescription;
     elements.chatTitle.textContent = `${config.assistantName} en ${config.siteName}`;
-    elements.statusPill.textContent =
-      config.apiUrl === "/api/chat" ? "Actualiza tu endpoint" : "Listo para conectar";
+    elements.statusPill.textContent = getDirectStatusText();
 
     elements.configAssistantName.textContent = config.assistantName;
-    elements.configApiUrl.textContent = config.apiUrl;
+    elements.configApiUrl.textContent = buildDigitalOceanUrl();
     elements.configStreaming.textContent = config.stream ? "Activado" : "Desactivado";
     elements.configHistoryLimit.textContent = `${config.historyLimit} mensajes`;
   }
@@ -118,19 +123,8 @@
     setLoading(true);
 
     try {
-      const response = await fetch(config.apiUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json"
-        },
-        body: JSON.stringify({
-          message: content,
-          sessionId: state.sessionId,
-          messages: buildRequestMessages()
-        })
-      });
-
+      const request = buildChatRequest();
+      const response = await fetch(request.url, request.options);
       const data = await parseResponse(response);
       const normalized = normalizeAssistantResponse(data);
 
@@ -151,6 +145,28 @@
       setLoading(false);
       focusComposer();
     }
+  }
+
+  function buildChatRequest() {
+    assertDirectConfig();
+
+    return {
+      url: buildDigitalOceanUrl(),
+      options: {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: `Bearer ${config.digitalOcean.accessKey}`
+        },
+        body: JSON.stringify({
+          model: "ignored",
+          stream: false,
+          messages: buildRequestMessages()
+        })
+      }
+    };
   }
 
   async function parseResponse(response) {
@@ -289,11 +305,15 @@
 
   function buildFriendlyError(error) {
     if (error.status === 401 || error.status === 403) {
-      return "La conexión fue rechazada por el servidor. Revisa la autenticación del proxy que conecta con tu agente.";
+      return "La conexión fue rechazada. Revisa que la access key del agente sea correcta y siga activa.";
     }
 
     if (error.status >= 500) {
-      return "Tu servidor respondió con un error interno. Revisa el proxy o la función que conecta con DigitalOcean.";
+      return "DigitalOcean respondió con un error interno. Revisa el estado del agente e intenta nuevamente.";
+    }
+
+    if (error instanceof TypeError) {
+      return "El navegador no pudo conectar directamente con el agente. Si tu endpoint y key son correctos, probablemente el endpoint no permite CORS desde esta página.";
     }
 
     return error.message || "Ocurrió un error al comunicarse con el agente.";
@@ -301,7 +321,7 @@
 
   function createMessage(role, content, extras) {
     return {
-      id: crypto.randomUUID(),
+      id: createId(),
       role: role,
       content: content,
       createdAt: new Date().toISOString(),
@@ -338,12 +358,12 @@
   function getStoredSessionId() {
     return (
       localStorage.getItem(`${(window.CHAT_CONFIG && window.CHAT_CONFIG.storageKey) || DEFAULT_CONFIG.storageKey}:sessionId`) ||
-      crypto.randomUUID()
+      createId()
     );
   }
 
   function resetConversation() {
-    state.sessionId = crypto.randomUUID();
+    state.sessionId = createId();
     state.messages = [
       createMessage("assistant", config.welcomeMessage)
     ];
@@ -444,5 +464,50 @@
     } catch (_error) {
       return "";
     }
+  }
+
+  function assertDirectConfig() {
+    const endpoint = config.digitalOcean && config.digitalOcean.endpoint;
+    const accessKey = config.digitalOcean && config.digitalOcean.accessKey;
+
+    if (!endpoint || endpoint.includes("TU-AGENTE")) {
+      throw new Error("Falta configurar digitalOcean.endpoint en config.js.");
+    }
+
+    if (!accessKey || accessKey.includes("PEGA_AQUI")) {
+      throw new Error("Falta configurar digitalOcean.accessKey en config.js.");
+    }
+  }
+
+  function buildDigitalOceanUrl() {
+    const endpoint = ((config.digitalOcean && config.digitalOcean.endpoint) || "").trim();
+    if (!endpoint) {
+      return "Endpoint pendiente";
+    }
+
+    return `${endpoint.replace(/\/+$/, "")}/api/v1/chat/completions?agent=true`;
+  }
+
+  function getDirectStatusText() {
+    const endpoint = config.digitalOcean && config.digitalOcean.endpoint;
+    const accessKey = config.digitalOcean && config.digitalOcean.accessKey;
+
+    if (!endpoint || endpoint.includes("TU-AGENTE")) {
+      return "Pega tu endpoint";
+    }
+
+    if (!accessKey || accessKey.includes("PEGA_AQUI")) {
+      return "Pega tu access key";
+    }
+
+    return "Modo directo activo";
+  }
+
+  function createId() {
+    if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+      return crypto.randomUUID();
+    }
+
+    return `chat-${Date.now()}-${Math.random().toString(16).slice(2)}`;
   }
 })();
