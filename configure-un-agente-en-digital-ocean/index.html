@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chat con tu agente</title>
+  <meta
+    name="description"
+    content="Interfaz web para comunicarte con tu agente de DigitalOcean desde tu propio sitio."
+  >
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,700&family=Space+Grotesk:wght@400;500;700&display=swap"
+    rel="stylesheet"
+  >
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page-shell">
+    <header class="hero">
+      <div class="hero__copy">
+        <p class="eyebrow">DigitalOcean Agent Frontend</p>
+        <h1>Una página lista para hablar con tu agente desde tu propia web.</h1>
+        <p class="hero__text">
+          Esta interfaz está pensada para usar un endpoint seguro como <code>/api/chat</code>,
+          mantener tu access key fuera del navegador y dejarte una base mucho más escalable
+          que un script embebido genérico.
+        </p>
+
+        <div class="hero__grid">
+          <article class="info-card">
+            <p class="info-card__label">Arquitectura recomendada</p>
+            <p class="info-card__value">Frontend + proxy seguro + agente</p>
+          </article>
+          <article class="info-card">
+            <p class="info-card__label">Estado esperado</p>
+            <p class="info-card__value">Listo para conectar</p>
+          </article>
+          <article class="info-card">
+            <p class="info-card__label">Persistencia local</p>
+            <p class="info-card__value">Conversación en el navegador</p>
+          </article>
+        </div>
+      </div>
+
+      <aside class="hero__aside">
+        <span class="status-pill" id="statusPill">Configuración pendiente</span>
+        <h2 id="assistantName">Asistente DigitalOcean</h2>
+        <p id="assistantDescription">
+          Responde consultas desde un agente alojado en DigitalOcean mediante una integración segura.
+        </p>
+        <ul class="feature-list">
+          <li>Diseño responsive para desktop y móvil.</li>
+          <li>Mensajes persistentes en <code>localStorage</code>.</li>
+          <li>Sugerencias rápidas para acelerar el uso.</li>
+          <li>Manejo de errores y respuesta adaptable.</li>
+        </ul>
+      </aside>
+    </header>
+
+    <main class="workspace">
+      <section class="chat-panel" aria-label="Chat con el agente">
+        <div class="chat-panel__header">
+          <div>
+            <p class="section-label">Conversación activa</p>
+            <h2 id="chatTitle">Tu asistente web</h2>
+          </div>
+
+          <button class="secondary-button" id="clearConversationBtn" type="button">
+            Nueva conversación
+          </button>
+        </div>
+
+        <div class="message-list" id="messageList" aria-live="polite"></div>
+
+        <div class="typing-indicator" id="typingIndicator" hidden>
+          <span></span>
+          <span></span>
+          <span></span>
+          <p>El agente está escribiendo...</p>
+        </div>
+
+        <form class="composer" id="chatForm">
+          <label class="composer__label" for="messageInput">Escribe tu mensaje</label>
+          <textarea
+            id="messageInput"
+            name="message"
+            rows="1"
+            maxlength="4000"
+            placeholder="Ejemplo: Quiero ayuda para automatizar respuestas a clientes"
+            required
+          ></textarea>
+
+          <div class="composer__footer">
+            <p class="composer__hint">Enter para enviar. Shift + Enter para salto de línea.</p>
+            <button class="primary-button" id="sendButton" type="submit">Enviar</button>
+          </div>
+        </form>
+      </section>
+
+      <aside class="sidebar">
+        <section class="panel-card">
+          <p class="section-label">Prompts rápidos</p>
+          <div class="quick-prompts" id="quickPrompts"></div>
+        </section>
+
+        <section class="panel-card">
+          <p class="section-label">Configuración actual</p>
+          <dl class="config-list">
+            <div>
+              <dt>Nombre</dt>
+              <dd id="configAssistantName">Asistente DigitalOcean</dd>
+            </div>
+            <div>
+              <dt>API del frontend</dt>
+              <dd id="configApiUrl">/api/chat</dd>
+            </div>
+            <div>
+              <dt>Streaming</dt>
+              <dd id="configStreaming">Desactivado</dd>
+            </div>
+            <div>
+              <dt>Historial enviado</dt>
+              <dd id="configHistoryLimit">12 mensajes</dd>
+            </div>
+          </dl>
+        </section>
+
+        <section class="panel-card">
+          <p class="section-label">Importante</p>
+          <ul class="notes-list">
+            <li>No pongas la access key del agente en este JavaScript público.</li>
+            <li>Conecta esta página a un backend o función que llame al agente.</li>
+            <li>Puedes cambiar textos y prompts desde <code>config.js</code>.</li>
+          </ul>
+        </section>
+      </aside>
+    </main>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
