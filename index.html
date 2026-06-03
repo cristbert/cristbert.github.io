@@ -3,18 +3,36 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bienvenido a Netsus</title>
+  <title>Netsus - Conéctate de forma inteligente</title>
+  <meta name="description" content="Netsus es una aplicación de mensajería rápida, segura y con inteligencia artificial integrada. Realiza llamadas de alta calidad y personaliza tu experiencia." />
+  
+  <!-- SEO Open Graph -->
+  <meta property="og:title" content="Netsus - Conéctate de forma inteligente" />
+  <meta property="og:description" content="Netsus es una aplicación de mensajería rápida, segura y con inteligencia artificial integrada. Realiza llamadas de alta calidad y personaliza tu experiencia." />
+  <meta property="og:type" content="website" />
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
   <style>
     :root {
-      --bg-1: #0b1020;
-      --bg-2: #111827;
-      --accent-1: #22d3ee;
-      --accent-2: #8b5cf6;
+      --bg-1: #060913;
+      --bg-2: #0d1222;
+      --primary: #16a7ff;
+      --primary-grad: linear-gradient(135deg, #8ef8ff 0%, #16a7ff 48%, #6e57ff 100%);
+      --accent: #6e57ff;
       --text: #f8fafc;
-      --muted: #cbd5e1;
-      --glass: rgba(255, 255, 255, 0.08);
-      --border: rgba(255, 255, 255, 0.18);
-      --shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+      --text-muted: #94a3b8;
+      --glass: rgba(255, 255, 255, 0.03);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --glass-hover: rgba(255, 255, 255, 0.06);
+      --border-radius-lg: 24px;
+      --border-radius-md: 16px;
+      --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      --font-headings: 'Outfit', sans-serif;
+      --font-body: 'Inter', sans-serif;
     }
 
     * {
@@ -24,144 +42,949 @@
     }
 
     body {
-      min-height: 100vh;
-      display: grid;
-      place-items: center;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: var(--font-body);
       color: var(--text);
-      background:
-        radial-gradient(circle at top left, rgba(34, 211, 238, 0.18), transparent 30%),
-        radial-gradient(circle at bottom right, rgba(139, 92, 246, 0.2), transparent 30%),
-        linear-gradient(135deg, var(--bg-1), var(--bg-2));
-      overflow: hidden;
+      background-color: var(--bg-1);
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(22, 167, 255, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(110, 87, 255, 0.12) 0%, transparent 40%),
+        linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 100%);
+      background-attachment: fixed;
+      min-height: 100vh;
+      line-height: 1.6;
+      overflow-x: hidden;
     }
 
-    body::before,
-    body::after {
-      content: "";
-      position: fixed;
-      inset: auto;
-      width: 320px;
-      height: 320px;
-      border-radius: 999px;
-      filter: blur(80px);
-      z-index: 0;
-      opacity: 0.5;
+    /* Container */
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
     }
 
-    body::before {
-      top: -60px;
-      left: -60px;
-      background: rgba(34, 211, 238, 0.24);
+    /* Header */
+    header {
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      background: rgba(6, 9, 19, 0.7);
+      border-bottom: 1px solid var(--glass-border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      transition: all 0.3s ease;
     }
 
-    body::after {
-      right: -60px;
-      bottom: -60px;
-      background: rgba(139, 92, 246, 0.24);
+    .nav-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 80px;
     }
 
-    .card {
-      position: relative;
-      z-index: 1;
-      width: min(92vw, 720px);
-      padding: 56px 40px;
-      border: 1px solid var(--border);
-      border-radius: 28px;
-      background: var(--glass);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
-      box-shadow: var(--shadow);
-      text-align: center;
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text);
     }
 
-    .badge {
-      display: inline-block;
-      margin-bottom: 18px;
-      padding: 8px 14px;
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      border-radius: 999px;
-      font-size: 0.9rem;
-      color: var(--muted);
-      background: rgba(255, 255, 255, 0.05);
-      letter-spacing: 0.02em;
+    .logo-text {
+      font-family: var(--font-headings);
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      background: var(--primary-grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
-    h1 {
-      font-size: clamp(2.4rem, 6vw, 4.6rem);
-      line-height: 1.05;
-      letter-spacing: -0.04em;
-      margin-bottom: 14px;
-      text-wrap: balance;
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 24px;
     }
 
-    p {
-      max-width: 560px;
-      margin: 0 auto 32px;
-      font-size: 1.05rem;
-      line-height: 1.7;
-      color: var(--muted);
+    .nav-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: color 0.2s ease;
     }
 
-    .privacy-link {
+    .nav-link:hover {
+      color: var(--text);
+    }
+
+    .nav-cta {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 10px;
-      padding: 15px 24px;
-      border-radius: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.16);
-      background: linear-gradient(135deg, rgba(34, 211, 238, 0.18), rgba(139, 92, 246, 0.22));
+      padding: 10px 20px;
+      border-radius: 999px;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
       color: var(--text);
-      font-size: 1rem;
       font-weight: 600;
+      font-size: 0.9rem;
       text-decoration: none;
-      box-shadow: 0 12px 30px rgba(34, 211, 238, 0.12);
-      transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+      transition: all 0.25s ease;
     }
 
-    .privacy-link:hover {
-      transform: translateY(-2px) scale(1.01);
-      box-shadow: 0 16px 40px rgba(139, 92, 246, 0.18);
-      background: linear-gradient(135deg, rgba(34, 211, 238, 0.28), rgba(139, 92, 246, 0.32));
+    .nav-cta:hover {
+      background: var(--glass-hover);
+      border-color: rgba(255, 255, 255, 0.15);
+      transform: translateY(-1px);
     }
 
-    .privacy-link:active {
-      transform: translateY(0) scale(0.99);
+    /* Hero Section */
+    .hero {
+      padding: 80px 0 100px 0;
+      position: relative;
     }
 
-    .privacy-link span:last-child {
-      font-size: 1.15rem;
-      transition: transform 0.25s ease;
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
     }
 
-    .privacy-link:hover span:last-child {
-      transform: translateX(3px);
+    .hero-content {
+      max-width: 540px;
     }
 
-    @media (max-width: 600px) {
-      .card {
-        padding: 40px 24px;
-        border-radius: 22px;
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(22, 167, 255, 0.1);
+      border: 1px solid rgba(22, 167, 255, 0.2);
+      color: #8ef8ff;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 24px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .hero-badge .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: #8ef8ff;
+      animation: pulse 1.5s infinite alternate;
+    }
+
+    @keyframes pulse {
+      0% { opacity: 0.4; transform: scale(0.8); }
+      100% { opacity: 1; transform: scale(1.2); }
+    }
+
+    .hero-title {
+      font-family: var(--font-headings);
+      font-size: clamp(2.5rem, 5vw, 3.8rem);
+      line-height: 1.1;
+      font-weight: 800;
+      margin-bottom: 20px;
+      letter-spacing: -0.03em;
+    }
+
+    .hero-title span {
+      background: var(--primary-grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-description {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      margin-bottom: 36px;
+      line-height: 1.7;
+    }
+
+    /* Google Play Button styling */
+    .download-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .play-store-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      background: #000;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      padding: 10px 20px;
+      color: #fff;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    }
+
+    .play-store-btn:hover {
+      border-color: var(--primary);
+      transform: translateY(-3px);
+      box-shadow: 0 15px 35px rgba(22, 167, 255, 0.2);
+    }
+
+    .btn-svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    .btn-text-container {
+      display: flex;
+      flex-direction: column;
+      text-align: left;
+    }
+
+    .btn-subtitle {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #94a3b8;
+      font-weight: 500;
+      line-height: 1;
+    }
+
+    .btn-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      line-height: 1.2;
+      font-family: var(--font-headings);
+    }
+
+    /* CSS Smartphone Mockup */
+    .hero-visual {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .phone-mockup {
+      width: 310px;
+      height: 610px;
+      border-radius: 40px;
+      border: 12px solid #1e293b;
+      background: #0b0f19;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .phone-mockup::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 130px;
+      height: 24px;
+      background: #1e293b;
+      border-bottom-left-radius: 16px;
+      border-bottom-right-radius: 16px;
+      z-index: 10;
+    }
+
+    .phone-screen {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: #070a13;
+      position: relative;
+    }
+
+    .phone-header {
+      background: #0f172a;
+      padding: 30px 16px 10px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .phone-user {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .phone-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--primary-grad);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.8rem;
+      color: #fff;
+    }
+
+    .phone-user-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .phone-username {
+      font-size: 0.85rem;
+      font-weight: 600;
+      line-height: 1.2;
+    }
+
+    .phone-status {
+      font-size: 0.65rem;
+      color: #10b981;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .phone-status::before {
+      content: "";
+      width: 5px;
+      height: 5px;
+      background-color: #10b981;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .phone-icons {
+      display: flex;
+      gap: 12px;
+      color: var(--text-muted);
+    }
+
+    .phone-icon-svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+    }
+
+    .phone-chat {
+      flex: 1;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      justify-content: flex-end;
+    }
+
+    .chat-bubble {
+      max-width: 85%;
+      padding: 10px 14px;
+      border-radius: 16px;
+      font-size: 0.8rem;
+      line-height: 1.4;
+      position: relative;
+    }
+
+    .chat-bubble.incoming {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      align-self: flex-start;
+      border-bottom-left-radius: 4px;
+    }
+
+    .chat-bubble.outgoing {
+      background: linear-gradient(135deg, rgba(22, 167, 255, 0.2) 0%, rgba(110, 87, 255, 0.2) 100%);
+      border: 1px solid rgba(22, 167, 255, 0.3);
+      align-self: flex-end;
+      border-bottom-right-radius: 4px;
+    }
+
+    .chat-bubble-time {
+      font-size: 0.6rem;
+      color: var(--text-muted);
+      text-align: right;
+      margin-top: 4px;
+      display: block;
+    }
+
+    .phone-input-bar {
+      padding: 10px 12px 14px 12px;
+      background: #0f172a;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .phone-input-box {
+      flex: 1;
+      height: 36px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 18px;
+      padding: 0 14px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+    }
+
+    .phone-send-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--primary-grad);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+    }
+
+    /* Glow Behind Phone */
+    .glow-circle {
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(22, 167, 255, 0.15) 0%, transparent 70%);
+      z-index: -1;
+      filter: blur(40px);
+    }
+
+    /* Features Section */
+    .features {
+      padding: 80px 0;
+      border-top: 1px solid var(--glass-border);
+    }
+
+    .section-header {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto 60px auto;
+    }
+
+    .section-title {
+      font-family: var(--font-headings);
+      font-size: 2.5rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 16px;
+    }
+
+    .section-subtitle {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 32px;
+    }
+
+    .feature-card {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--border-radius-lg);
+      padding: 32px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(22, 167, 255, 0.05) 0%, rgba(110, 87, 255, 0.05) 100%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: -1;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(22, 167, 255, 0.25);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+
+    .feature-card:hover::before {
+      opacity: 1;
+    }
+
+    .feature-icon-wrapper {
+      width: 56px;
+      height: 56px;
+      border-radius: var(--border-radius-md);
+      background: rgba(22, 167, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      color: var(--primary);
+      border: 1px solid rgba(22, 167, 255, 0.15);
+      transition: all 0.3s ease;
+    }
+
+    .feature-card:hover .feature-icon-wrapper {
+      background: var(--primary-grad);
+      color: #fff;
+      transform: scale(1.05);
+    }
+
+    .feature-icon {
+      width: 24px;
+      height: 24px;
+      fill: currentColor;
+    }
+
+    .feature-card-title {
+      font-family: var(--font-headings);
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      letter-spacing: -0.01em;
+    }
+
+    .feature-card-desc {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    /* Screenshots / Showcase Section */
+    .showcase {
+      padding: 80px 0;
+      border-top: 1px solid var(--glass-border);
+      text-align: center;
+    }
+
+    .showcase-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 32px;
+      margin-top: 48px;
+    }
+
+    .showcase-placeholder {
+      width: 260px;
+      height: 480px;
+      border-radius: var(--border-radius-lg);
+      background: linear-gradient(135deg, rgba(22, 167, 255, 0.03) 0%, rgba(110, 87, 255, 0.03) 100%);
+      border: 2px dashed rgba(255, 255, 255, 0.12);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      color: var(--text-muted);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .showcase-placeholder:hover {
+      border-color: var(--primary);
+      background: linear-gradient(135deg, rgba(22, 167, 255, 0.08) 0%, rgba(110, 87, 255, 0.08) 100%);
+      transform: scale(1.02);
+    }
+
+    .showcase-icon {
+      width: 48px;
+      height: 48px;
+      stroke: var(--text-muted);
+      margin-bottom: 16px;
+      opacity: 0.6;
+    }
+
+    .showcase-placeholder:hover .showcase-icon {
+      stroke: var(--primary);
+      opacity: 1;
+    }
+
+    .showcase-text {
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    .showcase-subtext {
+      font-size: 0.75rem;
+      text-align: center;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--glass-border);
+      background: #04060d;
+      padding: 60px 0 40px 0;
+    }
+
+    .footer-grid {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 32px;
+    }
+
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 32px;
+    }
+
+    .footer-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: color 0.2s ease;
+    }
+
+    .footer-link:hover {
+      color: var(--text);
+    }
+
+    .copyright {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      border-top: 1px solid rgba(255,255,255,0.05);
+      width: 100%;
+      padding-top: 32px;
+      margin-top: 16px;
+    }
+
+    /* Responsive */
+    @media (max-width: 968px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 60px;
+        text-align: center;
       }
 
-      p {
-        font-size: 0.98rem;
+      .hero-content {
+        max-width: 100%;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .download-buttons {
+        justify-content: center;
+      }
+
+      .hero-title {
+        font-size: 3rem;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .nav-links {
+        display: none; /* simple hidden mobile nav for simplicity, clean and minimalist */
+      }
+      
+      .hero {
+        padding: 40px 0 60px 0;
+      }
+
+      .hero-title {
+        font-size: 2.3rem;
+      }
+
+      .feature-card {
+        padding: 24px;
       }
     }
   </style>
 </head>
 <body>
-  <main class="card">
-    <div class="badge">Netsus</div>
-    <h1>Bienvenido a Netsus</h1>
-    <p>
-      Explora una experiencia moderna, elegante y enfocada en la claridad.
-    </p>
-    <a class="privacy-link" href="https://netsus.me/privacy">
-      <span>Politica de privacidad</span>
-      <span>→</span>
-    </a>
-  </main>
+  
+  <!-- Header -->
+  <header>
+    <div class="container nav-container">
+      <a href="#" class="logo-container">
+        <!-- Inlined Netsus SVG Logo -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 108 108">
+          <defs>
+            <linearGradient id="grad1" x1="35" y1="25" x2="37" y2="83" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stop-color="#8EF8FF" />
+              <stop offset="0.48" stop-color="#16A7FF" />
+              <stop offset="1" stop-color="#6E57FF" />
+            </linearGradient>
+            <linearGradient id="grad2" x1="82" y1="24" x2="82" y2="86" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stop-color="#8AF6FF" />
+              <stop offset="0.48" stop-color="#129DFF" />
+              <stop offset="1" stop-color="#194DFF" />
+            </linearGradient>
+            <linearGradient id="grad3" x1="27" y1="26" x2="81" y2="82" gradientUnits="userSpaceOnUse">
+              <stop offset="0" stop-color="#9AF8FF" />
+              <stop offset="0.35" stop-color="#18C7FF" />
+              <stop offset="0.68" stop-color="#1179FF" />
+              <stop offset="1" stop-color="#3154FF" />
+            </linearGradient>
+          </defs>
+          <g transform="translate(54 54) scale(0.65) translate(-54 -54)">
+            <path fill="#38BDF8" fill-opacity="0.15" d="M24,26C28,19 38,20 44,25L87,63C96,71 94,84 84,89C78,92 71,90 66,86L22,47C14,40 16,31 24,26Z" />
+            <path fill="#3B82F6" fill-opacity="0.09" d="M19,34C19,25 26,18 35,18H40C48,18 55,25 55,33V72C55,83 44,92 34,88L29,86C23,84 19,78 19,71Z" />
+            <path fill="#22D3EE" fill-opacity="0.09" d="M66,34C66,26 71,21 78,18L82,16C90,13 98,19 98,27V78C98,88 88,95 79,90L73,87C69,85 66,80 66,75Z" />
+            <path fill="#1278FF" fill-opacity="0.20" d="M29,76L29,30H43V71C43,75 41,78 38,80L34,82C32,83 29,81 29,76Z" />
+            <path fill="url(#grad1)" d="M28,76V32C28,28 31,25 35,25H37C41,25 44,28 44,32V70C44,74 42,77 39,79L34,82C31,84 28,81 28,76Z" />
+            <path fill="#FFFFFF" fill-opacity="0.17" d="M31,32C31,29 33,27 36,27H37C39,27 41,29 41,31V40C38,37 35,34 31,32Z" />
+            <path fill="#06142E" fill-opacity="0.31" d="M43,43L52,51V71C52,80 42,88 34,82L39,79C42,77 44,74 44,70Z" />
+            <path fill="url(#grad2)" d="M74,78V36C74,33 75,30 78,28L82,25C85,23 89,25 89,30V76C89,79 87,82 84,83L81,85C78,87 74,84 74,78Z" />
+            <path fill="#FFFFFF" fill-opacity="0.17" d="M77,36C77,33 78,31 80,30L83,28C85,27 86,28 86,30V40C82,40 79,39 77,36Z" />
+            <path fill="#04122D" fill-opacity="0.40" d="M74,54L89,68V76C89,79 87,82 84,83L81,85C78,87 74,84 74,78Z" />
+            <path fill="#14B8FF" fill-opacity="0.15" d="M25,29C28,25 34,24 38,28L85,70C90,75 88,83 83,86C79,88 75,88 71,84L24,42C19,38 20,32 25,29Z" />
+            <path fill="url(#grad3)" d="M28,26C31,24 35,24 38,27L84,68C88,72 88,78 84,82C81,85 76,85 72,82L26,41C22,38 22,31 28,26Z" />
+            <path fill="#FFFFFF" fill-opacity="0.33" d="M28,28C31,26 34,27 37,29L83,70C85,72 86,75 85,77C84,75 83,73 81,71L35,30C33,28 30,28 28,28Z" />
+            <path fill="#7DEBFF" fill-opacity="0.16" d="M25,40C28,43 32,46 35,49L72,82C75,85 80,86 84,82C81,86 75,88 70,84L26,45C23,43 22,41 22,38C23,39 24,40 25,40Z" />
+          </g>
+        </svg>
+        <span class="logo-text">Netsus</span>
+      </a>
+      
+      <nav class="nav-links">
+        <a href="#features" class="nav-link">Funciones</a>
+        <a href="#showcase" class="nav-link">Galería</a>
+        <a href="privacy.html" class="nav-cta">Política de Privacidad</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span class="dot"></span>
+          Nueva versión disponible
+        </div>
+        <h1 class="hero-title">Conéctate de forma <span>inteligente</span>.</h1>
+        <p class="hero-description">
+          Netsus lleva tu comunicación al siguiente nivel. Chats instantáneos altamente personalizables, llamadas de voz y video en alta definición, y un asistente de inteligencia artificial siempre listo para ayudarte.
+        </p>
+        <div class="download-buttons">
+          <a href="https://play.google.com/store" target="_blank" class="play-store-btn">
+            <!-- Google Play Store Crisp SVG Icon -->
+            <svg class="btn-svg" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+              <path fill="#ea4335" d="M12.2 16.5C10.7 18 9.8 20.3 9.8 23.3V488.7C9.8 491.7 10.7 494 12.2 495.5L14.7 498L270.3 242.4V237.6L14.7 14L12.2 16.5Z"/>
+              <path fill="#34a853" d="M355.5 327.6L270.3 242.4V237.6L355.5 152.4L356.6 153C377.3 164.8 395.7 183.1 395.7 208.5C395.7 233.9 377.3 252.2 356.6 264L355.5 327.6Z"/>
+              <path fill="#fbbc04" d="M270.3 237.6L355.5 152.4L270.3 103.2L162.2 41.5C136 26.5 113.6 27.6 97.4 43.8L270.3 237.6Z"/>
+              <path fill="#4285f4" d="M270.3 242.4L97.4 468.2C113.6 484.4 136 485.5 162.2 470.5L355.5 327.6L270.3 242.4Z"/>
+            </svg>
+            <div class="btn-text-container">
+              <span class="btn-subtitle">Disponible en</span>
+              <span class="btn-title">Google Play</span>
+            </div>
+          </a>
+        </div>
+      </div>
+      
+      <div class="hero-visual">
+        <div class="glow-circle"></div>
+        <!-- Phone Mockup -->
+        <div class="phone-mockup">
+          <div class="phone-screen">
+            <div class="phone-header">
+              <div class="phone-user">
+                <div class="phone-avatar">N</div>
+                <div class="phone-user-info">
+                  <span class="phone-username">Netsus AI</span>
+                  <span class="phone-status">En línea</span>
+                </div>
+              </div>
+              <div class="phone-icons">
+                <!-- Video call icon -->
+                <svg class="phone-icon-svg" viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4z"/></svg>
+                <!-- Voice call icon -->
+                <svg class="phone-icon-svg" viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
+              </div>
+            </div>
+            
+            <div class="phone-chat">
+              <div class="chat-bubble incoming">
+                ¡Hola! ¿Cómo te va hoy? Estoy listo para responder tus dudas o redactar lo que necesites.
+                <span class="chat-bubble-time">14:02</span>
+              </div>
+              <div class="chat-bubble outgoing">
+                ¡Excelente! Ayúdame a escribir un saludo corto para el sitio web de Netsus.
+                <span class="chat-bubble-time">14:03</span>
+              </div>
+              <div class="chat-bubble incoming">
+                "¡Bienvenidos a Netsus, el futuro de la mensajería inteligente y el diseño personalizado!"
+                <span class="chat-bubble-time">14:03</span>
+              </div>
+            </div>
+            
+            <div class="phone-input-bar">
+              <div class="phone-input-box">Escribe un mensaje...</div>
+              <div class="phone-send-btn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="features">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Diseñado para la comunicación moderna</h2>
+        <p class="section-subtitle">Netsus combina las mejores características de mensajería clásica con el poder del mañana.</p>
+      </div>
+      
+      <div class="features-grid">
+        <!-- Feature 1 -->
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            <svg class="feature-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2ZM20 16H5.2L4 17.2V4H20V16Z" fill="currentColor"/>
+            </svg>
+          </div>
+          <h3 class="feature-card-title">Chats en tiempo real</h3>
+          <p class="feature-card-desc">Chatea de forma rápida y fluida. Envía stickers, comparte archivos y organiza tus conversaciones con la máxima comodidad.</p>
+        </div>
+        
+        <!-- Feature 2 -->
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            <svg class="feature-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M20.01 15.38C18.78 15.38 17.59 15.18 16.48 14.82C16.13 14.7 15.74 14.79 15.47 15.06L13.9 17.03C11.07 15.68 8.42 13.13 7.01 10.2L8.96 8.54C9.23 8.26 9.31 7.87 9.2 7.52C8.83 6.41 8.64 5.22 8.64 3.99C8.64 3.45 8.19 3 7.65 3H4.19C3.65 3 3 3.24 3 3.99C3 13.28 10.73 21 20.01 21C20.72 21 21 20.37 21 19.82V16.37C21 15.83 20.55 15.38 20.01 15.38Z" fill="currentColor"/>
+            </svg>
+          </div>
+          <h3 class="feature-card-title">Llamadas y video HD</h3>
+          <p class="feature-card-desc">Llamadas de voz y videollamadas nítidas con optimización de datos móviles. Siéntete más cerca de los tuyos sin cortes.</p>
+        </div>
+        
+        <!-- Feature 3 -->
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            <svg class="feature-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2L14.85 8.15L21 11L14.85 13.85L12 20L9.15 13.85L3 11L9.15 8.15L12 2Z" fill="currentColor"/>
+              <path d="M19 19L19.5 21L20 19L22 18.5L20 18L19.5 16L19 18L17 18.5L19 19Z" fill="currentColor"/>
+              <path d="M6 6L6.5 8L7 6L9 5.5L7 5L6.5 3L6 5L4 5.5L6 6Z" fill="currentColor"/>
+            </svg>
+          </div>
+          <h3 class="feature-card-title">Asistente Netsus AI</h3>
+          <p class="feature-card-desc">Interactúa directamente con nuestro bot de IA incorporado en tus chats para traducciones, ayuda, consejos y conversación inteligente.</p>
+        </div>
+        
+        <!-- Feature 4 -->
+        <div class="feature-card">
+          <div class="feature-icon-wrapper">
+            <svg class="feature-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 3C7.58 3 4 6.58 4 11C4 12.5 4.8 13.8 6 14.5C6 14.8 6.1 15.2 6.1 15.5C6.1 17.5 7.7 19.1 9.7 19.1C10.2 19.1 10.6 19 11 18.8C11.4 20.1 12.6 21 14 21C15.9 21 17.5 19.4 17.5 17.5C17.5 17.2 17.4 16.8 17.3 16.5C18.6 15.6 19.5 14.1 19.5 12.5C19.5 7.3 16.1 3 12 3ZM7.5 11.5C6.7 11.5 6 10.8 6 10C6 9.2 6.7 8.5 7.5 8.5C8.3 8.5 9 9.2 9 10C9 10.8 8.3 11.5 7.5 11.5ZM11.5 8.5C10.7 8.5 10 7.8 10 7C10 6.2 10.7 5.5 11.5 5.5C12.3 5.5 13 6.2 13 7C13 7.8 12.3 8.5 11.5 8.5ZM15.5 10.5C14.7 10.5 14 9.8 14 9C14 8.2 14.7 7.5 15.5 7.5C16.3 7.5 17 8.2 17 9C17 9.8 16.3 10.5 15.5 10.5Z" fill="currentColor"/>
+            </svg>
+          </div>
+          <h3 class="feature-card-title">Personalización absoluta</h3>
+          <p class="feature-card-desc">Elige entre una amplia gama de temas, colores y configuraciones para que tu app se adapte perfectamente a tu estilo personal.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Showcase Section (for screenshots) -->
+  <section id="showcase" class="showcase">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Capturas de Pantalla</h2>
+        <p class="section-subtitle">Explora la hermosa interfaz de usuario diseñada con Flutter.</p>
+      </div>
+      
+      <div class="showcase-container">
+        <!-- Showcase Placeholder 1 -->
+        <div class="showcase-placeholder">
+          <svg class="showcase-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <rect x="5" y="2" width="14" height="20" rx="2" ry="2" stroke-width="2"></rect>
+            <line x1="12" y1="18" x2="12.01" y2="18" stroke-width="3" stroke-linecap="round"></line>
+          </svg>
+          <span class="showcase-text">Pantalla de Chats</span>
+          <span class="showcase-subtext">Agrega aquí la captura de tu lista de chats</span>
+        </div>
+        
+        <!-- Showcase Placeholder 2 -->
+        <div class="showcase-placeholder">
+          <svg class="showcase-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <rect x="5" y="2" width="14" height="20" rx="2" ry="2" stroke-width="2"></rect>
+            <line x1="12" y1="18" x2="12.01" y2="18" stroke-width="3" stroke-linecap="round"></line>
+          </svg>
+          <span class="showcase-text">Conversación de IA</span>
+          <span class="showcase-subtext">Agrega aquí la captura chateando con el Bot</span>
+        </div>
+        
+        <!-- Showcase Placeholder 3 -->
+        <div class="showcase-placeholder">
+          <svg class="showcase-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <rect x="5" y="2" width="14" height="20" rx="2" ry="2" stroke-width="2"></rect>
+            <line x1="12" y1="18" x2="12.01" y2="18" stroke-width="3" stroke-linecap="round"></line>
+          </svg>
+          <span class="showcase-text">Temas y Estilos</span>
+          <span class="showcase-subtext">Agrega aquí la pantalla de configuración de temas</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container footer-grid">
+      <a href="#" class="footer-logo">
+        <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" viewBox="0 0 108 108">
+          <g transform="translate(54 54) scale(0.65) translate(-54 -54)">
+            <path fill="#38BDF8" fill-opacity="0.15" d="M24,26C28,19 38,20 44,25L87,63C96,71 94,84 84,89C78,92 71,90 66,86L22,47C14,40 16,31 24,26Z" />
+            <path fill="#3B82F6" fill-opacity="0.09" d="M19,34C19,25 26,18 35,18H40C48,18 55,25 55,33V72C55,83 44,92 34,88L29,86C23,84 19,78 19,71Z" />
+            <path fill="#22D3EE" fill-opacity="0.09" d="M66,34C66,26 71,21 78,18L82,16C90,13 98,19 98,27V78C98,88 88,95 79,90L73,87C69,85 66,80 66,75Z" />
+            <path fill="#1278FF" fill-opacity="0.20" d="M29,76L29,30H43V71C43,75 41,78 38,80L34,82C32,83 29,81 29,76Z" />
+            <path fill="url(#grad1)" d="M28,76V32C28,28 31,25 35,25H37C41,25 44,28 44,32V70C44,74 42,77 39,79L34,82C31,84 28,81 28,76Z" />
+            <path fill="#FFFFFF" fill-opacity="0.17" d="M31,32C31,29 33,27 36,27H37C39,27 41,29 41,31V40C38,37 35,34 31,32Z" />
+            <path fill="#06142E" fill-opacity="0.31" d="M43,43L52,51V71C52,80 42,88 34,82L39,79C42,77 44,74 44,70Z" />
+            <path fill="url(#grad2)" d="M74,78V36C74,33 75,30 78,28L82,25C85,23 89,25 89,30V76C89,79 87,82 84,83L81,85C78,87 74,84 74,78Z" />
+            <path fill="#FFFFFF" fill-opacity="0.17" d="M77,36C77,33 78,31 80,30L83,28C85,27 86,28 86,30V40C82,40 79,39 77,36Z" />
+            <path fill="#04122D" fill-opacity="0.40" d="M74,54L89,68V76C89,79 87,82 84,83L81,85C78,87 74,84 74,78Z" />
+            <path fill="#14B8FF" fill-opacity="0.15" d="M25,29C28,25 34,24 38,28L85,70C90,75 88,83 83,86C79,88 75,88 71,84L24,42C19,38 20,32 25,29Z" />
+            <path fill="url(#grad3)" d="M28,26C31,24 35,24 38,27L84,68C88,72 88,78 84,82C81,85 76,85 72,82L26,41C22,38 22,31 28,26Z" />
+            <path fill="#FFFFFF" fill-opacity="0.33" d="M28,28C31,26 34,27 37,29L83,70C85,72 86,75 85,77C84,75 83,73 81,71L35,30C33,28 30,28 28,28Z" />
+            <path fill="#7DEBFF" fill-opacity="0.16" d="M25,40C28,43 32,46 35,49L72,82C75,85 80,86 84,82C81,86 75,88 70,84L26,45C23,43 22,41 22,38C23,39 24,40 25,40Z" />
+          </g>
+        </svg>
+        <span class="logo-text">Netsus</span>
+      </a>
+      
+      <div class="footer-links">
+        <a href="#features" class="footer-link">Funciones</a>
+        <a href="#showcase" class="footer-link">Capturas</a>
+        <a href="privacy.html" class="footer-link">Política de Privacidad</a>
+        <a href="terms-and-conditions.html" class="footer-link">Términos y Condiciones</a>
+      </div>
+      
+      <div class="copyright">
+        © 2026 Netsus. Todos los derechos reservados.
+      </div>
+    </div>
+  </footer>
+
 </body>
 </html>
