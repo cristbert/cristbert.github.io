@@ -765,7 +765,6 @@
         <!-- Action buttons inside container -->
         <div class="actions-bar">
           <button class="btn-action-outline" id="backBtn" type="button">Volver</button>
-          <button class="btn-action" id="acceptBtn" type="button">Entendido</button>
         </div>
 
       </section>
@@ -820,12 +819,11 @@
     // Año automático para el footer
     document.getElementById("year").textContent = new Date().getFullYear();
 
-    // Redirigir siempre a login.html al presionar "Entendido" o "Volver"
+    // Redirigir siempre a login.html al presionar "Volver"
     const goToLogin = () => {
       location.href = "login.html";
     };
 
-    document.getElementById("acceptBtn").addEventListener("click", goToLogin);
     document.getElementById("backBtn").addEventListener("click", goToLogin);
 
     // Intersection Observer para destacar sección activa de la barra lateral
