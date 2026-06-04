@@ -608,7 +608,7 @@
         Esta política explica cómo recopilamos, usamos y protegemos la información cuando usas Netsus, una aplicación de chat para enviar mensajes y contenido multimedia.
       </p>
       <div class="meta-container">
-        <div class="meta-pill"><strong>Entrada en vigor:</strong> <span>18/02/2026</span></div>
+        <div class="meta-pill"><strong>Entrada en vigor:</strong> <span>04/06/2026</span></div>
         <div class="meta-pill"><strong>Responsable:</strong> <span>Netsus</span></div>
         <div class="meta-pill"><strong>Contacto:</strong> <span>cristian@netsus.me</span></div>
       </div>
@@ -625,14 +625,15 @@
           <li><a href="#resumen" class="sidebar-link active">Resumen</a></li>
           <li><a href="#datos" class="sidebar-link">1) Información recopilada</a></li>
           <li><a href="#uso" class="sidebar-link">2) Uso de información</a></li>
-          <li><a href="#almacenamiento" class="sidebar-link">3) Mensajes y archivos</a></li>
-          <li><a href="#terceros" class="sidebar-link">4) Terceros</a></li>
-          <li><a href="#retencion" class="sidebar-link">5) Conservación</a></li>
-          <li><a href="#eliminar" class="sidebar-link">6) Eliminación de cuenta</a></li>
-          <li><a href="#seguridad" class="sidebar-link">7) Seguridad</a></li>
-          <li><a href="#menores" class="sidebar-link">8) Menores</a></li>
-          <li><a href="#cambios" class="sidebar-link">9) Cambios a la política</a></li>
-          <li><a href="#contacto" class="sidebar-link">10) Contacto</a></li>
+          <li><a href="#almacenamiento" class="sidebar-link">3) Mensajes y E2EE</a></li>
+          <li><a href="#personfinder" class="sidebar-link">4) Chat Aleatorio (Person Finder)</a></li>
+          <li><a href="#terceros" class="sidebar-link">5) Terceros y Publicidad</a></li>
+          <li><a href="#retencion" class="sidebar-link">6) Conservación</a></li>
+          <li><a href="#eliminar" class="sidebar-link">7) Eliminación de cuenta</a></li>
+          <li><a href="#seguridad" class="sidebar-link">8) Seguridad</a></li>
+          <li><a href="#menores" class="sidebar-link">9) Menores</a></li>
+          <li><a href="#cambios" class="sidebar-link">10) Cambios a la política</a></li>
+          <li><a href="#contacto" class="sidebar-link">11) Contacto</a></li>
         </ul>
       </aside>
 
@@ -642,10 +643,10 @@
         <article class="policy-card" id="resumen">
           <h3><span>Resumen</span></h3>
           <p>
-            Netsus utiliza información mínima para operar el chat y mantener la seguridad del servicio. No vendemos tu información ni la compartimos con empresas para fines publicitarios o comerciales.
+            Netsus utiliza información mínima para operar el chat y mantener la seguridad del servicio. No vendemos tu información ni la compartimos con empresas para fines publicitarios o comerciales directos. El cifrado extremo a extremo (E2EE) opcional garantiza que nadie más pueda leer tus mensajes privados.
           </p>
           <div class="info-note">
-            <strong>Importante:</strong> Los archivos multimedia solo se guardan si el usuario lo desea. Algunos datos pueden conservarse con fines de <strong>prevención de fraude</strong>. Si eliminas tu cuenta, se elimina la información asociada.
+            <strong>Importante:</strong> Los archivos multimedia se guardan únicamente para permitir la sincronización entre dispositivos. Si decides eliminar un archivo del chat, este se borrará permanentemente de nuestros servidores. La suscripción Netsus Pro elimina los anuncios y añade opciones avanzadas.
           </div>
         </article>
 
@@ -655,10 +656,12 @@
           <ul class="policy-list">
             <li><strong>Información personal (cuenta y perfil):</strong> nombre, correo electrónico, ID de usuario.</li>
             <li><strong>Ubicación:</strong> ubicación aproximada basada en tu dirección IP.</li>
-            <li><strong>Contenido y archivos:</strong> fotos, videos, audios y documentos.</li>
+            <li><strong>Contenido y archivos:</strong> fotos, videos, audios y documentos compartidos.</li>
+            <li><strong>Información de facturación:</strong> para las suscripciones de Netsus Pro, los cobros son procesados de forma segura y externa por la pasarela de pagos de las tiendas de aplicaciones (Google Play / App Store). Recibimos únicamente confirmaciones de estado de compra.</li>
+            <li><strong>Identificadores de publicidad:</strong> identificadores únicos del dispositivo para fines publicitarios (como el Google Advertising ID o IDFA) en la versión gratuita de la aplicación.</li>
             <li><strong>Información de la app y diagnóstico:</strong> registros de fallas (crash logs), diagnóstico y datos de rendimiento (opcionales).</li>
-            <li><strong>Actividad en la app:</strong> acciones dentro de la app necesarias para funcionamiento y/o seguridad.</li>
-            <li><strong>Dispositivo u otros identificadores:</strong> IDs usados principalmente para seguridad, cumplimiento y prevención de fraude.</li>
+            <li><strong>Actividad en la app:</strong> acciones dentro de la app necesarias para el funcionamiento, emparejamiento aleatorio y/o seguridad.</li>
+            <li><strong>Dispositivo u otros identificadores:</strong> IDs de dispositivo usados para seguridad, cumplimiento de políticas y prevención de fraude.</li>
           </ul>
         </article>
 
@@ -666,7 +669,7 @@
           <h3><span>2) Cómo usamos tu información</span></h3>
           <p>La información es tratada para las siguientes finalidades legítimas:</p>
           <ul class="policy-list">
-            <li><strong>Funciones del servicio:</strong> crear y gestionar tu cuenta, y permitir la mensajería instantánea.</li>
+            <li><strong>Funciones del servicio:</strong> crear y gestionar tu cuenta, permitir la mensajería instantánea y habilitar las videollamadas.</li>
             <li><strong>Seguridad y prevención de fraude:</strong> detectar abusos, actividades sospechosas, accesos no autorizados e intentos de fraude.</li>
             <li><strong>Soporte y estabilidad:</strong> resolver incidencias técnicas y mejorar el rendimiento global de la aplicación (cuando se recopilen diagnósticos).</li>
             <li><strong>Cumplimiento legal:</strong> cuando sea aplicable y legalmente requerido por autoridades gubernamentales o judiciales.</li>
@@ -674,51 +677,65 @@
         </article>
 
         <article class="policy-card" id="almacenamiento">
-          <h3><span>3) Mensajes y archivos: transmisión y almacenamiento</span></h3>
+          <h3><span>3) Mensajes y E2EE: transmisión, almacenamiento y cifrado</span></h3>
           <p>
-            Los mensajes y archivos pueden pasar temporal o permanentemente por nuestros servidores para habilitar la correcta entrega y sincronización entre usuarios.
+            Los mensajes y archivos se transmiten a través de nuestros servidores para permitir la correcta entrega y sincronización entre usuarios. Sin embargo, priorizamos tu privacidad mediante opciones de cifrado avanzado:
           </p>
           <div class="subcards-grid">
             <div class="sub-card">
-              <h4>Procesamiento (en tránsito)</h4>
+              <h4>Cifrado Extremo a Extremo (E2EE)</h4>
               <p>
-                Al enviar contenido, éste puede procesarse “al vuelo” para entregarse al destinatario. Si el usuario no desea que se guarden los archivos multimedia en nuestra base de datos, puede eliminar el archivo del chat y este se eliminará definitivamente de nuestros servidores.
+                Cuando activas el cifrado de extremo a extremo, los mensajes se cifran en tu dispositivo antes de enviarse y solo el destinatario puede descifrarlos con su llave de seguridad. <strong>Netsus y Supabase no tienen acceso a tus llaves privadas ni pueden leer el contenido de tus chats cifrados.</strong>
               </p>
             </div>
             <div class="sub-card">
               <h4>Almacenamiento en Supabase</h4>
               <p>
-                Los <strong>archivos multimedia</strong> (fotos, videos, audios y documentos) se almacenan en <strong>Supabase</strong> únicamente si el usuario los mantiene en el chat sin eliminarlos, permitiendo acceder a ellos en otros dispositivos.
+                Los archivos multimedia y los datos del chat se guardan de forma segura en la base de datos de <strong>Supabase</strong> para permitir la sincronización entre dispositivos. Si decides eliminar un mensaje o archivo, este se borra de manera definitiva de nuestros servidores activos.
               </p>
             </div>
           </div>
           <div class="info-note">
-            <strong>Prevención de fraude:</strong> Podemos conservar ciertos datos (como identificadores de dispositivo, ubicación aproximada y/o actividad de seguridad) con fines exclusivos de protección del servicio.
+            <strong>Claves personalizadas (PRO):</strong> Los usuarios de Netsus Pro pueden definir claves de cifrado manuales y personalizadas directamente en la interfaz del chat. Estas claves se procesan únicamente en el dispositivo del usuario para el proceso criptográfico.
           </div>
         </article>
 
+        <article class="policy-card" id="personfinder">
+          <h3><span>4) Búsqueda de Personas Aleatorias (Person Finder)</span></h3>
+          <p>
+            La función Person Finder conecta a los usuarios de manera aleatoria y anónima para entablar conversaciones en tiempo real bajo los siguientes principios de privacidad:
+          </p>
+          <ul class="policy-list">
+            <li><strong>Anonimato inicial:</strong> Durante el emparejamiento, no se revela tu información personal identificable al otro usuario, salvo el nombre de pantalla y la foto de perfil que hayas decidido mostrar públicamente.</li>
+            <li><strong>Procesamiento efímero de datos:</strong> Los metadatos utilizados para poner en cola y emparejar a los usuarios en Supabase se eliminan inmediatamente una vez que se concreta el chat o se cancela la búsqueda.</li>
+            <li><strong>Eliminación automática de chats:</strong> A diferencia de las conversaciones directas normales, los chats y mensajes generados a través de la función Person Finder son efímeros y se eliminan por completo de nuestros servidores activos una vez que ambos usuarios finalizan o abandonan la sesión de chat.</li>
+          </ul>
+        </article>
+
         <article class="policy-card" id="terceros">
-          <h3><span>4) Compartición de datos con terceros</span></h3>
+          <h3><span>5) Compartición de datos con terceros y publicidad</span></h3>
           <p>
-            No vendemos tu información personal y no la compartimos con otras empresas para fines publicitarios, de marketing o comerciales.
+            No vendemos tu información personal directamente. Sin embargo, para operar el servicio interactuamos con proveedores de confianza y redes publicitarias bajo estas condiciones:
           </p>
-          <p>
-            Podemos usar proveedores necesarios para operar el servicio (por ejemplo, <strong>Supabase</strong> para base de datos/almacenamiento). Estos proveedores procesan datos únicamente en nuestro nombre para prestar el servicio, bajo estrictas obligaciones de confidencialidad y seguridad.
-          </p>
-          <p>
-            Podríamos divulgar información si es requerido por ley, por una orden judicial válida, o para proteger derechos, seguridad e integridad del servicio o de terceros.
+          <ul class="policy-list">
+            <li><strong>Proveedor del Backend (Supabase):</strong> Tus datos cifrados, archivos multimedia y credenciales se almacenan en servidores seguros operados por Supabase.</li>
+            <li><strong>Publicidad de Terceros (Google AdMob):</strong> La versión gratuita de Netsus muestra anuncios servidos por Google AdMob. Google recopila identificadores de publicidad (como el GAID) y telemetría no nominal para optimizar los anuncios. Puedes deshabilitar los anuncios personalizados desactivando la opción de rastreo en la configuración de privacidad de tu dispositivo móvil.</li>
+            <li><strong>Suscripciones (Google Play Billing):</strong> Al adquirir Netsus Pro, los cobros y la información de la tarjeta de crédito son gestionados íntegramente por Google Play, sin que Netsus reciba ni almacene datos financieros.</li>
+          </ul>
+          <p style="margin-top: 16px;">
+            Podríamos divulgar información únicamente si es requerido por ley, por una orden judicial válida, o para proteger la seguridad e integridad de nuestros usuarios.
           </p>
         </article>
 
         <article class="policy-card" id="retencion">
-          <h3><span>5) Conservación de la información</span></h3>
+          <h3><span>6) Conservación de la información</span></h3>
           <p>
             Conservamos la información solo durante el tiempo estrictamente necesario para proporcionar el servicio, prevenir fraudes o abusos de seguridad, resolver incidencias de soporte técnico y cumplir con nuestras obligaciones legales aplicables.
           </p>
         </article>
 
         <article class="policy-card" id="eliminar">
-          <h3><span>6) Eliminación de cuenta y datos</span></h3>
+          <h3><span>7) Eliminación de cuenta y datos</span></h3>
           <p>
             Puedes solicitar la eliminación completa de tu cuenta e información personal a través de los siguientes canales:
           </p>
@@ -736,31 +753,32 @@
         </article>
 
         <article class="policy-card" id="seguridad">
-          <h3><span>7) Seguridad de los datos</span></h3>
+          <h3><span>8) Seguridad de los datos</span></h3>
           <p>Implementamos medidas de seguridad técnicas y administrativas:</p>
           <ul class="policy-list">
             <li><strong>Cifrado en tránsito:</strong> uso de conexiones seguras HTTPS/TLS para toda transmisión de datos.</li>
+            <li><strong>Cifrado extremo a extremo (E2EE):</strong> cifrado local en el cliente para chats compatibles, garantizando que nadie fuera del chat (incluido Netsus) pueda descifrar la conversación.</li>
             <li><strong>Controles de acceso:</strong> limitación estricta del acceso a base de datos únicamente a personal autorizado.</li>
-            <li><strong>Protecciones antifraude:</strong> herramientas automáticas y manuales para detectar abusos del servicio.</li>
+            <li><strong>Protecciones antifraude y abuso:</strong> herramientas automáticas y manuales para detectar abusos del servicio.</li>
           </ul>
         </article>
 
         <article class="policy-card" id="menores">
-          <h3><span>8) Privacidad de menores</span></h3>
+          <h3><span>9) Privacidad de menores</span></h3>
           <p>
             Netsus no está dirigida a menores de edad. Si descubrimos que un menor nos ha proporcionado información personal sin el consentimiento de sus tutores legales, tomaremos medidas inmediatas para eliminar dicha información de nuestros registros.
           </p>
         </article>
 
         <article class="policy-card" id="cambios">
-          <h3><span>9) Cambios a esta política</span></h3>
+          <h3><span>10) Cambios a esta política</span></h3>
           <p>
             Podemos actualizar periódicamente esta Política de Privacidad. Si realizamos cambios significativos, te lo notificaremos a través de la aplicación o actualizando la fecha de entrada en vigor en esta página.
           </p>
         </article>
 
         <article class="policy-card" id="contacto">
-          <h3><span>10) Contacto y soporte</span></h3>
+          <h3><span>11) Contacto y soporte</span></h3>
           <p>
             Si tienes dudas, consultas o deseas ejercer tus derechos de privacidad o eliminación de datos, puedes ponerte en contacto con nuestro responsable de privacidad:
           </p>
