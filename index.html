@@ -1,14 +1,24 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+  <script>
+    (function() {
+      var lang = localStorage.getItem("lang");
+      if (!lang) {
+        var userLang = navigator.language || navigator.userLanguage || "";
+        lang = userLang.startsWith("es") ? "es" : "en";
+      }
+      document.documentElement.setAttribute("lang", lang);
+    })();
+  </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Netsus - Conéctate de forma inteligente</title>
-  <meta name="description" content="Netsus es una aplicación de mensajería rápida, segura y con inteligencia artificial integrada. Realiza llamadas de alta calidad y personaliza tu experiencia." />
+  <title>Netsus - Connect intelligently</title>
+  <meta name="description" content="Netsus is a fast, secure messaging app with integrated artificial intelligence. Make high-quality calls and customize your experience." />
   
   <!-- SEO Open Graph -->
-  <meta property="og:title" content="Netsus - Conéctate de forma inteligente" />
-  <meta property="og:description" content="Netsus es una aplicación de mensajería rápida, segura y con inteligencia artificial integrada. Realiza llamadas de alta calidad y personaliza tu experiencia." />
+  <meta property="og:title" content="Netsus - Connect intelligently" />
+  <meta property="og:description" content="Netsus is a fast, secure messaging app with integrated artificial intelligence. Make high-quality calls and customize your experience." />
   <meta property="og:type" content="website" />
   
   <!-- Google Fonts -->
@@ -654,6 +664,44 @@
         padding: 24px;
       }
     }
+
+    /* Language-specific visibility */
+    html[lang="en"] .lang-es {
+      display: none !important;
+    }
+    html[lang="es"] .lang-en {
+      display: none !important;
+    }
+
+    /* Language switcher button */
+    .lang-switch-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      color: var(--text-muted);
+      padding: 8px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: all 0.25s ease;
+      user-select: none;
+    }
+
+    .lang-switch-btn:hover {
+      background: var(--glass-hover);
+      border-color: rgba(255, 255, 255, 0.15);
+      color: var(--text);
+    }
+
+    .globe-icon {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }
   </style>
 
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1688105000086651" crossorigin="anonymous"></script>
@@ -704,10 +752,26 @@
         <span class="logo-text">Netsus</span>
       </a>
       
-      <nav class="nav-links">
-        <a href="#features" class="nav-link">Funciones</a>
-        <a href="privacy.html" class="nav-cta">Política de Privacidad</a>
-      </nav>
+      <div style="display: flex; align-items: center; gap: 16px;">
+        <nav class="nav-links">
+          <a href="#features" class="nav-link">
+            <span class="lang-es">Funciones</span>
+            <span class="lang-en">Features</span>
+          </a>
+          <a href="privacy.html" class="nav-cta">
+            <span class="lang-es">Política de Privacidad</span>
+            <span class="lang-en">Privacy Policy</span>
+          </a>
+        </nav>
+        
+        <!-- Language Switcher -->
+        <button class="lang-switch-btn" id="langSwitch" aria-label="Change Language">
+          <svg class="globe-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm6.93 6h-2.95a15.65 15.65 0 0 0-1.38-3.56A8.03 8.03 0 0 1 18.92 8zM12 4.04c.83 1.2 1.48 2.53 1.91 3.96h-3.82c.43-1.43 1.08-2.76 1.91-3.96zM4.26 14C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.34-.14 2s.06 1.34.14 2H4.26zm.82 2h2.95c.18 1.25.64 2.45 1.38 3.56A7.987 7.987 0 0 1 5.08 16zm2.95-8H5.08a7.987 7.987 0 0 1 4.33-3.56A15.65 15.65 0 0 0 8.03 8zM12 19.96c-.83-1.2-1.48-2.53-1.91-3.96h3.82c-.43 1.43-1.08 2.76-1.91 3.96zM14.34 14H9.66c-.09-.66-.16-1.34-.16-2s.07-1.34.16-2h4.68c.09.66.16 1.34.16 2s-.07 1.34-.16 2zm.25 5.56c.74-1.11 1.2-2.31 1.38-3.56h2.95a7.987 7.987 0 0 1-4.33 3.56zM16.36 14c.08-.66.14-1.34.14-2s-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2h-3.38z" fill="currentColor"/>
+          </svg>
+          <span id="langLabel">EN</span>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -715,14 +779,18 @@
   <section class="hero">
     <div class="container hero-grid">
       <div class="hero-content">
-        <h1 class="hero-title">Conéctate de forma <span>inteligente</span>.</h1>
+        <h1 class="hero-title">
+          <span class="lang-es">Conéctate de forma <span>inteligente</span>.</span>
+          <span class="lang-en">Connect <span>intelligently</span>.</span>
+        </h1>
         <p class="hero-description">
-          Netsus lleva tu comunicación al siguiente nivel. Chats instantáneos altamente personalizables, llamadas de voz y video, y un asistente de inteligencia artificial siempre listo para ayudarte.
+          <span class="lang-es">Netsus lleva tu comunicación al siguiente nivel. Chats instantáneos altamente personalizables, llamadas de voz y video, y un asistente de inteligencia artificial siempre listo para ayudarte.</span>
+          <span class="lang-en">Netsus takes your communication to the next level. Highly customizable instant chats, voice and video calls, and an AI assistant always ready to help.</span>
         </p>
         <div class="download-buttons">
           <a href="https://play.google.com/store/apps/details?id=com.projectbert.netsus" target="_blank" class="play-store-btn">
             <!-- Official Spanish Google Play Store Badge SVG -->
-            <svg id="artwork" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 239 70.9">
+            <svg class="lang-es" id="artwork" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 239 70.9">
               <defs>
                 <style>
                   .st1{isolation:isolate}.st5{fill:#fff}
@@ -768,6 +836,8 @@
                 <path class="st5" d="M180.8 12.2h2l5 8v-8h1.6v11h-1.8l-5.1-8.4h-.1v8.4h-1.6v-11Z"/>
               </g>
             </svg>
+            <!-- Official English Google Play Store Badge SVG -->
+            <svg class="lang-en" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 155 60"><defs><linearGradient id="a" x1="31.8" y1="183.29" x2="15.02" y2="166.51" gradientTransform="matrix(1 0 0 -1 0 202)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#00a0ff"/><stop offset=".01" stop-color="#00a1ff"/><stop offset=".26" stop-color="#00beff"/><stop offset=".51" stop-color="#00d2ff"/><stop offset=".76" stop-color="#00dfff"/><stop offset="1" stop-color="#00e3ff"/></linearGradient><linearGradient id="b" x1="43.83" y1="172" x2="19.64" y2="172" gradientTransform="matrix(1 0 0 -1 0 202)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ffe000"/><stop offset=".41" stop-color="#ffbd00"/><stop offset=".78" stop-color="orange"/><stop offset="1" stop-color="#ff9c00"/></linearGradient><linearGradient id="c" x1="34.83" y1="169.7" x2="12.07" y2="146.95" gradientTransform="matrix(1 0 0 -1 0 202)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ff3a44"/><stop offset="1" stop-color="#c31162"/></linearGradient><linearGradient id="d" x1="17.3" y1="191.82" x2="27.46" y2="181.66" gradientTransform="matrix(1 0 0 -1 0 202)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#32a071"/><stop offset=".07" stop-color="#2da771"/><stop offset=".48" stop-color="#15cf74"/><stop offset=".8" stop-color="#06e775"/><stop offset="1" stop-color="#00f076"/></linearGradient></defs><title>fil_get</title><path fill="none" d="M0 0h155v60H0z"/><rect x="10" y="10" width="135" height="40" rx="5" ry="5"/><path d="M140 10.8a4.2 4.2 0 0 1 4.2 4.2v30a4.2 4.2 0 0 1-4.2 4.2H15a4.2 4.2 0 0 1-4.2-4.2V15a4.2 4.2 0 0 1 4.2-4.2h125m0-.8H15a5 5 0 0 0-5 5v30a5 5 0 0 0 5 5h125a5 5 0 0 0 5-5V15a5 5 0 0 0-5-5z" fill="#a6a6a6"/><path d="M57.42 20.24a2.71 2.71 0 0 1-.75 2 2.91 2.91 0 0 1-2.2.89 3.15 3.15 0 0 1-2.21-5.37 3 3 0 0 1 2.21-.9 3.1 3.1 0 0 1 1.23.25 2.47 2.47 0 0 1 .94.67l-.53.53a2 2 0 0 0-1.64-.71 2.32 2.32 0 0 0-2.33 2.4 2.36 2.36 0 0 0 4 1.73 1.89 1.89 0 0 0 .5-1.22h-2.17v-.72h2.91a2.54 2.54 0 0 1 .04.45zM62 17.74h-2.7v1.9h2.46v.72H59.3v1.9H62V23h-3.5v-6H62zM65.28 23h-.77v-5.26h-1.68V17H67v.74h-1.72zM69.94 23v-6h.77v6zM74.13 23h-.77v-5.26h-1.68V17h4.12v.74h-1.67zM83.61 22.22a3.12 3.12 0 0 1-4.4 0 3.24 3.24 0 0 1 0-4.45 3.1 3.1 0 0 1 4.4 0 3.23 3.23 0 0 1 0 4.45zm-3.83-.5a2.31 2.31 0 0 0 3.26 0 2.56 2.56 0 0 0 0-3.44 2.31 2.31 0 0 0-3.26 0 2.56 2.56 0 0 0 0 3.44zM85.58 23v-6h.94l2.92 4.67V17h.77v6h-.8l-3.05-4.89V23z" fill="#fff" stroke="#fff" stroke-miterlimit="10" stroke-width=".2"/><path d="M78.14 31.75A4.25 4.25 0 1 0 82.41 36a4.19 4.19 0 0 0-4.27-4.25zm0 6.83a2.58 2.58 0 1 1 2.4-2.58 2.46 2.46 0 0 1-2.4 2.58zm-9.31-6.83A4.25 4.25 0 1 0 73.09 36a4.19 4.19 0 0 0-4.27-4.25zm0 6.83A2.58 2.58 0 1 1 71.22 36a2.46 2.46 0 0 1-2.4 2.58zm-11.09-5.52v1.8h4.32a3.77 3.77 0 0 1-1 2.27 4.42 4.42 0 0 1-3.33 1.32 4.8 4.8 0 0 1 0-9.6A4.6 4.6 0 0 1 61 30.14l1.27-1.27A6.29 6.29 0 0 0 57.74 27a6.61 6.61 0 1 0 0 13.21 6 6 0 0 0 4.61-1.85 6 6 0 0 0 1.56-4.22 5.87 5.87 0 0 0-.1-1.13zm45.31 1.4a4 4 0 0 0-3.64-2.71 4 4 0 0 0-4 4.25 4.16 4.16 0 0 0 4.22 4.25 4.23 4.23 0 0 0 3.54-1.88l-1.45-1a2.43 2.43 0 0 1-2.09 1.18 2.16 2.16 0 0 1-2.06-1.29l5.69-2.35zm-5.8 1.42a2.33 2.33 0 0 1 2.22-2.48 1.65 1.65 0 0 1 1.58.9zM92.63 40h1.87V27.5h-1.87zm-3.06-7.3h-.07a3 3 0 0 0-2.24-1 4.26 4.26 0 0 0 0 8.51 2.9 2.9 0 0 0 2.24-1h.06v.61c0 1.63-.87 2.5-2.27 2.5a2.35 2.35 0 0 1-2.14-1.51l-1.63.68A4.05 4.05 0 0 0 87.29 44c2.19 0 4-1.29 4-4.43V32h-1.72zm-2.14 5.88a2.59 2.59 0 0 1 0-5.16A2.4 2.4 0 0 1 89.7 36a2.38 2.38 0 0 1-2.28 2.58zm24.38-11.08h-4.47V40h1.87v-4.74h2.61a3.89 3.89 0 1 0 0-7.76zm0 6h-2.61v-4.26h2.65a2.14 2.14 0 1 1 0 4.29zm11.53-1.8a3.5 3.5 0 0 0-3.33 1.91l1.66.69a1.77 1.77 0 0 1 1.7-.92 1.8 1.8 0 0 1 2 1.61v.13a4.13 4.13 0 0 0-1.95-.48c-1.79 0-3.6 1-3.6 2.81a2.89 2.89 0 0 0 3.1 2.75 2.63 2.63 0 0 0 2.4-1.2h.06v1h1.8v-4.81c0-2.19-1.66-3.46-3.79-3.46zm-.23 6.85c-.61 0-1.46-.31-1.46-1.06 0-1 1.06-1.33 2-1.33a3.32 3.32 0 0 1 1.7.42 2.26 2.26 0 0 1-2.19 2zM133.74 32l-2.14 5.42h-.06L129.32 32h-2l3.33 7.58-1.9 4.21h1.95L135.82 32zm-16.81 8h1.87V27.5h-1.87z" fill="#fff"/><path d="M20.44 17.54a2 2 0 0 0-.46 1.4v22.12a2 2 0 0 0 .46 1.4l.07.07L32.9 30.15v-.29L20.51 17.47z" fill="url(#a)"/><path d="M37 34.28l-4.1-4.13v-.29l4.1-4.14.09.05L42 28.56c1.4.79 1.4 2.09 0 2.89l-4.89 2.78z" fill="url(#b)"/><path d="M37.12 34.22L32.9 30 20.44 42.46a1.63 1.63 0 0 0 2.08.06l14.61-8.3" fill="url(#c)"/><path d="M37.12 25.78l-14.61-8.3a1.63 1.63 0 0 0-2.08.06L32.9 30z" fill="url(#d)"/><path d="M37 34.13l-14.49 8.25a1.67 1.67 0 0 1-2 0l-.07.07.07.07a1.66 1.66 0 0 0 2 0l14.61-8.3z" style="isolation:isolate" opacity=".2"/><path d="M20.44 42.32a2 2 0 0 1-.46-1.4v.15a2 2 0 0 0 .46 1.4l.07-.07zM42 31.3l-5 2.83.09.09L42 31.44A1.75 1.75 0 0 0 43 30a1.86 1.86 0 0 1-1 1.3z" style="isolation:isolate" opacity=".12"/><path d="M22.51 17.62L42 28.7a1.86 1.86 0 0 1 1 1.3 1.75 1.75 0 0 0-1-1.44L22.51 17.48c-1.4-.79-2.54-.13-2.54 1.47v.15c.03-1.61 1.15-2.27 2.54-1.48z" style="isolation:isolate" fill="#fff" opacity=".25"/></svg>
           </a>
         </div>
       </div>
@@ -788,8 +858,14 @@
   <section id="features" class="features">
     <div class="container">
       <div class="section-header">
-        <h2 class="section-title">Diseñado para la comunicación moderna</h2>
-        <p class="section-subtitle">Netsus combina las mejores características de mensajería clásica en una sola app.</p>
+        <h2 class="section-title">
+          <span class="lang-es">Diseñado para la comunicación moderna</span>
+          <span class="lang-en">Designed for modern communication</span>
+        </h2>
+        <p class="section-subtitle">
+          <span class="lang-es">Netsus combina las mejores características de mensajería clásica en una sola app.</span>
+          <span class="lang-en">Netsus combines the best features of classic messaging in a single app.</span>
+        </p>
       </div>
 
       <div class="features-container">
@@ -801,8 +877,14 @@
                 <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2ZM20 16H5.2L4 17.2V4H20V16Z" fill="currentColor"/>
               </svg>
             </div>
-            <h3 class="feature-row-title">Chats en tiempo real</h3>
-            <p class="feature-row-desc">Chatea de forma rápida y fluida. Envía stickers, comparte archivos y organiza tus conversaciones con la máxima comodidad.</p>
+            <h3 class="feature-row-title">
+              <span class="lang-es">Chats en tiempo real</span>
+              <span class="lang-en">Real-time chats</span>
+            </h3>
+            <p class="feature-row-desc">
+              <span class="lang-es">Chatea de forma rápida y fluida. Envía stickers, comparte archivos y organiza tus conversaciones con la máxima comodidad.</span>
+              <span class="lang-en">Chat quickly and smoothly. Send stickers, share files, and organize your conversations with ultimate comfort.</span>
+            </p>
           </div>
           <div class="feature-visual-block">
             <div class="glow-circle"></div>
@@ -822,8 +904,14 @@
                 <path d="M20.01 15.38C18.78 15.38 17.59 15.18 16.48 14.82C16.13 14.7 15.74 14.79 15.47 15.06L13.9 17.03C11.07 15.68 8.42 13.13 7.01 10.2L8.96 8.54C9.23 8.26 9.31 7.87 9.2 7.52C8.83 6.41 8.64 5.22 8.64 3.99C8.64 3.45 8.19 3 7.65 3H4.19C3.65 3 3 3.24 3 3.99C3 13.28 10.73 21 20.01 21C20.72 21 21 20.37 21 19.82V16.37C21 15.83 20.55 15.38 20.01 15.38Z" fill="currentColor"/>
               </svg>
             </div>
-            <h3 class="feature-row-title">Llamadas y video HD</h3>
-            <p class="feature-row-desc">Llamadas de voz y videollamadas seguras. Siéntete más cerca de los tuyos.</p>
+            <h3 class="feature-row-title">
+              <span class="lang-es">Llamadas y video HD</span>
+              <span class="lang-en">HD voice & video</span>
+            </h3>
+            <p class="feature-row-desc">
+              <span class="lang-es">Llamadas de voz y videollamadas seguras. Siéntete más cerca de los tuyos.</span>
+              <span class="lang-en">Secure voice and video calls. Feel closer to your loved ones.</span>
+            </p>
           </div>
           <div class="feature-visual-block">
             <div class="glow-circle"></div>
@@ -845,8 +933,14 @@
                 <path d="M6 6L6.5 8L7 6L9 5.5L7 5L6.5 3L6 5L4 5.5L6 6Z" fill="currentColor"/>
               </svg>
             </div>
-            <h3 class="feature-row-title">Asistente Netsus IA</h3>
-            <p class="feature-row-desc">Interactúa directamente con nuestro bot de IA donde puedes pedir, ayuda, consejos y informacion.</p>
+            <h3 class="feature-row-title">
+              <span class="lang-es">Asistente Netsus IA</span>
+              <span class="lang-en">Netsus AI Assistant</span>
+            </h3>
+            <p class="feature-row-desc">
+              <span class="lang-es">Interactúa directamente con nuestro bot de IA donde puedes pedir ayuda, consejos e información.</span>
+              <span class="lang-en">Interact directly with our AI bot to ask for help, advice, and information.</span>
+            </p>
           </div>
           <div class="feature-visual-block">
             <div class="glow-circle"></div>
@@ -866,8 +960,14 @@
                 <path d="M12 3C7.58 3 4 6.58 4 11C4 12.5 4.8 13.8 6 14.5C6 14.8 6.1 15.2 6.1 15.5C6.1 17.5 7.7 19.1 9.7 19.1C10.2 19.1 10.6 19 11 18.8C11.4 20.1 12.6 21 14 21C15.9 21 17.5 19.4 17.5 17.5C17.5 17.2 17.4 16.8 17.3 16.5C18.6 15.6 19.5 14.1 19.5 12.5C19.5 7.3 16.1 3 12 3ZM7.5 11.5C6.7 11.5 6 10.8 6 10C6 9.2 6.7 8.5 7.5 8.5C8.3 8.5 9 9.2 9 10C9 10.8 8.3 11.5 7.5 11.5ZM11.5 8.5C10.7 8.5 10 7.8 10 7C10 6.2 10.7 5.5 11.5 5.5C12.3 5.5 13 6.2 13 7C13 7.8 12.3 8.5 11.5 8.5ZM15.5 10.5C14.7 10.5 14 9.8 14 9C14 8.2 14.7 7.5 15.5 7.5C16.3 7.5 17 8.2 17 9C17 9.8 16.3 10.5 15.5 10.5Z" fill="currentColor"/>
               </svg>
             </div>
-            <h3 class="feature-row-title">Personalización avanzada</h3>
-            <p class="feature-row-desc">Elige entre una amplia gama de temas, colores y configuraciones para que tu app se adapte perfectamente a tu estilo personal.</p>
+            <h3 class="feature-row-title">
+              <span class="lang-es">Personalización avanzada</span>
+              <span class="lang-en">Advanced customization</span>
+            </h3>
+            <p class="feature-row-desc">
+              <span class="lang-es">Elige entre una amplia gama de temas, colores y configuraciones para que tu app se adapte perfectamente a tu estilo personal.</span>
+              <span class="lang-en">Choose from a wide range of themes, colors, and settings to make your app perfectly fit your personal style.</span>
+            </p>
           </div>
           <div class="feature-visual-block">
             <div class="glow-circle"></div>
@@ -908,16 +1008,61 @@
       </a>
       
       <div class="footer-links">
-        <a href="#features" class="footer-link">Funciones</a>
-        <a href="privacy.html" class="footer-link">Política de Privacidad</a>
-        <a href="terms-and-conditions.html" class="footer-link">Términos y Condiciones</a>
+        <a href="#features" class="footer-link">
+          <span class="lang-es">Funciones</span>
+          <span class="lang-en">Features</span>
+        </a>
+        <a href="privacy.html" class="footer-link">
+          <span class="lang-es">Política de Privacidad</span>
+          <span class="lang-en">Privacy Policy</span>
+        </a>
+        <a href="terms-and-conditions.html" class="footer-link">
+          <span class="lang-es">Términos y Condiciones</span>
+          <span class="lang-en">Terms & Conditions</span>
+        </a>
       </div>
       
       <div class="copyright">
-        © 2026 Netsus. Todos los derechos reservados.
+        <span class="lang-es">© 2026 Netsus. Todos los derechos reservados.</span>
+        <span class="lang-en">© 2026 Netsus. All rights reserved.</span>
       </div>
     </div>
   </footer>
 
+  <script>
+    (function() {
+      var button = document.getElementById('langSwitch');
+      var label = document.getElementById('langLabel');
+      
+      function updateMetadata(lang) {
+        if (lang === 'es') {
+          document.title = "Netsus - Conéctate de forma inteligente";
+          document.querySelector('meta[name="description"]').setAttribute('content', "Netsus es una aplicación de mensajería rápida, segura y con inteligencia artificial integrada. Realiza llamadas de alta calidad y personaliza tu experiencia.");
+          document.querySelector('meta[property="og:title"]').setAttribute('content', "Netsus - Conéctate de forma inteligente");
+          document.querySelector('meta[property="og:description"]').setAttribute('content', "Netsus es una aplicación de mensajería rápida, segura y con inteligencia artificial integrada. Realiza llamadas de alta calidad y personaliza tu experiencia.");
+        } else {
+          document.title = "Netsus - Connect intelligently";
+          document.querySelector('meta[name="description"]').setAttribute('content', "Netsus is a fast, secure messaging app with integrated artificial intelligence. Make high-quality calls and customize your experience.");
+          document.querySelector('meta[property="og:title"]').setAttribute('content', "Netsus - Connect intelligently");
+          document.querySelector('meta[property="og:description"]').setAttribute('content', "Netsus is a fast, secure messaging app with integrated artificial intelligence. Make high-quality calls and customize your experience.");
+        }
+      }
+      
+      function setLanguage(lang) {
+        document.documentElement.setAttribute('lang', lang);
+        localStorage.setItem('lang', lang);
+        label.textContent = lang === 'es' ? 'EN' : 'ES';
+        updateMetadata(lang);
+      }
+      
+      var currentLang = document.documentElement.getAttribute('lang') || 'en';
+      setLanguage(currentLang);
+      
+      button.addEventListener('click', function() {
+        var nextLang = document.documentElement.getAttribute('lang') === 'es' ? 'en' : 'es';
+        setLanguage(nextLang);
+      });
+    })();
+  </script>
 </body>
 </html>
