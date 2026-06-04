@@ -479,43 +479,27 @@
       font-size: 1.05rem;
     }
 
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 32px;
+    .features-container {
+      display: flex;
+      flex-direction: column;
+      gap: 110px;
+      margin-top: 60px;
     }
 
-    .feature-card {
-      background: var(--glass);
-      border: 1px solid var(--glass-border);
-      border-radius: var(--border-radius-lg);
-      padding: 32px;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
-      overflow: hidden;
+    .feature-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 80px;
     }
 
-    .feature-card::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, rgba(22, 167, 255, 0.05) 0%, rgba(110, 87, 255, 0.05) 100%);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-      z-index: -1;
+    .feature-row.reverse {
+      flex-direction: row-reverse;
     }
 
-    .feature-card:hover {
-      transform: translateY(-6px);
-      border-color: rgba(22, 167, 255, 0.25);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-    }
-
-    .feature-card:hover::before {
-      opacity: 1;
+    .feature-text-block {
+      flex: 1.1;
+      max-width: 520px;
     }
 
     .feature-icon-wrapper {
@@ -529,13 +513,7 @@
       margin-bottom: 24px;
       color: var(--primary);
       border: 1px solid rgba(22, 167, 255, 0.15);
-      transition: all 0.3s ease;
-    }
-
-    .feature-card:hover .feature-icon-wrapper {
-      background: var(--primary-grad);
-      color: #fff;
-      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(22, 167, 255, 0.05);
     }
 
     .feature-icon {
@@ -544,82 +522,56 @@
       fill: currentColor;
     }
 
-    .feature-card-title {
+    .feature-row-title {
       font-family: var(--font-headings);
-      font-size: 1.3rem;
-      font-weight: 700;
-      margin-bottom: 12px;
+      font-size: 2.2rem;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 18px;
+      background: linear-gradient(135deg, #fff 40%, #94a3b8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
       letter-spacing: -0.01em;
     }
 
-    .feature-card-desc {
+    .feature-row-desc {
       color: var(--text-muted);
-      font-size: 0.95rem;
-      line-height: 1.6;
+      font-size: 1.05rem;
+      line-height: 1.7;
     }
 
-    /* Screenshots / Showcase Section */
-    .showcase {
-      padding: 80px 0;
-      border-top: 1px solid var(--glass-border);
-      text-align: center;
-    }
-
-    .showcase-container {
+    .feature-visual-block {
+      flex: 0.9;
       display: flex;
       justify-content: center;
-      align-items: flex-start;
-      flex-wrap: wrap;
-      gap: 32px;
-      margin-top: 48px;
-    }
-
-    .showcase-placeholder {
-      width: 260px;
-      height: 480px;
-      border-radius: var(--border-radius-lg);
-      background: linear-gradient(135deg, rgba(22, 167, 255, 0.03) 0%, rgba(110, 87, 255, 0.03) 100%);
-      border: 2px dashed rgba(255, 255, 255, 0.12);
-      display: flex;
-      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      padding: 24px;
-      color: var(--text-muted);
-      transition: all 0.3s ease;
-      cursor: pointer;
       position: relative;
     }
 
-    .showcase-placeholder:hover {
-      border-color: var(--primary);
-      background: linear-gradient(135deg, rgba(22, 167, 255, 0.08) 0%, rgba(110, 87, 255, 0.08) 100%);
-      transform: scale(1.02);
+    /* Glow backdrop for feature mockups */
+    .feature-visual-block .glow-circle {
+      width: 320px;
+      height: 320px;
+      opacity: 0.12;
     }
 
-    .showcase-icon {
-      width: 48px;
-      height: 48px;
-      stroke: var(--text-muted);
-      margin-bottom: 16px;
-      opacity: 0.6;
-    }
-
-    .showcase-placeholder:hover .showcase-icon {
-      stroke: var(--primary);
-      opacity: 1;
-    }
-
-    .showcase-text {
-      font-size: 0.9rem;
-      font-weight: 500;
-      margin-bottom: 8px;
-      color: var(--text);
-    }
-
-    .showcase-subtext {
-      font-size: 0.75rem;
-      text-align: center;
+    @media (max-width: 968px) {
+      .features-container {
+        gap: 80px;
+      }
+      
+      .feature-row, .feature-row.reverse {
+        flex-direction: column;
+        text-align: center;
+        gap: 40px;
+      }
+      
+      .feature-text-block {
+        max-width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
     }
 
     /* Footer */
@@ -764,7 +716,6 @@
       
       <nav class="nav-links">
         <a href="#features" class="nav-link">Funciones</a>
-        <a href="#showcase" class="nav-link">Galería</a>
         <a href="privacy.html" class="nav-cta">Política de Privacidad</a>
       </nav>
     </div>
@@ -814,79 +765,92 @@
         <h2 class="section-title">Diseñado para la comunicación moderna</h2>
         <p class="section-subtitle">Netsus combina las mejores características de mensajería clásica con el poder del mañana.</p>
       </div>
-      
-      <div class="features-grid">
-        <!-- Feature 1 -->
-        <div class="feature-card">
-          <div class="feature-icon-wrapper">
-            <svg class="feature-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2ZM20 16H5.2L4 17.2V4H20V16Z" fill="currentColor"/>
-            </svg>
-          </div>
-          <h3 class="feature-card-title">Chats en tiempo real</h3>
-          <p class="feature-card-desc">Chatea de forma rápida y fluida. Envía stickers, comparte archivos y organiza tus conversaciones con la máxima comodidad.</p>
-        </div>
-        
-        <!-- Feature 2 -->
-        <div class="feature-card">
-          <div class="feature-icon-wrapper">
-            <svg class="feature-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path d="M20.01 15.38C18.78 15.38 17.59 15.18 16.48 14.82C16.13 14.7 15.74 14.79 15.47 15.06L13.9 17.03C11.07 15.68 8.42 13.13 7.01 10.2L8.96 8.54C9.23 8.26 9.31 7.87 9.2 7.52C8.83 6.41 8.64 5.22 8.64 3.99C8.64 3.45 8.19 3 7.65 3H4.19C3.65 3 3 3.24 3 3.99C3 13.28 10.73 21 20.01 21C20.72 21 21 20.37 21 19.82V16.37C21 15.83 20.55 15.38 20.01 15.38Z" fill="currentColor"/>
-            </svg>
-          </div>
-          <h3 class="feature-card-title">Llamadas y video HD</h3>
-          <p class="feature-card-desc">Llamadas de voz y videollamadas nítidas con optimización de datos móviles. Siéntete más cerca de los tuyos sin cortes.</p>
-        </div>
-        
-        <!-- Feature 3 -->
-        <div class="feature-card">
-          <div class="feature-icon-wrapper">
-            <svg class="feature-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 2L14.85 8.15L21 11L14.85 13.85L12 20L9.15 13.85L3 11L9.15 8.15L12 2Z" fill="currentColor"/>
-              <path d="M19 19L19.5 21L20 19L22 18.5L20 18L19.5 16L19 18L17 18.5L19 19Z" fill="currentColor"/>
-              <path d="M6 6L6.5 8L7 6L9 5.5L7 5L6.5 3L6 5L4 5.5L6 6Z" fill="currentColor"/>
-            </svg>
-          </div>
-          <h3 class="feature-card-title">Asistente Netsus AI</h3>
-          <p class="feature-card-desc">Interactúa directamente con nuestro bot de IA incorporado en tus chats para traducciones, ayuda, consejos y conversación inteligente.</p>
-        </div>
-        
-        <!-- Feature 4 -->
-        <div class="feature-card">
-          <div class="feature-icon-wrapper">
-            <svg class="feature-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 3C7.58 3 4 6.58 4 11C4 12.5 4.8 13.8 6 14.5C6 14.8 6.1 15.2 6.1 15.5C6.1 17.5 7.7 19.1 9.7 19.1C10.2 19.1 10.6 19 11 18.8C11.4 20.1 12.6 21 14 21C15.9 21 17.5 19.4 17.5 17.5C17.5 17.2 17.4 16.8 17.3 16.5C18.6 15.6 19.5 14.1 19.5 12.5C19.5 7.3 16.1 3 12 3ZM7.5 11.5C6.7 11.5 6 10.8 6 10C6 9.2 6.7 8.5 7.5 8.5C8.3 8.5 9 9.2 9 10C9 10.8 8.3 11.5 7.5 11.5ZM11.5 8.5C10.7 8.5 10 7.8 10 7C10 6.2 10.7 5.5 11.5 5.5C12.3 5.5 13 6.2 13 7C13 7.8 12.3 8.5 11.5 8.5ZM15.5 10.5C14.7 10.5 14 9.8 14 9C14 8.2 14.7 7.5 15.5 7.5C16.3 7.5 17 8.2 17 9C17 9.8 16.3 10.5 15.5 10.5Z" fill="currentColor"/>
-            </svg>
-          </div>
-          <h3 class="feature-card-title">Personalización absoluta</h3>
-          <p class="feature-card-desc">Elige entre una amplia gama de temas, colores y configuraciones para que tu app se adapte perfectamente a tu estilo personal.</p>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- Showcase Section (for screenshots) -->
-  <section id="showcase" class="showcase">
-    <div class="container">
-      <div class="section-header">
-        <h2 class="section-title">Capturas de Pantalla</h2>
-        <p class="section-subtitle">Explora la hermosa interfaz de usuario diseñada con Flutter.</p>
-      </div>
-      
-      <div class="showcase-container">
-        <!-- Showcase Card 1 (Chats Screen) -->
-        <div class="showcase-placeholder" style="padding: 0; overflow: hidden; border-style: solid; border-color: var(--glass-border); background: transparent; height: auto;">
-          <img src="chats_screenshot.png?v=3" alt="Pantalla de Chats de Netsus" style="width: 100%; height: auto; display: block;" />
+      <div class="features-container">
+        <!-- Feature 1: Chats en tiempo real -->
+        <div class="feature-row">
+          <div class="feature-text-block">
+            <div class="feature-icon-wrapper">
+              <svg class="feature-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2ZM20 16H5.2L4 17.2V4H20V16Z" fill="currentColor"/>
+              </svg>
+            </div>
+            <h3 class="feature-row-title">Chats en tiempo real</h3>
+            <p class="feature-row-desc">Chatea de forma rápida y fluida. Envía stickers, comparte archivos y organiza tus conversaciones con la máxima comodidad.</p>
+          </div>
+          <div class="feature-visual-block">
+            <div class="glow-circle"></div>
+            <div class="phone-mockup" style="width: 280px;">
+              <div class="phone-screen">
+                <img src="chats_screenshot.png?v=3" alt="Chats en tiempo real" style="width: 100%; height: auto; display: block;" />
+              </div>
+            </div>
+          </div>
         </div>
-        
-        <!-- Showcase Card 2 (AI Conversation) -->
-        <div class="showcase-placeholder" style="padding: 0; overflow: hidden; border-style: solid; border-color: var(--glass-border); background: transparent; height: auto;">
-          <img src="ai_screenshot.png?v=3" alt="Conversación de IA de Netsus" style="width: 100%; height: auto; display: block;" />
+
+        <!-- Feature 2: Llamadas y video HD -->
+        <div class="feature-row reverse">
+          <div class="feature-text-block">
+            <div class="feature-icon-wrapper">
+              <svg class="feature-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20.01 15.38C18.78 15.38 17.59 15.18 16.48 14.82C16.13 14.7 15.74 14.79 15.47 15.06L13.9 17.03C11.07 15.68 8.42 13.13 7.01 10.2L8.96 8.54C9.23 8.26 9.31 7.87 9.2 7.52C8.83 6.41 8.64 5.22 8.64 3.99C8.64 3.45 8.19 3 7.65 3H4.19C3.65 3 3 3.24 3 3.99C3 13.28 10.73 21 20.01 21C20.72 21 21 20.37 21 19.82V16.37C21 15.83 20.55 15.38 20.01 15.38Z" fill="currentColor"/>
+              </svg>
+            </div>
+            <h3 class="feature-row-title">Llamadas y video HD</h3>
+            <p class="feature-row-desc">Llamadas de voz y videollamadas nítidas con optimización de datos móviles. Siéntete más cerca de los tuyos sin cortes.</p>
+          </div>
+          <div class="feature-visual-block">
+            <div class="glow-circle"></div>
+            <div class="phone-mockup" style="width: 280px;">
+              <div class="phone-screen">
+                <img src="screenshot.png?v=3" alt="Llamadas y video HD" style="width: 100%; height: auto; display: block;" />
+              </div>
+            </div>
+          </div>
         </div>
-        
-        <!-- Showcase Card 3 (Chat Styles) -->
-        <div class="showcase-placeholder" style="padding: 0; overflow: hidden; border-style: solid; border-color: var(--glass-border); background: transparent; height: auto;">
-          <img src="styles_screenshot.png?v=3" alt="Temas y Estilos de Netsus" style="width: 100%; height: auto; display: block;" />
+
+        <!-- Feature 3: Asistente Netsus IA -->
+        <div class="feature-row">
+          <div class="feature-text-block">
+            <div class="feature-icon-wrapper">
+              <svg class="feature-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2L14.85 8.15L21 11L14.85 13.85L12 20L9.15 13.85L3 11L9.15 8.15L12 2Z" fill="currentColor"/>
+                <path d="M19 19L19.5 21L20 19L22 18.5L20 18L19.5 16L19 18L17 18.5L19 19Z" fill="currentColor"/>
+                <path d="M6 6L6.5 8L7 6L9 5.5L7 5L6.5 3L6 5L4 5.5L6 6Z" fill="currentColor"/>
+              </svg>
+            </div>
+            <h3 class="feature-row-title">Asistente Netsus IA</h3>
+            <p class="feature-row-desc">Interactúa directamente con nuestro bot de IA incorporado en tus chats para traducciones, ayuda, consejos y conversación inteligente.</p>
+          </div>
+          <div class="feature-visual-block">
+            <div class="glow-circle"></div>
+            <div class="phone-mockup" style="width: 280px;">
+              <div class="phone-screen">
+                <img src="ai_screenshot.png?v=3" alt="Asistente Netsus IA" style="width: 100%; height: auto; display: block;" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Feature 4: Personalización absoluta -->
+        <div class="feature-row reverse">
+          <div class="feature-text-block">
+            <div class="feature-icon-wrapper">
+              <svg class="feature-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 3C7.58 3 4 6.58 4 11C4 12.5 4.8 13.8 6 14.5C6 14.8 6.1 15.2 6.1 15.5C6.1 17.5 7.7 19.1 9.7 19.1C10.2 19.1 10.6 19 11 18.8C11.4 20.1 12.6 21 14 21C15.9 21 17.5 19.4 17.5 17.5C17.5 17.2 17.4 16.8 17.3 16.5C18.6 15.6 19.5 14.1 19.5 12.5C19.5 7.3 16.1 3 12 3ZM7.5 11.5C6.7 11.5 6 10.8 6 10C6 9.2 6.7 8.5 7.5 8.5C8.3 8.5 9 9.2 9 10C9 10.8 8.3 11.5 7.5 11.5ZM11.5 8.5C10.7 8.5 10 7.8 10 7C10 6.2 10.7 5.5 11.5 5.5C12.3 5.5 13 6.2 13 7C13 7.8 12.3 8.5 11.5 8.5ZM15.5 10.5C14.7 10.5 14 9.8 14 9C14 8.2 14.7 7.5 15.5 7.5C16.3 7.5 17 8.2 17 9C17 9.8 16.3 10.5 15.5 10.5Z" fill="currentColor"/>
+              </svg>
+            </div>
+            <h3 class="feature-row-title">Personalización absoluta</h3>
+            <p class="feature-row-desc">Elige entre una amplia gama de temas, colores y configuraciones para que tu app se adapte perfectamente a tu estilo personal.</p>
+          </div>
+          <div class="feature-visual-block">
+            <div class="glow-circle"></div>
+            <div class="phone-mockup" style="width: 280px;">
+              <div class="phone-screen">
+                <img src="styles_screenshot.png?v=3" alt="Personalización absoluta" style="width: 100%; height: auto; display: block;" />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -919,7 +883,6 @@
       
       <div class="footer-links">
         <a href="#features" class="footer-link">Funciones</a>
-        <a href="#showcase" class="footer-link">Capturas</a>
         <a href="privacy.html" class="footer-link">Política de Privacidad</a>
         <a href="terms-and-conditions.html" class="footer-link">Términos y Condiciones</a>
       </div>
