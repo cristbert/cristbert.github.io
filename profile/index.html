@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Netsus | Invitación a chatear</title>
-    <meta name="description" content="Te han invitado a ver un perfil en Netsus. Abre la app para conectar de forma segura.">
+    <title>Mesgot | Invitación a chatear</title>
+    <meta name="description" content="Te han invitado a ver un perfil en Mesgot. Abre la app para conectar de forma segura.">
     <meta name="theme-color" content="#0D1117">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
     <!-- Open Graph -->
-    <meta property="og:title" content="Invitación a chatear en Netsus">
-    <meta property="og:description" content="Alguien quiere conectar contigo en Netsus. Abre el enlace para ver su perfil.">
+    <meta property="og:title" content="Invitación a chatear en Mesgot">
+    <meta property="og:description" content="Alguien quiere conectar contigo en Mesgot. Abre el enlace para ver su perfil.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://netsus.me/profile/">
+    <meta property="og:url" content="https://mesgot.me/profile/">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -29,7 +29,7 @@
         }
 
         :root {
-            /* Netsus Obsidian Design System - from Stitch */
+            /* Mesgot Obsidian Design System - from Stitch */
             --surface: #10141a;
             --surface-bright: #353940;
             --surface-container: #1c2026;
@@ -501,7 +501,7 @@
             <div class="logo-icon">
                 <span class="material-icons-round">chat_bubble</span>
             </div>
-            <span class="logo-text">Netsus</span>
+            <span class="logo-text">Mesgot</span>
         </div>
 
         <!-- Invitation Card -->
@@ -516,7 +516,7 @@
 
             <!-- Content -->
             <h1 class="card-heading">Invitación a chatear</h1>
-            <p class="card-description">Te han invitado a ver un perfil en Netsus. Abre la app para conectar de forma segura.</p>
+            <p class="card-description">Te han invitado a ver un perfil en Mesgot. Abre la app para conectar de forma segura.</p>
 
             <!-- CTA Button -->
             <div id="ctaContainer">
@@ -529,12 +529,12 @@
             <!-- Loading State (shown while redirecting) -->
             <div id="loadingState" class="loading-state">
                 <div class="loading-spinner"></div>
-                <span class="loading-text">Abriendo Netsus...</span>
+                <span class="loading-text">Abriendo Mesgot...</span>
             </div>
 
             <p class="sub-text">
                 <span class="material-icons-round">open_in_new</span>
-                Se abrirá la app de Netsus
+                Se abrirá la app de Mesgot
             </p>
         </div>
 
@@ -548,9 +548,9 @@
         <footer class="footer">
             <div class="footer-brand">
                 <span class="material-icons-round">verified_user</span>
-                <span>Netsus — Mensajería segura</span>
+                <span>Mesgot — Mensajería segura</span>
             </div>
-            <p class="footer-copy">© 2025 Netsus. Protegido con cifrado de extremo a extremo.</p>
+            <p class="footer-copy">© 2025 Mesgot. Protegido con cifrado de extremo a extremo.</p>
         </footer>
     </div>
 
@@ -583,8 +583,8 @@
             document.getElementById('ctaContainer').style.display = 'none';
             document.getElementById('loadingState').classList.add('active');
 
-            // Deep link scheme for the Netsus app
-            const deepLink = 'netsus://profile/' + userId;
+            // Deep link scheme for the Mesgot app
+            const deepLink = 'mesgot://profile/' + userId;
 
             // Try to open the app via deep link
             const start = Date.now();
@@ -611,7 +611,7 @@
             const ctaBtn = document.getElementById('ctaButton');
             if (ctaBtn) {
                 ctaBtn.href = 'intent://profile/' + userId + 
-                    '#Intent;scheme=netsus;package=com.projectbert.netsus;end';
+                    '#Intent;scheme=mesgot;package=com.projectbert.mesgot;end';
             }
         }
 
