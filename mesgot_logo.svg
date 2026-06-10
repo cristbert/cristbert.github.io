@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="288" height="288" viewBox="0 0 108 108">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="grad1" x1="20" y1="80" x2="38" y2="25" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#00F2FE" />
+      <stop offset="1" stop-color="#24A3FF" />
+    </linearGradient>
+    <linearGradient id="grad2" x1="32" y1="25" x2="54" y2="78" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1A8CFF" />
+      <stop offset="1" stop-color="#755FEF" />
+    </linearGradient>
+    <linearGradient id="grad3" x1="76" y1="25" x2="54" y2="78" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#F355DA" />
+      <stop offset="1" stop-color="#755FEF" />
+    </linearGradient>
+    <linearGradient id="grad4" x1="88" y1="80" x2="70" y2="25" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#6E57FF" />
+      <stop offset="1" stop-color="#F355DA" />
+    </linearGradient>
+  </defs>
+
+  <g transform="translate(54 54) scale(0.70) translate(-54 -54)">
+    <!-- Background Glows (soft glassmorphic backing) -->
+    <circle cx="38" cy="50" r="28" fill="#38BDF8" fill-opacity="0.10" filter="blur(4px)" />
+    <circle cx="70" cy="50" r="28" fill="#22D3EE" fill-opacity="0.10" filter="blur(4px)" />
+
+    <!-- Facet 1: Left Leg -->
+    <path d="M20,80 L32,80 L38,25 L26,25 Z" fill="url(#grad1)" />
+
+    <!-- Facet 2: Left Diagonal -->
+    <path d="M26,25 L38,25 L54,65 L54,78 Z" fill="url(#grad2)" />
+
+    <!-- Left Fold Crease Shadow -->
+    <path d="M26,25 L38,25 L32,45 Z" fill="#0A1530" fill-opacity="0.20" />
+
+    <!-- Facet 3: Right Diagonal -->
+    <path d="M82,25 L70,25 L54,65 L54,78 Z" fill="url(#grad3)" />
+
+    <!-- Right Fold Crease Shadow -->
+    <path d="M82,25 L70,25 L76,45 Z" fill="#0A1530" fill-opacity="0.20" />
+
+    <!-- Center Fold Crease Shadow -->
+    <path d="M54,65 L54,78 L48,72 Z" fill="#04122D" fill-opacity="0.25" />
+
+    <!-- Facet 4: Right Leg -->
+    <path d="M88,80 L76,80 L70,25 L82,25 Z" fill="url(#grad4)" />
+  </g>
+</svg>
