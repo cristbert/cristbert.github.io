@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Netsus Sticker Studio</title>
+  <meta name="theme-color" content="#111722">
+  <link rel="stylesheet" href="styles.css?v=5">
+</head>
+<body>
+  <header class="app-header">
+    <div>
+      <p class="eyebrow">Netsus</p>
+      <h1>Sticker Studio</h1>
+    </div>
+    <nav class="view-switch" aria-label="Vistas">
+      <button class="view-switch-btn active" id="viewCreateBtn" type="button">Crear</button>
+      <button class="view-switch-btn" id="viewPacksBtn" type="button">Mis paquetes</button>
+    </nav>
+    <div class="header-actions">
+      <span class="auth-chip" id="authChip"></span>
+      <span class="status-pill" id="engineStatus">Motor listo</span>
+      <button class="icon-button ghost" id="resetButton" type="button" aria-label="Nuevo sticker" title="Nuevo sticker">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4v6h6M20 20v-6h-6M20 9A8 8 0 0 0 6.5 5.1L4 7.5M4 15a8 8 0 0 0 13.5 3.9L20 16.5"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="app-shell">
+    <aside class="project-panel">
+      <div class="field-group">
+        <label for="packageName">Nombre</label>
+        <input id="packageName" type="text" value="netsus_sound_sticker" maxlength="48" autocomplete="off">
+      </div>
+
+      <nav class="step-list" aria-label="Secciones">
+        <a href="#visualSection" class="step-item active">
+          <span>01</span>
+          <strong>Visual</strong>
+        </a>
+        <a href="#audioSection" class="step-item">
+          <span>02</span>
+          <strong>Audio</strong>
+        </a>
+        <a href="#syncSection" class="step-item">
+          <span>03</span>
+          <strong>Sync</strong>
+        </a>
+        <a href="#exportSection" class="step-item">
+          <span>04</span>
+          <strong>Exportar</strong>
+        </a>
+      </nav>
+
+      <div class="metrics">
+        <div>
+          <span>Duración</span>
+          <strong id="durationMetric">0.90s</strong>
+        </div>
+        <div>
+          <span>Audio</span>
+          <strong id="audioMetric">Sin audio</strong>
+        </div>
+        <div>
+          <span>Salida</span>
+          <strong id="sizeMetric">Pendiente</strong>
+        </div>
+      </div>
+    </aside>
+
+    <section class="workspace">
+      <section class="editor-section" id="visualSection">
+        <div class="section-title">
+          <div>
+            <p class="eyebrow">Imagen</p>
+            <h2>Aspecto visual</h2>
+          </div>
+          <label class="file-button">
+            <input id="imageInput" type="file" accept=".webp,.png,.gif,image/webp,image/png,image/gif">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+            Agregar
+          </label>
+        </div>
+
+        <div class="drop-zone" id="imageDrop" role="button" tabindex="0">
+          <div class="drop-icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 16l4-4a3 3 0 0 1 4.2 0l1 1 1.6-1.6a3 3 0 0 1 4.2 0l1 1M5 5h14v14H5z"/></svg>
+          </div>
+          <div>
+            <strong id="imageName">Arrastra una imagen</strong>
+            <span>WEBP, PNG o GIF</span>
+          </div>
+        </div>
+
+        <div class="control-grid">
+          <div class="field-group">
+            <label for="imageOutput">Formato visual</label>
+            <select id="imageOutput">
+              <option value="preserve">Preservar</option>
+              <option value="webp">WEBP</option>
+              <option value="png">PNG</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label for="fitMode">Encuadre</label>
+            <select id="fitMode">
+              <option value="contain">Contain</option>
+              <option value="cover">Cover</option>
+              <option value="stretch">Stretch</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label for="canvasSize">Lienzo</label>
+            <select id="canvasSize">
+              <option value="512">512 px</option>
+              <option value="384">384 px</option>
+              <option value="256">256 px</option>
+            </select>
+          </div>
+          <div class="field-group color-field">
+            <label for="backgroundColor">Fondo</label>
+            <input id="backgroundColor" type="color" value="#000000">
+            <label class="check-row compact">
+              <input id="transparentBg" type="checkbox" checked>
+              Transparente
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <section class="editor-section" id="audioSection">
+        <div class="section-title">
+          <div>
+            <p class="eyebrow">Sonido</p>
+            <h2>Pista de audio</h2>
+          </div>
+          <div class="button-row">
+            <button class="icon-button ghost" id="playAudioButton" type="button" aria-label="Reproducir audio" title="Reproducir audio" disabled>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+            </button>
+            <label class="file-button">
+              <input id="audioInput" type="file" accept=".m4a,.mp3,.ogg,audio/mp4,audio/mpeg,audio/ogg">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18V5l12-2v13M9 18a3 3 0 1 1-2-2.83M21 16a3 3 0 1 1-2-2.83"/></svg>
+              Agregar
+            </label>
+          </div>
+        </div>
+
+        <div class="drop-zone" id="audioDrop" role="button" tabindex="0">
+          <div class="drop-icon accent">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4zM15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>
+          </div>
+          <div>
+            <strong id="audioName">Audio opcional</strong>
+            <span>M4A, MP3 u OGG</span>
+          </div>
+        </div>
+
+        <canvas id="waveformCanvas" class="waveform" width="1200" height="220" aria-label="Forma de onda"></canvas>
+
+        <div class="playback-row">
+          <div
+            class="playback-track"
+            id="playbackTrack"
+            role="progressbar"
+            aria-label="Progreso de reproduccion"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            aria-valuenow="0"
+          >
+            <span id="playbackBar"></span>
+          </div>
+          <div class="playback-time">
+            <span id="playbackCurrent">0.00s</span>
+            <span>/</span>
+            <span id="playbackTotal">0.00s</span>
+          </div>
+        </div>
+
+        <div class="range-grid">
+          <label>
+            Inicio
+            <input id="trimStartRange" type="range" min="0" max="1" value="0" step="0.01" disabled>
+            <input id="trimStart" type="number" min="0" value="0" step="0.01" disabled>
+          </label>
+          <label>
+            Final
+            <input id="trimEndRange" type="range" min="0" max="1" value="0" step="0.01" disabled>
+            <input id="trimEnd" type="number" min="0" value="0" step="0.01" disabled>
+          </label>
+        </div>
+      </section>
+
+      <section class="editor-section" id="syncSection">
+        <div class="section-title">
+          <div>
+            <p class="eyebrow">Sincronización</p>
+            <h2>Timing</h2>
+          </div>
+          <button class="secondary-button" id="fitAudioButton" type="button" disabled>Ajustar al sticker</button>
+        </div>
+
+        <div class="control-grid wide">
+          <div class="field-group">
+            <label for="durationMs">Duración sticker</label>
+            <input id="durationMs" type="number" min="100" max="10000" step="50" value="900">
+          </div>
+          <div class="field-group">
+            <label for="audioOffset">Offset audio</label>
+            <input id="audioOffset" type="number" min="-10" max="10" step="0.01" value="0">
+          </div>
+          <div class="field-group">
+            <label for="fadeIn">Fade in</label>
+            <input id="fadeIn" type="number" min="0" max="2" step="0.05" value="0.05">
+          </div>
+          <div class="field-group">
+            <label for="fadeOut">Fade out</label>
+            <input id="fadeOut" type="number" min="0" max="2" step="0.05" value="0.08">
+          </div>
+          <label class="check-row">
+            <input id="normalizeAudio" type="checkbox">
+            Normalizar audio
+          </label>
+          <label class="check-row">
+            <input id="includeAudio" type="checkbox" checked>
+            Incluir audio
+          </label>
+        </div>
+      </section>
+
+      <section class="editor-section" id="exportSection">
+        <div class="section-title">
+          <div>
+            <p class="eyebrow">Paquete</p>
+            <h2>Exportar `.nsticker`</h2>
+          </div>
+          <div class="button-row">
+            <button class="secondary-button" id="addToPackButton" type="button" disabled>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+              Agregar al paquete
+            </button>
+            <button class="primary-button" id="exportButton" type="button" disabled>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>
+              Descargar
+            </button>
+          </div>
+        </div>
+
+        <div class="control-grid">
+          <div class="field-group">
+            <label for="audioOutput">Formato audio</label>
+            <select id="audioOutput">
+              <option value="m4a">M4A / AAC</option>
+              <option value="mp3">MP3</option>
+              <option value="ogg">OGG / Vorbis</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label for="audioBitrate">Bitrate</label>
+            <select id="audioBitrate">
+              <option value="96k">96 kbps</option>
+              <option value="128k" selected>128 kbps</option>
+              <option value="160k">160 kbps</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="validation-list" id="validationList"></div>
+        <pre class="manifest-preview" id="manifestPreview">{}</pre>
+      </section>
+    </section>
+
+    <aside class="preview-panel">
+      <div class="phone-preview">
+        <div class="chat-topbar">
+          <span></span>
+          <strong>Preview</strong>
+          <span></span>
+        </div>
+        <div class="chat-canvas">
+          <div class="bubble">
+            <div class="sticker-stage" id="stickerStage">
+              <img id="imagePreview" alt="">
+              <div class="empty-preview" id="emptyPreview">Sticker</div>
+              <button class="sound-badge" id="previewSoundButton" type="button" aria-label="Previsualizar sonido" title="Previsualizar sonido" disabled>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4zM16 9.5a4 4 0 0 1 0 5"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="log-panel">
+        <strong>Estado</strong>
+        <p id="statusLog">Carga una imagen para comenzar.</p>
+        <div class="progress-track" aria-hidden="true"><span id="progressBar"></span></div>
+      </div>
+    </aside>
+  </main>
+
+  <main class="packs-shell" id="packsShell" hidden>
+    <aside class="packs-list-panel" id="packListPanel">
+      <div class="packs-list-head">
+        <h2>Mis paquetes</h2>
+        <button class="primary-button" id="newPackButton" type="button">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+          Nuevo
+        </button>
+      </div>
+      <div class="pack-list" id="packList"></div>
+    </aside>
+    <section class="pack-detail" id="packDetail"></section>
+  </main>
+
+  <script src="vendor/jszip/jszip.min.js"></script>
+  <script src="vendor/ffmpeg/ffmpeg.js"></script>
+  <script src="vendor/supabase/supabase.min.js"></script>
+  <script src="src/supabase-client.js?v=1"></script>
+  <script src="src/app.js?v=5" defer></script>
+  <script src="src/audio-preview.js?v=1" defer></script>
+  <script src="src/packs.js?v=1" defer></script>
+</body>
+</html>

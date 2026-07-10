@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Netsus Sticker Studio · Admin</title>
+  <meta name="theme-color" content="#111722">
+  <meta name="robots" content="noindex">
+  <link rel="stylesheet" href="styles.css?v=5">
+</head>
+<body>
+  <header class="app-header">
+    <div>
+      <p class="eyebrow">Netsus · Admin</p>
+      <h1>Revisión de paquetes</h1>
+    </div>
+    <div class="header-actions">
+      <span class="auth-chip" id="adminAuthChip"></span>
+      <a class="secondary-button" href="index.html">Volver al Studio</a>
+    </div>
+  </header>
+
+  <main class="admin-shell" id="adminShell">
+    <div id="adminGate" class="detail-card gate-card">
+      <h2>Verificando acceso…</h2>
+      <p class="detail-note">Comprobando tu sesión y permisos de administrador.</p>
+    </div>
+
+    <div id="adminContent" hidden>
+      <nav class="admin-tabs" id="adminTabs" aria-label="Filtros">
+        <button class="admin-tab active" data-tab="pending" type="button">Pendientes<span class="count"></span></button>
+        <button class="admin-tab" data-tab="approved" type="button">Aprobados<span class="count"></span></button>
+        <button class="admin-tab" data-tab="rejected" type="button">Rechazados<span class="count"></span></button>
+        <button class="admin-tab" data-tab="recon" type="button">Reconciliación</button>
+      </nav>
+      <div class="admin-list" id="adminList"></div>
+    </div>
+  </main>
+
+  <script src="vendor/jszip/jszip.min.js"></script>
+  <script src="vendor/supabase/supabase.min.js"></script>
+  <script src="src/supabase-client.js?v=1"></script>
+  <script src="src/packs.js?v=1"></script>
+  <script src="src/admin.js?v=1" defer></script>
+</body>
+</html>
