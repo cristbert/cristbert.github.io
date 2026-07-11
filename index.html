@@ -1,31 +1,39 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="dark">
 <head>
-  <script>
-    (function() {
-      var lang = localStorage.getItem("lang");
-      if (!lang) {
-        var userLang = navigator.language || navigator.userLanguage || "";
-        lang = userLang.startsWith("es") ? "es" : "en";
-      }
-      document.documentElement.setAttribute("lang", lang);
-    })();
-  </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mesgot - Connect privately</title>
-  <meta name="description" content="Fast, customizable, and secure chats, voice and video calls, end-to-end encryption, an AI assistant, and much more!" />
-  
+  <script>
+    (function () {
+      var t = null, l = null;
+      try { t = localStorage.getItem("theme"); l = localStorage.getItem("lang"); } catch (e) {}
+      if (t !== "light" && t !== "dark") {
+        t = (window.matchMedia && matchMedia("(prefers-color-scheme: light)").matches) ? "light" : "dark";
+      }
+      if (l !== "es" && l !== "en") {
+        var ul = (navigator.language || navigator.userLanguage || "").toLowerCase();
+        l = ul.indexOf("es") === 0 ? "es" : "en";
+      }
+      document.documentElement.setAttribute("data-theme", t);
+      document.documentElement.setAttribute("lang", l);
+    })();
+  </script>
+  <title>Mesgot — Mensajería privada para Android</title>
+  <meta name="description" content="Chats rápidos y personalizables, cifrado de extremo a extremo, llamadas de voz y video HD y un asistente de IA. Sin acceso a tus contactos y sin rastreadores de análisis." />
+  <link rel="canonical" href="https://mesgot.com/" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="icon" type="image/png" href="/favicon.png" />
-  
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f6f8fb" />
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b1017" />
+
   <!-- SEO Open Graph -->
   <meta property="og:site_name" content="Mesgot" />
-  <meta property="og:title" content="Mesgot - Connect privately" />
-  <meta property="og:description" content="Fast, customizable, and secure chats, voice and video calls, end-to-end encryption, an AI assistant, and much more!" />
+  <meta property="og:title" content="Mesgot — Private messaging for Android" />
+  <meta property="og:description" content="Fast, customizable chats with end-to-end encryption, HD voice & video calls and an AI assistant. No access to your contacts, no analytics trackers." />
   <meta property="og:type" content="website" />
-  
-  <!-- Structured Data for Google Site Name -->
+  <meta property="og:url" content="https://mesgot.com/" />
+  <meta property="og:image" content="https://mesgot.com/mesgot_logo.png" />
+
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -34,995 +42,725 @@
     "url": "https://mesgot.com/"
   }
   </script>
-  
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  
+
   <style>
     :root {
-      --bg-1: #060913;
-      --bg-2: #0d1222;
-      --primary: #16a7ff;
-      --primary-grad: linear-gradient(135deg, #8ef8ff 0%, #16a7ff 48%, #6e57ff 100%);
-      --accent: #6e57ff;
-      --text: #f8fafc;
-      --text-muted: #94a3b8;
-      --glass: rgba(255, 255, 255, 0.03);
-      --glass-border: rgba(255, 255, 255, 0.08);
-      --glass-hover: rgba(255, 255, 255, 0.06);
-      --border-radius-lg: 24px;
-      --border-radius-md: 16px;
-      --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-      --font-headings: 'Outfit', sans-serif;
-      --font-body: 'Inter', sans-serif;
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+      --radius: 14px;
+      --radius-lg: 22px;
+      --container: 1120px;
+      --header-h: 68px;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    :root[data-theme="light"] {
+      color-scheme: light;
+      --bg: #f6f8fb;
+      --bg-soft: #eef2f7;
+      --surface: #ffffff;
+      --surface-2: #f9fbfd;
+      --text: #101828;
+      --text-2: #43536b;
+      --text-3: #64748b;
+      --accent: #0a78cf;
+      --accent-ink: #085d9e;
+      --accent-contrast: #ffffff;
+      --accent-soft: rgba(10, 120, 207, 0.08);
+      --border: #e3e9f1;
+      --border-strong: #cfd9e4;
+      --shadow: 0 1px 2px rgba(16, 24, 40, .04), 0 12px 32px -16px rgba(16, 24, 40, .18);
+      --phone-frame: #101828;
+      --header-bg: rgba(246, 248, 251, .85);
     }
+
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #0b1017;
+      --bg-soft: #0e141d;
+      --surface: #121a26;
+      --surface-2: #0f1621;
+      --text: #e9eef5;
+      --text-2: #aab8ca;
+      --text-3: #7f90a6;
+      --accent: #4ab3ff;
+      --accent-ink: #86ccff;
+      --accent-contrast: #06131f;
+      --accent-soft: rgba(74, 179, 255, 0.1);
+      --border: rgba(255, 255, 255, .09);
+      --border-strong: rgba(255, 255, 255, .17);
+      --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 16px 40px -20px rgba(0, 0, 0, .55);
+      --phone-frame: #1d2735;
+      --header-bg: rgba(11, 16, 23, .82);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-h) + 16px); }
 
     body {
-      font-family: var(--font-body);
+      font-family: var(--font);
+      background: var(--bg);
       color: var(--text);
-      background-color: var(--bg-1);
-      background-image: 
-        radial-gradient(circle at 10% 20%, rgba(22, 167, 255, 0.15) 0%, transparent 40%),
-        radial-gradient(circle at 90% 80%, rgba(110, 87, 255, 0.12) 0%, transparent 40%),
-        linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 100%);
-      background-attachment: fixed;
-      min-height: 100vh;
-      line-height: 1.6;
+      line-height: 1.65;
+      font-size: 16.5px;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
     }
 
-    /* Container */
-    .container {
-      width: 100%;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 24px;
+    .container { width: 100%; max-width: var(--container); margin: 0 auto; padding: 0 24px; }
+
+    a { color: var(--accent); }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+    .skip-link {
+      position: absolute; left: -9999px; top: 0; z-index: 200;
+      background: var(--surface); color: var(--text); padding: 10px 16px;
+      border: 1px solid var(--border-strong); border-radius: 0 0 10px 0;
+    }
+    .skip-link:focus { left: 0; }
+
+    /* Language visibility */
+    html[lang="en"] .lang-es { display: none !important; }
+    html[lang="es"] .lang-en { display: none !important; }
+
+    /* ============ Header ============ */
+    header.site-header {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--header-bg);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
     }
 
-    /* Header */
-    header {
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      background: rgba(6, 9, 19, 0.7);
-      border-bottom: 1px solid var(--glass-border);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      transition: all 0.3s ease;
-    }
+    .nav-container { display: flex; align-items: center; justify-content: space-between; height: var(--header-h); gap: 16px; }
 
-    .nav-container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 80px;
-    }
+    .logo-container { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); min-width: 0; }
+    .logo-container img { width: 32px; height: 32px; display: block; }
+    .logo-text { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.02em; }
 
-    .logo-container {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-      color: var(--text);
-    }
+    .nav-right { display: flex; align-items: center; gap: 8px; }
 
-    .logo-text {
-      font-family: var(--font-headings);
-      font-size: 1.6rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      background: var(--primary-grad);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 24px;
-    }
-
+    .nav-links { display: flex; align-items: center; gap: 4px; margin-right: 8px; }
     .nav-link {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 0.95rem;
-      font-weight: 500;
-      transition: color 0.2s ease;
+      color: var(--text-2); text-decoration: none; font-size: 0.92rem; font-weight: 500;
+      padding: 8px 12px; border-radius: 10px; transition: color .15s ease, background .15s ease;
     }
+    .nav-link:hover { color: var(--text); background: var(--accent-soft); }
 
-    .nav-link:hover {
-      color: var(--text);
+    .icon-btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      height: 36px; min-width: 36px; padding: 0 10px;
+      background: transparent; color: var(--text-2);
+      border: 1px solid var(--border); border-radius: 999px;
+      font-family: var(--font); font-size: 0.85rem; font-weight: 600;
+      cursor: pointer; transition: color .15s ease, border-color .15s ease, background .15s ease;
     }
+    .icon-btn:hover { color: var(--text); border-color: var(--border-strong); background: var(--accent-soft); }
+    .icon-btn svg { width: 17px; height: 17px; flex: none; }
 
-    .nav-cta {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 10px 20px;
-      border-radius: 999px;
-      background: var(--glass);
-      border: 1px solid var(--glass-border);
-      color: var(--text);
-      font-weight: 600;
-      font-size: 0.9rem;
-      text-decoration: none;
-      transition: all 0.25s ease;
-    }
+    :root[data-theme="dark"] .icon-sun { display: none; }
+    :root[data-theme="light"] .icon-moon { display: none; }
 
-    .nav-cta:hover {
-      background: var(--glass-hover);
-      border-color: rgba(255, 255, 255, 0.15);
-      transform: translateY(-1px);
-    }
+    /* ============ Hero ============ */
+    .hero { padding: 72px 0 88px; }
 
-    /* Hero Section */
-    .hero {
-      padding: 80px 0 100px 0;
-      position: relative;
-    }
+    .hero-grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 56px; align-items: center; }
 
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 64px;
-      align-items: center;
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      color: var(--accent-ink); font-size: 0.8rem; font-weight: 700;
+      letter-spacing: 0.09em; text-transform: uppercase; margin-bottom: 18px;
     }
-
-    .hero-content {
-      max-width: 540px;
-    }
-
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 14px;
-      border-radius: 999px;
-      background: rgba(22, 167, 255, 0.1);
-      border: 1px solid rgba(22, 167, 255, 0.2);
-      color: #8ef8ff;
-      font-size: 0.85rem;
-      font-weight: 600;
-      margin-bottom: 24px;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-    }
-
-    .hero-badge .dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background-color: #8ef8ff;
-      animation: pulse 1.5s infinite alternate;
-    }
-
-    @keyframes pulse {
-      0% { opacity: 0.4; transform: scale(0.8); }
-      100% { opacity: 1; transform: scale(1.2); }
-    }
+    .eyebrow::before { content: ""; width: 20px; height: 2px; background: var(--accent); border-radius: 2px; }
 
     .hero-title {
-      font-family: var(--font-headings);
-      font-size: clamp(2.5rem, 5vw, 3.8rem);
-      line-height: 1.1;
-      font-weight: 800;
+      font-size: clamp(2.3rem, 4.6vw, 3.4rem);
+      line-height: 1.08; font-weight: 800; letter-spacing: -0.035em;
       margin-bottom: 20px;
-      letter-spacing: -0.03em;
     }
+    .hero-title em { font-style: normal; color: var(--accent); }
 
-    .hero-title span {
-      background: var(--primary-grad);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
+    .hero-description { font-size: 1.13rem; color: var(--text-2); max-width: 33em; margin-bottom: 28px; }
 
-    .hero-description {
-      font-size: 1.1rem;
-      color: var(--text-muted);
-      margin-bottom: 36px;
-      line-height: 1.7;
-    }
+    .play-store-btn { display: inline-block; height: 52px; text-decoration: none; }
+    .play-store-btn svg { height: 100%; width: auto; display: block; border-radius: 9px; }
+    .play-store-btn { transition: transform .18s ease, filter .18s ease; }
+    .play-store-btn:hover { transform: translateY(-2px); filter: brightness(1.08); }
 
-    /* Google Play Button styling */
-    .download-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 16px;
-    }
+    .hero-checks { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 26px; padding: 0; list-style: none; }
+    .hero-checks li { display: flex; align-items: center; gap: 8px; color: var(--text-2); font-size: 0.92rem; font-weight: 500; }
+    .hero-checks svg { width: 16px; height: 16px; color: var(--accent); flex: none; }
 
-    .play-store-btn {
-      display: inline-block;
-      height: 52px;
-      transition: all 0.3s ease;
-      text-decoration: none;
-    }
-
-    .play-store-btn:hover {
-      transform: translateY(-3px);
-    }
-
-    .play-store-btn svg {
-      height: 100%;
-      width: auto;
-      display: block;
-      filter: drop-shadow(0 10px 25px rgba(0,0,0,0.3));
-      transition: filter 0.3s ease;
-    }
-
-    .play-store-btn:hover svg {
-      filter: drop-shadow(0 15px 30px rgba(22, 167, 255, 0.25));
-    }
-
-    .play-store-btn rect {
-      fill: #000000;
-      stroke: rgba(255, 255, 255, 0.15);
-      stroke-width: 0.8px;
-      transition: all 0.3s ease;
-    }
-
-    .play-store-btn:hover rect {
-      stroke: var(--primary);
-      stroke-width: 1px;
-    }
-
-    /* CSS Smartphone Mockup */
-    .hero-visual {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-    }
-
+    /* Phone frame */
+    .hero-visual { display: flex; justify-content: center; }
     .phone-mockup {
-      width: 310px;
-      height: auto;
-      border-radius: 40px;
-      border: 12px solid #1e293b;
-      background: #0b0f19;
-      box-shadow: var(--shadow-lg);
-      position: relative;
+      width: min(300px, 78vw);
+      border-radius: 38px;
+      border: 10px solid var(--phone-frame);
+      background: var(--phone-frame);
+      box-shadow: var(--shadow);
       overflow: hidden;
-    }
-
-    .phone-mockup::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 130px;
-      height: 24px;
-      background: #1e293b;
-      border-bottom-left-radius: 16px;
-      border-bottom-right-radius: 16px;
-      z-index: 10;
-    }
-
-    .phone-screen {
-      background: #070a13;
-      position: relative;
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    .phone-header {
-      background: #0f172a;
-      padding: 30px 16px 10px 16px;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .phone-user {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .phone-avatar {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: var(--primary-grad);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 0.8rem;
-      color: #fff;
-    }
-
-    .phone-user-info {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .phone-username {
-      font-size: 0.85rem;
-      font-weight: 600;
-      line-height: 1.2;
-    }
-
-    .phone-status {
-      font-size: 0.65rem;
-      color: #10b981;
-      display: flex;
-      align-items: center;
-      gap: 3px;
-    }
-
-    .phone-status::before {
-      content: "";
-      width: 5px;
-      height: 5px;
-      background-color: #10b981;
-      border-radius: 50%;
-      display: inline-block;
-    }
-
-    .phone-icons {
-      display: flex;
-      gap: 12px;
-      color: var(--text-muted);
-    }
-
-    .phone-icon-svg {
-      width: 18px;
-      height: 18px;
-      fill: currentColor;
-    }
-
-    .phone-chat {
-      flex: 1;
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      justify-content: flex-end;
-    }
-
-    .chat-bubble {
-      max-width: 85%;
-      padding: 10px 14px;
-      border-radius: 16px;
-      font-size: 0.8rem;
-      line-height: 1.4;
       position: relative;
     }
+    .phone-mockup img { width: 100%; height: auto; display: block; border-radius: 26px; }
 
-    .chat-bubble.incoming {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      align-self: flex-start;
-      border-bottom-left-radius: 4px;
-    }
+    /* ============ Trust strip ============ */
+    .trust { padding: 64px 0 24px; border-top: 1px solid var(--border); background: var(--bg-soft); }
 
-    .chat-bubble.outgoing {
-      background: linear-gradient(135deg, rgba(22, 167, 255, 0.2) 0%, rgba(110, 87, 255, 0.2) 100%);
-      border: 1px solid rgba(22, 167, 255, 0.3);
-      align-self: flex-end;
-      border-bottom-right-radius: 4px;
-    }
+    .section-header { max-width: 640px; margin: 0 0 40px; }
+    .section-header.center { margin-left: auto; margin-right: auto; text-align: center; }
+    .section-title { font-size: clamp(1.7rem, 3vw, 2.3rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 12px; }
+    .section-subtitle { color: var(--text-2); font-size: 1.05rem; }
 
-    .chat-bubble-time {
-      font-size: 0.6rem;
-      color: var(--text-muted);
-      text-align: right;
-      margin-top: 4px;
-      display: block;
-    }
+    .trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; padding-bottom: 56px; }
 
-    .phone-input-bar {
-      padding: 10px 12px 14px 12px;
-      background: #0f172a;
-      border-top: 1px solid rgba(255,255,255,0.05);
-      display: flex;
-      align-items: center;
-      gap: 10px;
+    .trust-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 22px 20px;
     }
+    .trust-card .t-icon {
+      width: 40px; height: 40px; border-radius: 11px;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--accent-soft); color: var(--accent-ink); margin-bottom: 14px;
+    }
+    .trust-card .t-icon svg { width: 21px; height: 21px; }
+    .trust-card h3 { font-size: 1.02rem; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 6px; }
+    .trust-card p { color: var(--text-2); font-size: 0.9rem; line-height: 1.55; }
 
-    .phone-input-box {
-      flex: 1;
-      height: 36px;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 18px;
-      padding: 0 14px;
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      display: flex;
-      align-items: center;
-    }
+    .trust-note { text-align: center; color: var(--text-3); font-size: 0.88rem; padding-bottom: 48px; margin-top: -28px; }
+    .trust-note a { color: var(--accent-ink); text-decoration: none; font-weight: 600; }
+    .trust-note a:hover { text-decoration: underline; }
 
-    .phone-send-btn {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: var(--primary-grad);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-    }
+    /* ============ Features ============ */
+    .features { padding: 88px 0 40px; }
 
-    /* Glow Behind Phone */
-    .glow-circle {
-      position: absolute;
-      width: 400px;
-      height: 400px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(22, 167, 255, 0.15) 0%, transparent 70%);
-      z-index: -1;
-      filter: blur(40px);
-    }
+    .features-container { display: flex; flex-direction: column; gap: 96px; margin-top: 56px; }
 
-    /* Features Section */
-    .features {
-      padding: 80px 0;
-      border-top: 1px solid var(--glass-border);
-    }
+    .feature-row { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 64px; align-items: center; }
+    .feature-row.reverse .feature-text-block { order: 2; }
+    .feature-row.reverse .feature-visual-block { order: 1; }
 
-    .section-header {
-      text-align: center;
-      max-width: 600px;
-      margin: 0 auto 60px auto;
-    }
+    .feature-kicker { color: var(--accent-ink); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; margin-bottom: 10px; }
+    .feature-row-title { font-size: clamp(1.5rem, 2.6vw, 2rem); font-weight: 800; letter-spacing: -0.025em; line-height: 1.18; margin-bottom: 14px; }
+    .feature-row-desc { color: var(--text-2); font-size: 1.04rem; max-width: 34em; }
+    .feature-fineprint { color: var(--text-3); font-size: 0.85rem; margin-top: 12px; }
 
-    .section-title {
-      font-family: var(--font-headings);
-      font-size: 2.5rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      margin-bottom: 16px;
-    }
+    .feature-visual-block { display: flex; justify-content: center; }
+    .feature-visual-block .phone-mockup { width: min(270px, 74vw); }
 
-    .section-subtitle {
-      color: var(--text-muted);
-      font-size: 1.05rem;
+    /* ============ CTA ============ */
+    .cta { padding: 96px 0; }
+    .cta-box {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      padding: 56px 32px; text-align: center;
     }
+    .cta-box .section-title { margin-bottom: 8px; }
+    .cta-box .section-subtitle { margin-bottom: 28px; }
+    .cta-note { color: var(--text-3); font-size: 0.85rem; margin-top: 18px; }
 
-    .features-container {
-      display: flex;
-      flex-direction: column;
-      gap: 110px;
-      margin-top: 60px;
-    }
+    /* ============ Footer ============ */
+    footer.site-footer { border-top: 1px solid var(--border); background: var(--bg-soft); padding: 56px 0 36px; }
 
-    .feature-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 80px;
-    }
+    .footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 40px; }
 
-    .feature-row.reverse {
-      flex-direction: row-reverse;
-    }
+    .footer-brand .logo-container { margin-bottom: 12px; }
+    .footer-brand p { color: var(--text-3); font-size: 0.9rem; max-width: 30em; }
 
-    .feature-text-block {
-      flex: 1.1;
-      max-width: 520px;
-    }
-
-    .feature-icon-wrapper {
-      width: 56px;
-      height: 56px;
-      border-radius: var(--border-radius-md);
-      background: rgba(22, 167, 255, 0.08);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 24px;
-      color: var(--primary);
-      border: 1px solid rgba(22, 167, 255, 0.15);
-      box-shadow: 0 4px 12px rgba(22, 167, 255, 0.05);
-    }
-
-    .feature-icon {
-      width: 24px;
-      height: 24px;
-      fill: currentColor;
-    }
-
-    .feature-row-title {
-      font-family: var(--font-headings);
-      font-size: 2.2rem;
-      font-weight: 800;
-      line-height: 1.2;
-      margin-bottom: 18px;
-      background: linear-gradient(135deg, #fff 40%, #94a3b8 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      letter-spacing: -0.01em;
-    }
-
-    .feature-row-desc {
-      color: var(--text-muted);
-      font-size: 1.05rem;
-      line-height: 1.7;
-    }
-
-    .feature-visual-block {
-      flex: 0.9;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-    }
-
-    /* Glow backdrop for feature mockups */
-    .feature-visual-block .glow-circle {
-      width: 320px;
-      height: 320px;
-      opacity: 0.12;
-    }
-
-    @media (max-width: 968px) {
-      .features-container {
-        gap: 80px;
-      }
-      
-      .feature-row, .feature-row.reverse {
-        flex-direction: column;
-        text-align: center;
-        gap: 40px;
-      }
-      
-      .feature-text-block {
-        max-width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-    }
-
-    /* Footer */
-    footer {
-      border-top: 1px solid var(--glass-border);
-      background: #04060d;
-      padding: 60px 0 40px 0;
-    }
-
-    .footer-grid {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      gap: 32px;
-    }
-
-    .footer-logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-      color: var(--text);
-    }
-
-    .footer-links {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 32px;
-    }
-
-    .footer-link {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 0.95rem;
-      transition: color 0.2s ease;
-    }
-
-    .footer-link:hover {
-      color: var(--text);
-    }
+    .footer-col h4 { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-3); margin-bottom: 14px; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col a { color: var(--text-2); text-decoration: none; font-size: 0.93rem; }
+    .footer-col a:hover { color: var(--text); text-decoration: underline; }
 
     .copyright {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      border-top: 1px solid rgba(255,255,255,0.05);
-      width: 100%;
-      padding-top: 32px;
-      margin-top: 16px;
+      margin-top: 44px; padding-top: 24px; border-top: 1px solid var(--border);
+      color: var(--text-3); font-size: 0.85rem;
+      display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;
     }
 
-    /* Responsive */
-    @media (max-width: 968px) {
-      .hero-grid {
-        grid-template-columns: 1fr;
-        gap: 60px;
-        text-align: center;
-      }
-
-      .hero-content {
-        max-width: 100%;
-        margin: 0 auto;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .download-buttons {
-        justify-content: center;
-      }
-
-      .hero-title {
-        font-size: 3rem;
-      }
+    /* ============ Responsive ============ */
+    @media (max-width: 960px) {
+      .hero { padding: 48px 0 64px; }
+      .hero-grid { grid-template-columns: 1fr; gap: 48px; text-align: center; }
+      .hero-content { display: flex; flex-direction: column; align-items: center; }
+      .hero-description { margin-left: auto; margin-right: auto; }
+      .hero-checks { justify-content: center; }
+      .trust-grid { grid-template-columns: 1fr 1fr; }
+      .feature-row, .feature-row.reverse { grid-template-columns: 1fr; gap: 36px; text-align: center; }
+      .feature-row.reverse .feature-text-block { order: 0; }
+      .feature-row.reverse .feature-visual-block { order: 1; }
+      .feature-row-desc { margin: 0 auto; }
+      .footer-grid { grid-template-columns: 1fr; gap: 32px; }
     }
 
-    @media (max-width: 576px) {
-      .nav-links {
-        display: none; /* simple hidden mobile nav for simplicity, clean and minimalist */
-      }
-      
-      .hero {
-        padding: 40px 0 60px 0;
-      }
-
-      .hero-title {
-        font-size: 2.3rem;
-      }
-
-      .feature-card {
-        padding: 24px;
-      }
+    @media (max-width: 620px) {
+      .nav-links { display: none; }
+      .trust-grid { grid-template-columns: 1fr; }
+      body { font-size: 16px; }
     }
 
-    /* Language-specific visibility */
-    html[lang="en"] .lang-es {
-      display: none !important;
-    }
-    html[lang="es"] .lang-en {
-      display: none !important;
-    }
-
-    /* Language switcher button */
-    .lang-switch-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: var(--glass);
-      border: 1px solid var(--glass-border);
-      color: var(--text-muted);
-      padding: 8px 14px;
-      border-radius: 999px;
-      cursor: pointer;
-      font-family: var(--font-body);
-      font-size: 0.85rem;
-      font-weight: 600;
-      transition: all 0.25s ease;
-      user-select: none;
-    }
-
-    .lang-switch-btn:hover {
-      background: var(--glass-hover);
-      border-color: rgba(255, 255, 255, 0.15);
-      color: var(--text);
-    }
-
-    .globe-icon {
-      width: 16px;
-      height: 16px;
-      fill: currentColor;
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      * { transition: none !important; }
     }
   </style>
 
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1688105000086651" crossorigin="anonymous"></script>
 </head>
 <body>
-  
+
+  <a class="skip-link" href="#main">
+    <span class="lang-es">Saltar al contenido</span>
+    <span class="lang-en">Skip to content</span>
+  </a>
+
   <!-- Header -->
-  <header>
+  <header class="site-header">
     <div class="container nav-container">
-      <a href="#" class="logo-container">
-        <!-- Mesgot Logo -->
-        <img src="mesgot_logo.svg" alt="Mesgot Logo" width="38" height="38" />
+      <a href="/" class="logo-container" aria-label="Mesgot">
+        <img src="mesgot_logo.svg" alt="" width="32" height="32" />
         <span class="logo-text">Mesgot</span>
       </a>
-      
-      <div style="display: flex; align-items: center; gap: 16px;">
-        <nav class="nav-links">
+
+      <div class="nav-right">
+        <nav class="nav-links" aria-label="Principal">
           <a href="#features" class="nav-link">
             <span class="lang-es">Funciones</span>
             <span class="lang-en">Features</span>
           </a>
-          <a href="privacy.html" class="nav-cta">
-            <span class="lang-es">Política de Privacidad</span>
-            <span class="lang-en">Privacy Policy</span>
+          <a href="privacy.html" class="nav-link">
+            <span class="lang-es">Privacidad</span>
+            <span class="lang-en">Privacy</span>
+          </a>
+          <a href="terms-and-conditions.html" class="nav-link">
+            <span class="lang-es">Términos</span>
+            <span class="lang-en">Terms</span>
           </a>
         </nav>
-        
-        <!-- Language Switcher -->
-        <button class="lang-switch-btn" id="langSwitch" aria-label="Change Language">
-          <svg class="globe-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm6.93 6h-2.95a15.65 15.65 0 0 0-1.38-3.56A8.03 8.03 0 0 1 18.92 8zM12 4.04c.83 1.2 1.48 2.53 1.91 3.96h-3.82c.43-1.43 1.08-2.76 1.91-3.96zM4.26 14C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.34-.14 2s.06 1.34.14 2H4.26zm.82 2h2.95c.18 1.25.64 2.45 1.38 3.56A7.987 7.987 0 0 1 5.08 16zm2.95-8H5.08a7.987 7.987 0 0 1 4.33-3.56A15.65 15.65 0 0 0 8.03 8zM12 19.96c-.83-1.2-1.48-2.53-1.91-3.96h3.82c-.43 1.43-1.08 2.76-1.91 3.96zM14.34 14H9.66c-.09-.66-.16-1.34-.16-2s.07-1.34.16-2h4.68c.09.66.16 1.34.16 2s-.07 1.34-.16 2zm.25 5.56c.74-1.11 1.2-2.31 1.38-3.56h2.95a7.987 7.987 0 0 1-4.33 3.56zM16.36 14c.08-.66.14-1.34.14-2s-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2h-3.38z" fill="currentColor"/>
-          </svg>
+
+        <button class="icon-btn" id="themeSwitch" type="button" aria-label="Cambiar tema">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13A8 8 0 1 1 11 4a6.5 6.5 0 0 0 9 9z"/></svg>
+        </button>
+
+        <button class="icon-btn" id="langSwitch" type="button" aria-label="Change language">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.7 2.7 4 5.9 4 9s-1.3 6.3-4 9c-2.7-2.7-4-5.9-4-9s1.3-6.3 4-9z"/></svg>
           <span id="langLabel">EN</span>
         </button>
       </div>
     </div>
   </header>
 
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="container hero-grid">
-      <div class="hero-content">
-        <h1 class="hero-title">
-          <span class="lang-es">Conéctate de forma <span>privada</span>.</span>
-          <span class="lang-en">Connect <span>privately</span>.</span>
-        </h1>
-        <p class="hero-description">
-          <span class="lang-es">Mesgot lleva tu comunicación al siguiente nivel. Chats instantáneos altamente personalizables, llamadas de voz y video, y un asistente de inteligencia artificial siempre listo para ayudarte.</span>
-          <span class="lang-en">Mesgot takes your communication to the next level. Highly customizable instant chats, voice and video calls, and an AI assistant always ready to help.</span>
+  <main id="main">
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-content">
+          <p class="eyebrow">
+            <span class="lang-es">Mensajería para Android</span>
+            <span class="lang-en">Messaging for Android</span>
+          </p>
+          <h1 class="hero-title">
+            <span class="lang-es">Habla con los tuyos. <em>En privado.</em></span>
+            <span class="lang-en">Talk to your people. <em>Privately.</em></span>
+          </h1>
+          <p class="hero-description">
+            <span class="lang-es">Chats instantáneos altamente personalizables, llamadas de voz y video en HD, y un asistente de IA integrado. Con cifrado de extremo a extremo disponible en tus conversaciones.</span>
+            <span class="lang-en">Highly customizable instant chats, HD voice and video calls, and a built-in AI assistant. With end-to-end encryption available for your conversations.</span>
+          </p>
+
+          <div class="download-buttons">
+            <a href="https://play.google.com/store/apps/details?id=com.projectbert.netsus" target="_blank" rel="noopener" class="play-store-btn" aria-label="Google Play">
+              <!-- Official Spanish Google Play Store Badge SVG -->
+              <svg class="lang-es" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 239 70.9">
+                <defs><style>.st1{isolation:isolate}.st5{fill:#fff}</style></defs>
+                <rect width="239" height="70.8" rx="8.8" ry="8.8"/>
+                <path class="st5" d="M120.6 38.5c-4.1 0-7.5 3.2-7.5 7.5s3.4 7.5 7.5 7.5a7.5 7.5 0 1 0 0-15Zm0 12c-2.3 0-4.2-1.8-4.2-4.5s2-4.5 4.2-4.5 4.3 1.8 4.3 4.5-2 4.6-4.3 4.6Zm-16.5-12c-4.1 0-7.5 3.2-7.5 7.5s3.4 7.5 7.5 7.5a7.5 7.5 0 1 0 0-15Zm0 12c-2.3 0-4.2-1.8-4.2-4.5s2-4.5 4.2-4.5 4.3 1.8 4.3 4.5-2 4.6-4.3 4.6Zm-19.6-9.7V44h7.7a6.7 6.7 0 0 1-1.8 4 7.8 7.8 0 0 1-5.9 2.4 8.4 8.4 0 0 1-8.4-8.5 8.4 8.4 0 0 1 14.2-6.2l2.2-2.3a11.8 11.8 0 0 0-19.8 8.5c0 6.5 5.3 11.7 11.8 11.7 3.5 0 6.1-1.1 8.2-3.3 2-2.1 2.7-5 2.7-7.5l-.1-2H84.5Zm80.2 2.5c-.6-1.7-2.5-4.8-6.4-4.8s-7.1 3-7.1 7.5c0 4.2 3.2 7.5 7.4 7.5 3.5 0 5.5-2 6.3-3.3l-2.6-1.7c-.8 1.2-2 2-3.7 2s-2.8-.7-3.6-2.2l10-4.2-.3-.8Zm-10.3 2.5c0-2.9 2.3-4.4 4-4.4 1.3 0 2.4.7 2.8 1.6l-6.8 2.8Zm-8.1 7.3h3.3V31h-3.3v22Zm-5.5-13a5.2 5.2 0 0 0-4-1.6c-3.8 0-7.2 3.3-7.2 7.6s3.4 7.5 7.2 7.5a5 5 0 0 0 4-1.8V53c0 3-1.5 4.5-4 4.5-2 0-3.2-1.5-3.8-2.7l-2.9 1.2c.9 2 3 4.4 6.7 4.4 3.9 0 7.2-2.2 7.2-7.8V39h-3.2v1.2ZM137 50.7c-2.2 0-4.2-2-4.2-4.5s2-4.6 4.2-4.6 4 2 4 4.6-1.7 4.5-4 4.5ZM180.2 31h-7.9v22h3.3v-8.4h4.6c3.7 0 7.3-2.6 7.3-6.9s-3.6-6.8-7.3-6.8Zm0 10.6h-4.6V34h4.7a3.8 3.8 0 1 1 0 7.6Zm20.5-3.1c-2.4 0-4.9 1-5.9 3.3l3 1.3c.6-1.3 1.8-1.7 3-1.7 1.7 0 3.4 1 3.4 2.9v.2c-.6-.3-1.8-.8-3.4-.8-3.2 0-6.4 1.7-6.4 5 0 2.9 2.6 4.8 5.5 4.8 2.2 0 3.5-1 4.2-2.2h.1v1.8h3.2v-8.5c0-4-3-6.1-6.7-6.1Zm-.4 12c-1 0-2.6-.5-2.6-1.8 0-1.7 1.9-2.3 3.5-2.3 1.5 0 2.2.3 3 .7a4 4 0 0 1-3.9 3.5ZM219 39l-3.8 9.6-4-9.6h-3.6l6 13.5-3.4 7.4h3.4l9.1-20.9H219Zm-29.7 14.2h3.3V31h-3.3v22Z"/>
+                <path d="m36.7 34.4-18.9 20a5 5 0 0 0 7.5 3l21.3-12.2-10-10.9Z" style="fill:#ea4335"/>
+                <path d="m55.7 31-9.1-5.3-10.4 9.1 10.4 10.4 9.1-5.3c1.6-.8 2.7-2.5 2.7-4.4s-1-3.7-2.7-4.5Z" style="fill:#fbbc04"/>
+                <path d="m17.8 16.4-.2 1.3v35.4c0 .5 0 .9.2 1.3l19.5-19.5-19.5-18.5Z" style="fill:#4285f4"/>
+                <path d="m36.8 35.4 9.8-9.8-21.2-12.2a5.1 5.1 0 0 0-7.6 3l19 19Z" style="fill:#34a853"/>
+                <g class="st1"><path class="st5" d="M74 12.2h3.5a5.3 5.3 0 0 1 5 2.6c.4.9.6 1.8.6 3s-.2 2-.6 2.8c-.5.8-1.2 1.5-2 2s-1.9.6-3 .6H74v-11Zm3.5 9.4a4 4 0 0 0 2.9-1c.6-.7 1-1.7 1-2.9s-.3-2.1-1-2.8a4 4 0 0 0-3-1h-1.7v7.7h1.8Z"/></g>
+                <g class="st1"><path class="st5" d="M85.4 12.2H92V14h-5v3h4.5v1.6H87v3h5v1.7h-6.7v-11Z"/></g>
+                <g class="st1"><path class="st5" d="M95 22.7a4 4 0 0 1-1.5-2.3l1.6-.6c.1.6.4 1 .9 1.5s.9.5 1.5.5c.5 0 1-.1 1.3-.4.4-.3.6-.7.6-1.1 0-.5-.2-.9-.5-1.2s-.9-.6-1.7-.9l-.7-.2a5 5 0 0 1-1.9-1.1c-.5-.5-.7-1.1-.7-2 0-.5.1-1 .4-1.4.3-.5.7-.9 1.3-1.1a3 3 0 0 1 1.7-.4c1 0 1.8.2 2.4.7s1 1 1.1 1.5l-1.5.7a2 2 0 0 0-2-1.3c-.4 0-.9.1-1.2.4s-.5.5-.5 1c0 .3.1.6.5.9.3.2.7.5 1.4.7l.7.2c1 .4 1.7.8 2.2 1.3s.8 1.3.8 2.1a3 3 0 0 1-.6 1.9c-.4.4-.8.8-1.4 1a4 4 0 0 1-1.8.4 4 4 0 0 1-2.4-.8Z"/></g>
+                <g class="st1"><path class="st5" d="M105.5 22.7a5.5 5.5 0 0 1-2-2 6 6 0 0 1 0-5.9c.5-.9 1.2-1.6 2-2 1-.6 1.9-.8 3-.8.8 0 1.6.1 2.2.4s1.3.8 1.8 1.4l-1.2 1.2c-.4-.5-.8-.8-1.2-1a3 3 0 0 0-1.6-.4 4 4 0 0 0-2 .5c-.7.4-1.2.8-1.5 1.5a4.3 4.3 0 0 0 0 4.3c.3.6.8 1 1.4 1.4a4.1 4.1 0 0 0 5.2-1l1.3 1.2a5.6 5.6 0 0 1-4.4 2c-1.1 0-2-.3-3-.8Z"/></g>
+                <g class="st1"><path class="st5" d="M118 12.2h2l4.2 11h-2l-1-2.8h-4.4l-1 2.8H114l4.1-11Zm2.7 6.6-1.2-3.3-.4-1.2h-.1l-.4 1.2-1.2 3.3h3.3Z"/></g>
+                <g class="st1"><path class="st5" d="M125.9 12.2h3.8c.7 0 1.3.2 1.8.4s1 .7 1.3 1.2.5 1.1.5 1.8a3 3 0 0 1-.7 2c-.5.5-1.1 1-1.8 1.1l3 4.4v.1h-2l-3-4.3h-1.2v4.3h-1.7v-11Zm3.8 5.1c.5 0 1-.1 1.3-.5s.5-.7.5-1.2c0-.3 0-.6-.2-.8-.1-.3-.3-.5-.6-.7s-.6-.3-1-.3h-2.1v3.5h2Z"/></g>
+                <g class="st1"><path class="st5" d="M137.7 22.7a5.6 5.6 0 0 1-2.9-5 5.6 5.6 0 0 1 3-5c.8-.5 1.8-.7 2.8-.7.8 0 1.6.1 2.3.4s1.4.7 1.8 1.3l-1.2 1.2c-.3-.4-.8-.7-1.3-1a4 4 0 0 0-1.6-.3 4 4 0 0 0-2 .5c-.6.4-1.1.9-1.5 1.5-.4.6-.5 1.3-.5 2.2a4 4 0 0 0 4 4c.7 0 1.2 0 1.6-.2l1.2-.8c.3-.2.5-.5.6-.8l.3-1.2h-3.7v-1.5h5.4v.9c0 .7 0 1.4-.3 2-.2.7-.5 1.2-1 1.7a5.4 5.4 0 0 1-4 1.6 6 6 0 0 1-3-.7Z"/></g>
+                <g class="st1"><path class="st5" d="M151 12.2h1.9l4.1 11h-1.9l-1-2.8h-4.4l-1 2.8h-2l4.2-11Zm2.6 6.6-1.2-3.3-.4-1.2h-.1l-.5 1.2-1.1 3.3h3.3Z"/></g>
+                <g class="st1"><path class="st5" d="M158.7 12.2h4c.6 0 1.2.2 1.7.4s1 .7 1.3 1.2.5 1.1.5 1.8a3 3 0 0 1-.8 2c-.4.5-1 1-1.7 1.1l3 4.4v.1h-2l-3-4.3h-1.2v4.3h-1.8v-11Zm3.9 5.1c.5 0 1-.1 1.3-.5s.5-.7.5-1.2c0-.3 0-.6-.2-.8-.1-.3-.4-.5-.6-.7s-.6-.3-1-.3h-2.1v3.5h2Z"/></g>
+                <g class="st1"><path class="st5" d="M171.7 12.2h6.7V14h-5v3h4.5v1.6h-4.5v3h5v1.7h-6.7v-11Z"/></g>
+                <g class="st1"><path class="st5" d="M180.8 12.2h2l5 8v-8h1.6v11h-1.8l-5.1-8.4h-.1v8.4h-1.6v-11Z"/></g>
+              </svg>
+              <!-- Official English Google Play Store Badge SVG -->
+              <svg class="lang-en" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 155 60"><defs><linearGradient id="a" x1="31.8" y1="183.29" x2="15.02" y2="166.51" gradientTransform="matrix(1 0 0 -1 0 202)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#00a0ff"/><stop offset=".01" stop-color="#00a1ff"/><stop offset=".26" stop-color="#00beff"/><stop offset=".51" stop-color="#00d2ff"/><stop offset=".76" stop-color="#00dfff"/><stop offset="1" stop-color="#00e3ff"/></linearGradient><linearGradient id="b" x1="43.83" y1="172" x2="19.64" y2="172" gradientTransform="matrix(1 0 0 -1 0 202)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ffe000"/><stop offset=".41" stop-color="#ffbd00"/><stop offset=".78" stop-color="orange"/><stop offset="1" stop-color="#ff9c00"/></linearGradient><linearGradient id="c" x1="34.83" y1="169.7" x2="12.07" y2="146.95" gradientTransform="matrix(1 0 0 -1 0 202)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ff3a44"/><stop offset="1" stop-color="#c31162"/></linearGradient><linearGradient id="d" x1="17.3" y1="191.82" x2="27.46" y2="181.66" gradientTransform="matrix(1 0 0 -1 0 202)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#32a071"/><stop offset=".07" stop-color="#2da771"/><stop offset=".48" stop-color="#15cf74"/><stop offset=".8" stop-color="#06e775"/><stop offset="1" stop-color="#00f076"/></linearGradient></defs><title>fil_get</title><path fill="none" d="M0 0h155v60H0z"/><rect x="10" y="10" width="135" height="40" rx="5" ry="5"/><path d="M140 10.8a4.2 4.2 0 0 1 4.2 4.2v30a4.2 4.2 0 0 1-4.2 4.2H15a4.2 4.2 0 0 1-4.2-4.2V15a4.2 4.2 0 0 1 4.2-4.2h125m0-.8H15a5 5 0 0 0-5 5v30a5 5 0 0 0 5 5h125a5 5 0 0 0 5-5V15a5 5 0 0 0-5-5z" fill="#a6a6a6"/><path d="M57.42 20.24a2.71 2.71 0 0 1-.75 2 2.91 2.91 0 0 1-2.2.89 3.15 3.15 0 0 1-2.21-5.37 3 3 0 0 1 2.21-.9 3.1 3.1 0 0 1 1.23.25 2.47 2.47 0 0 1 .94.67l-.53.53a2 2 0 0 0-1.64-.71 2.32 2.32 0 0 0-2.33 2.4 2.36 2.36 0 0 0 4 1.73 1.89 1.89 0 0 0 .5-1.22h-2.17v-.72h2.91a2.54 2.54 0 0 1 .04.45zM62 17.74h-2.7v1.9h2.46v.72H59.3v1.9H62V23h-3.5v-6H62zM65.28 23h-.77v-5.26h-1.68V17H67v.74h-1.72zM69.94 23v-6h.77v6zM74.13 23h-.77v-5.26h-1.68V17h4.12v.74h-1.67zM83.61 22.22a3.12 3.12 0 0 1-4.4 0 3.24 3.24 0 0 1 0-4.45 3.1 3.1 0 0 1 4.4 0 3.23 3.23 0 0 1 0 4.45zm-3.83-.5a2.31 2.31 0 0 0 3.26 0 2.56 2.56 0 0 0 0-3.44 2.31 2.31 0 0 0-3.26 0 2.56 2.56 0 0 0 0 3.44zM85.58 23v-6h.94l2.92 4.67V17h.77v6h-.8l-3.05-4.89V23z" fill="#fff" stroke="#fff" stroke-miterlimit="10" stroke-width=".2"/><path d="M78.14 31.75A4.25 4.25 0 1 0 82.41 36a4.19 4.19 0 0 0-4.27-4.25zm0 6.83a2.58 2.58 0 1 1 2.4-2.58 2.46 2.46 0 0 1-2.4 2.58zm-9.31-6.83A4.25 4.25 0 1 0 73.09 36a4.19 4.19 0 0 0-4.27-4.25zm0 6.83A2.58 2.58 0 1 1 71.22 36a2.46 2.46 0 0 1-2.4 2.58zm-11.09-5.52v1.8h4.32a3.77 3.77 0 0 1-1 2.27 4.42 4.42 0 0 1-3.33 1.32 4.8 4.8 0 0 1 0-9.6A4.6 4.6 0 0 1 61 30.14l1.27-1.27A6.29 6.29 0 0 0 57.74 27a6.61 6.61 0 1 0 0 13.21 6 6 0 0 0 4.61-1.85 6 6 0 0 0 1.56-4.22 5.87 5.87 0 0 0-.1-1.13zm45.31 1.4a4 4 0 0 0-3.64-2.71 4 4 0 0 0-4 4.25 4.16 4.16 0 0 0 4.22 4.25 4.23 4.23 0 0 0 3.54-1.88l-1.45-1a2.43 2.43 0 0 1-2.09 1.18 2.16 2.16 0 0 1-2.06-1.29l5.69-2.35zm-5.8 1.42a2.33 2.33 0 0 1 2.22-2.48 1.65 1.65 0 0 1 1.58.9zM92.63 40h1.87V27.5h-1.87zm-3.06-7.3h-.07a3 3 0 0 0-2.24-1 4.26 4.26 0 0 0 0 8.51 2.9 2.9 0 0 0 2.24-1h.06v.61c0 1.63-.87 2.5-2.27 2.5a2.35 2.35 0 0 1-2.14-1.51l-1.63.68A4.05 4.05 0 0 0 87.29 44c2.19 0 4-1.29 4-4.43V32h-1.72zm-2.14 5.88a2.59 2.59 0 0 1 0-5.16A2.4 2.4 0 0 1 89.7 36a2.38 2.38 0 0 1-2.28 2.58zm24.38-11.08h-4.47V40h1.87v-4.74h2.61a3.89 3.89 0 1 0 0-7.76zm0 6h-2.61v-4.26h2.65a2.14 2.14 0 1 1 0 4.29zm11.53-1.8a3.5 3.5 0 0 0-3.33 1.91l1.66.69a1.77 1.77 0 0 1 1.7-.92 1.8 1.8 0 0 1 2 1.61v.13a4.13 4.13 0 0 0-1.95-.48c-1.79 0-3.6 1-3.6 2.81a2.89 2.89 0 0 0 3.1 2.75 2.63 2.63 0 0 0 2.4-1.2h.06v1h1.8v-4.81c0-2.19-1.66-3.46-3.79-3.46zm-.23 6.85c-.61 0-1.46-.31-1.46-1.06 0-1 1.06-1.33 2-1.33a3.32 3.32 0 0 1 1.7.42 2.26 2.26 0 0 1-2.19 2zM133.74 32l-2.14 5.42h-.06L129.32 32h-2l3.33 7.58-1.9 4.21h1.95L135.82 32zm-16.81 8h1.87V27.5h-1.87z" fill="#fff"/><path d="M20.44 17.54a2 2 0 0 0-.46 1.4v22.12a2 2 0 0 0 .46 1.4l.07.07L32.9 30.15v-.29L20.51 17.47z" fill="url(#a)"/><path d="M37 34.28l-4.1-4.13v-.29l4.1-4.14.09.05L42 28.56c1.4.79 1.4 2.09 0 2.89l-4.89 2.78z" fill="url(#b)"/><path d="M37.12 34.22L32.9 30 20.44 42.46a1.63 1.63 0 0 0 2.08.06l14.61-8.3" fill="url(#c)"/><path d="M37.12 25.78l-14.61-8.3a1.63 1.63 0 0 0-2.08.06L32.9 30z" fill="url(#d)"/><path d="M37 34.13l-14.49 8.25a1.67 1.67 0 0 1-2 0l-.07.07.07.07a1.66 1.66 0 0 0 2 0l14.61-8.3z" style="isolation:isolate" opacity=".2"/><path d="M20.44 42.32a2 2 0 0 1-.46-1.4v.15a2 2 0 0 0 .46 1.4l.07-.07zM42 31.3l-5 2.83.09.09L42 31.44A1.75 1.75 0 0 0 43 30a1.86 1.86 0 0 1-1 1.3z" style="isolation:isolate" opacity=".12"/><path d="M22.51 17.62L42 28.7a1.86 1.86 0 0 1 1 1.3 1.75 1.75 0 0 0-1-1.44L22.51 17.48c-1.4-.79-2.54-.13-2.54 1.47v.15c.03-1.61 1.15-2.27 2.54-1.48z" style="isolation:isolate" fill="#fff" opacity=".25"/></svg>
+            </a>
+          </div>
+
+          <ul class="hero-checks">
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12.5l5 5 10-11"/></svg>
+              <span class="lang-es">Cifrado de extremo a extremo</span>
+              <span class="lang-en">End-to-end encryption</span>
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12.5l5 5 10-11"/></svg>
+              <span class="lang-es">Sin acceso a tus contactos</span>
+              <span class="lang-en">No access to your contacts</span>
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12.5l5 5 10-11"/></svg>
+              <span class="lang-es">Gratis</span>
+              <span class="lang-en">Free</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="hero-visual">
+          <div class="phone-mockup">
+            <img src="chats_screenshot.png?v=3" alt="Pantalla de chats de Mesgot" width="620" height="1380" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trust strip -->
+    <section id="privacidad" class="trust">
+      <div class="container">
+        <div class="section-header center">
+          <h2 class="section-title">
+            <span class="lang-es">Privacidad por diseño</span>
+            <span class="lang-en">Private by design</span>
+          </h2>
+          <p class="section-subtitle">
+            <span class="lang-es">No son promesas de marketing: así está construida la app.</span>
+            <span class="lang-en">Not marketing promises — this is how the app is built.</span>
+          </p>
+        </div>
+
+        <div class="trust-grid">
+          <div class="trust-card">
+            <div class="t-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10.5" width="16" height="9.5" rx="2.5"/><path d="M8 10.5V7a4 4 0 0 1 8 0v3.5"/></svg>
+            </div>
+            <h3>
+              <span class="lang-es">Cifrado de extremo a extremo</span>
+              <span class="lang-en">End-to-end encryption</span>
+            </h3>
+            <p>
+              <span class="lang-es">Actívalo en tus chats 1 a 1: las claves privadas nunca salen de tu dispositivo y nadie más puede leer tus mensajes.</span>
+              <span class="lang-en">Turn it on in your 1-on-1 chats: private keys never leave your device and no one else can read your messages.</span>
+            </p>
+          </div>
+
+          <div class="trust-card">
+            <div class="t-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9.5" cy="8" r="3.5"/><path d="M3.5 19c.9-3 3.2-4.5 6-4.5 1.5 0 2.9.4 4 1.3"/><path d="M16 15.5l5 5M21 15.5l-5 5"/></svg>
+            </div>
+            <h3>
+              <span class="lang-es">Tu agenda es tuya</span>
+              <span class="lang-en">Your address book is yours</span>
+            </h3>
+            <p>
+              <span class="lang-es">Mesgot no lee los contactos de tu teléfono ni te pide tu número: te conectas por nombre de usuario.</span>
+              <span class="lang-en">Mesgot doesn't read your phone contacts or ask for your number — you connect by username.</span>
+            </p>
+          </div>
+
+          <div class="trust-card">
+            <div class="t-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 20v-8M12 20V5M19 20v-5"/><path d="M3 3l18 18"/></svg>
+            </div>
+            <h3>
+              <span class="lang-es">Sin rastreadores de análisis</span>
+              <span class="lang-en">No analytics trackers</span>
+            </h3>
+            <p>
+              <span class="lang-es">La app no integra SDKs de analytics ni de informes de fallos de terceros que espíen cómo la usas.</span>
+              <span class="lang-en">The app ships no third-party analytics or crash-reporting SDKs spying on how you use it.</span>
+            </p>
+          </div>
+
+          <div class="trust-card">
+            <div class="t-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3v5c0 4.6-3 7.6-7 9-4-1.4-7-4.4-7-9V6z"/><path d="M9 11.5l2 2 4-4.5"/></svg>
+            </div>
+            <h3>
+              <span class="lang-es">Copias que controlas tú</span>
+              <span class="lang-en">Backups you control</span>
+            </h3>
+            <p>
+              <span class="lang-es">Tus copias de seguridad se cifran con tu contraseña y se guardan en tu propio Google Drive, no en nuestros servidores.</span>
+              <span class="lang-en">Your backups are encrypted with your password and stored in your own Google Drive — not on our servers.</span>
+            </p>
+          </div>
+        </div>
+
+        <p class="trust-note">
+          <span class="lang-es">Los detalles completos, sin letra pequeña, están en la <a href="privacy.html">Política de Privacidad</a>.</span>
+          <span class="lang-en">Full details, no fine print, in the <a href="privacy.html">Privacy Policy</a>.</span>
         </p>
-        <div class="download-buttons">
-          <a href="https://play.google.com/store/apps/details?id=com.projectbert.netsus" target="_blank" class="play-store-btn">
-            <!-- Official Spanish Google Play Store Badge SVG -->
-            <svg class="lang-es" id="artwork" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 239 70.9">
-              <defs>
-                <style>
-                  .st1{isolation:isolate}.st5{fill:#fff}
-                </style>
-              </defs>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="features">
+      <div class="container">
+        <div class="section-header center">
+          <h2 class="section-title">
+            <span class="lang-es">Todo lo que esperas de tu mensajería</span>
+            <span class="lang-en">Everything you expect from your messenger</span>
+          </h2>
+          <p class="section-subtitle">
+            <span class="lang-es">Y algunas cosas que no encontrarás en otras apps.</span>
+            <span class="lang-en">And a few things you won't find anywhere else.</span>
+          </p>
+        </div>
+
+        <div class="features-container">
+          <!-- Feature 1 -->
+          <div class="feature-row">
+            <div class="feature-text-block">
+              <p class="feature-kicker">
+                <span class="lang-es">Chats</span>
+                <span class="lang-en">Chats</span>
+              </p>
+              <h3 class="feature-row-title">
+                <span class="lang-es">Conversaciones en tiempo real, a tu manera</span>
+                <span class="lang-en">Real-time conversations, your way</span>
+              </h3>
+              <p class="feature-row-desc">
+                <span class="lang-es">Mensajes instantáneos con confirmaciones de entrega y lectura, stickers, encuestas, mensajes efímeros de una sola vista, rachas y juegos dentro del chat. Y cuando quieras máxima privacidad, activa el cifrado de extremo a extremo.</span>
+                <span class="lang-en">Instant messages with delivery and read receipts, stickers, polls, view-once messages, streaks and in-chat games. And when you want maximum privacy, turn on end-to-end encryption.</span>
+              </p>
+            </div>
+            <div class="feature-visual-block">
+              <div class="phone-mockup">
+                <img src="screenshot.png?v=3" alt="Chat en tiempo real en Mesgot" loading="lazy" width="620" height="1380" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Feature 2 -->
+          <div class="feature-row reverse">
+            <div class="feature-text-block">
+              <p class="feature-kicker">
+                <span class="lang-es">Llamadas</span>
+                <span class="lang-en">Calls</span>
+              </p>
+              <h3 class="feature-row-title">
+                <span class="lang-es">Voz y video en HD, cifrados en tránsito</span>
+                <span class="lang-en">HD voice & video, encrypted in transit</span>
+              </h3>
+              <p class="feature-row-desc">
+                <span class="lang-es">Llamadas fluidas que se adaptan a tu conexión, con imagen dentro de imagen para seguir hablando mientras haces otras cosas. El audio y el video viajan cifrados.</span>
+                <span class="lang-en">Smooth calls that adapt to your connection, with picture-in-picture so you can keep talking while you do other things. Audio and video travel encrypted.</span>
+              </p>
+            </div>
+            <div class="feature-visual-block">
+              <div class="phone-mockup">
+                <img src="calls_screenshot.png?v=3" alt="Llamada de video en Mesgot" loading="lazy" width="620" height="1380" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Feature 3 -->
+          <div class="feature-row">
+            <div class="feature-text-block">
+              <p class="feature-kicker">
+                <span class="lang-es">Asistente</span>
+                <span class="lang-en">Assistant</span>
+              </p>
+              <h3 class="feature-row-title">
+                <span class="lang-es">Mesgot IA, siempre a un toque</span>
+                <span class="lang-en">Mesgot AI, one tap away</span>
+              </h3>
+              <p class="feature-row-desc">
+                <span class="lang-es">Pide ayuda, consejos o información sin salir de la app: por chat o en una llamada de voz en vivo con la IA.</span>
+                <span class="lang-en">Ask for help, advice or information without leaving the app — by chat or in a live voice call with the AI.</span>
+              </p>
+              <p class="feature-fineprint">
+                <span class="lang-es">Impulsado por modelos de Google. Las respuestas de la IA pueden contener errores.</span>
+                <span class="lang-en">Powered by Google models. AI answers may contain mistakes.</span>
+              </p>
+            </div>
+            <div class="feature-visual-block">
+              <div class="phone-mockup">
+                <img src="ai_screenshot.png?v=3" alt="Asistente Mesgot IA" loading="lazy" width="620" height="1380" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Feature 4 -->
+          <div class="feature-row reverse">
+            <div class="feature-text-block">
+              <p class="feature-kicker">
+                <span class="lang-es">Personalización</span>
+                <span class="lang-en">Customization</span>
+              </p>
+              <h3 class="feature-row-title">
+                <span class="lang-es">Una app que se ve como tú quieras</span>
+                <span class="lang-en">An app that looks the way you want</span>
+              </h3>
+              <p class="feature-row-desc">
+                <span class="lang-es">Temas, colores, fondos y estilos de burbuja para cada conversación. Desde minimalista hasta retro: tu chat, tus reglas.</span>
+                <span class="lang-en">Themes, colors, wallpapers and bubble styles for every conversation. From minimal to retro — your chat, your rules.</span>
+              </p>
+            </div>
+            <div class="feature-visual-block">
+              <div class="phone-mockup">
+                <img src="styles_screenshot.png?v=3" alt="Temas y personalización en Mesgot" loading="lazy" width="620" height="1380" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+      <div class="container">
+        <div class="cta-box">
+          <h2 class="section-title">
+            <span class="lang-es">Empieza a chatear hoy</span>
+            <span class="lang-en">Start chatting today</span>
+          </h2>
+          <p class="section-subtitle">
+            <span class="lang-es">Descarga Mesgot gratis para Android.</span>
+            <span class="lang-en">Download Mesgot for Android, free.</span>
+          </p>
+          <a href="https://play.google.com/store/apps/details?id=com.projectbert.netsus" target="_blank" rel="noopener" class="play-store-btn" aria-label="Google Play" style="height: 56px;">
+            <svg class="lang-es" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 239 70.9" style="margin: 0 auto;">
               <rect width="239" height="70.8" rx="8.8" ry="8.8"/>
-              <path class="st5" d="M120.6 38.5c-4.1 0-7.5 3.2-7.5 7.5s3.4 7.5 7.5 7.5a7.5 7.5 0 1 0 0-15Zm0 12c-2.3 0-4.2-1.8-4.2-4.5s2-4.5 4.2-4.5 4.3 1.8 4.3 4.5-2 4.6-4.3 4.6Zm-16.5-12c-4.1 0-7.5 3.2-7.5 7.5s3.4 7.5 7.5 7.5a7.5 7.5 0 1 0 0-15Zm0 12c-2.3 0-4.2-1.8-4.2-4.5s2-4.5 4.2-4.5 4.3 1.8 4.3 4.5-2 4.6-4.3 4.6Zm-19.6-9.7V44h7.7a6.7 6.7 0 0 1-1.8 4 7.8 7.8 0 0 1-5.9 2.4 8.4 8.4 0 0 1-8.4-8.5 8.4 8.4 0 0 1 14.2-6.2l2.2-2.3a11.8 11.8 0 0 0-19.8 8.5c0 6.5 5.3 11.7 11.8 11.7 3.5 0 6.1-1.1 8.2-3.3 2-2.1 2.7-5 2.7-7.5l-.1-2H84.5Zm80.2 2.5c-.6-1.7-2.5-4.8-6.4-4.8s-7.1 3-7.1 7.5c0 4.2 3.2 7.5 7.4 7.5 3.5 0 5.5-2 6.3-3.3l-2.6-1.7c-.8 1.2-2 2-3.7 2s-2.8-.7-3.6-2.2l10-4.2-.3-.8Zm-10.3 2.5c0-2.9 2.3-4.4 4-4.4 1.3 0 2.4.7 2.8 1.6l-6.8 2.8Zm-8.1 7.3h3.3V31h-3.3v22Zm-5.5-13a5.2 5.2 0 0 0-4-1.6c-3.8 0-7.2 3.3-7.2 7.6s3.4 7.5 7.2 7.5a5 5 0 0 0 4-1.8V53c0 3-1.5 4.5-4 4.5-2 0-3.2-1.5-3.8-2.7l-2.9 1.2c.9 2 3 4.4 6.7 4.4 3.9 0 7.2-2.2 7.2-7.8V39h-3.2v1.2ZM137 50.7c-2.2 0-4.2-2-4.2-4.5s2-4.6 4.2-4.6 4 2 4 4.6-1.7 4.5-4 4.5ZM180.2 31h-7.9v22h3.3v-8.4h4.6c3.7 0 7.3-2.6 7.3-6.9s-3.6-6.8-7.3-6.8Zm0 10.6h-4.6V34h4.7a3.8 3.8 0 1 1 0 7.6Zm20.5-3.1c-2.4 0-4.9 1-5.9 3.3l3 1.3c.6-1.3 1.8-1.7 3-1.7 1.7 0 3.4 1 3.4 2.9v.2c-.6-.3-1.8-.8-3.4-.8-3.2 0-6.4 1.7-6.4 5 0 2.9 2.6 4.8 5.5 4.8 2.2 0 3.5-1 4.2-2.2h.1v1.8h3.2v-8.5c0-4-3-6.1-6.7-6.1Zm-.4 12c-1 0-2.6-.5-2.6-1.8 0-1.7 1.9-2.3 3.5-2.3 1.5 0 2.2.3 3 .7a4 4 0 0 1-3.9 3.5ZM219 39l-3.8 9.6-4-9.6h-3.6l6 13.5-3.4 7.4h3.4l9.1-20.9H219Zm-29.7 14.2h3.3V31h-3.3v22Z"/>
+              <path fill="#fff" d="M120.6 38.5c-4.1 0-7.5 3.2-7.5 7.5s3.4 7.5 7.5 7.5a7.5 7.5 0 1 0 0-15Zm0 12c-2.3 0-4.2-1.8-4.2-4.5s2-4.5 4.2-4.5 4.3 1.8 4.3 4.5-2 4.6-4.3 4.6Zm-16.5-12c-4.1 0-7.5 3.2-7.5 7.5s3.4 7.5 7.5 7.5a7.5 7.5 0 1 0 0-15Zm0 12c-2.3 0-4.2-1.8-4.2-4.5s2-4.5 4.2-4.5 4.3 1.8 4.3 4.5-2 4.6-4.3 4.6Zm-19.6-9.7V44h7.7a6.7 6.7 0 0 1-1.8 4 7.8 7.8 0 0 1-5.9 2.4 8.4 8.4 0 0 1-8.4-8.5 8.4 8.4 0 0 1 14.2-6.2l2.2-2.3a11.8 11.8 0 0 0-19.8 8.5c0 6.5 5.3 11.7 11.8 11.7 3.5 0 6.1-1.1 8.2-3.3 2-2.1 2.7-5 2.7-7.5l-.1-2H84.5Zm80.2 2.5c-.6-1.7-2.5-4.8-6.4-4.8s-7.1 3-7.1 7.5c0 4.2 3.2 7.5 7.4 7.5 3.5 0 5.5-2 6.3-3.3l-2.6-1.7c-.8 1.2-2 2-3.7 2s-2.8-.7-3.6-2.2l10-4.2-.3-.8Zm-10.3 2.5c0-2.9 2.3-4.4 4-4.4 1.3 0 2.4.7 2.8 1.6l-6.8 2.8Zm-8.1 7.3h3.3V31h-3.3v22Zm-5.5-13a5.2 5.2 0 0 0-4-1.6c-3.8 0-7.2 3.3-7.2 7.6s3.4 7.5 7.2 7.5a5 5 0 0 0 4-1.8V53c0 3-1.5 4.5-4 4.5-2 0-3.2-1.5-3.8-2.7l-2.9 1.2c.9 2 3 4.4 6.7 4.4 3.9 0 7.2-2.2 7.2-7.8V39h-3.2v1.2ZM137 50.7c-2.2 0-4.2-2-4.2-4.5s2-4.6 4.2-4.6 4 2 4 4.6-1.7 4.5-4 4.5ZM180.2 31h-7.9v22h3.3v-8.4h4.6c3.7 0 7.3-2.6 7.3-6.9s-3.6-6.8-7.3-6.8Zm0 10.6h-4.6V34h4.7a3.8 3.8 0 1 1 0 7.6Zm20.5-3.1c-2.4 0-4.9 1-5.9 3.3l3 1.3c.6-1.3 1.8-1.7 3-1.7 1.7 0 3.4 1 3.4 2.9v.2c-.6-.3-1.8-.8-3.4-.8-3.2 0-6.4 1.7-6.4 5 0 2.9 2.6 4.8 5.5 4.8 2.2 0 3.5-1 4.2-2.2h.1v1.8h3.2v-8.5c0-4-3-6.1-6.7-6.1Zm-.4 12c-1 0-2.6-.5-2.6-1.8 0-1.7 1.9-2.3 3.5-2.3 1.5 0 2.2.3 3 .7a4 4 0 0 1-3.9 3.5ZM219 39l-3.8 9.6-4-9.6h-3.6l6 13.5-3.4 7.4h3.4l9.1-20.9H219Zm-29.7 14.2h3.3V31h-3.3v22Z"/>
               <path d="m36.7 34.4-18.9 20a5 5 0 0 0 7.5 3l21.3-12.2-10-10.9Z" style="fill:#ea4335"/>
               <path d="m55.7 31-9.1-5.3-10.4 9.1 10.4 10.4 9.1-5.3c1.6-.8 2.7-2.5 2.7-4.4s-1-3.7-2.7-4.5Z" style="fill:#fbbc04"/>
               <path d="m17.8 16.4-.2 1.3v35.4c0 .5 0 .9.2 1.3l19.5-19.5-19.5-18.5Z" style="fill:#4285f4"/>
               <path d="m36.8 35.4 9.8-9.8-21.2-12.2a5.1 5.1 0 0 0-7.6 3l19 19Z" style="fill:#34a853"/>
-              <g class="st1">
-                <path class="st5" d="M74 12.2h3.5a5.3 5.3 0 0 1 5 2.6c.4.9.6 1.8.6 3s-.2 2-.6 2.8c-.5.8-1.2 1.5-2 2s-1.9.6-3 .6H74v-11Zm3.5 9.4a4 4 0 0 0 2.9-1c.6-.7 1-1.7 1-2.9s-.3-2.1-1-2.8a4 4 0 0 0-3-1h-1.7v7.7h1.8Z"/>
-              </g>
-              <g class="st1">
-                <path class="st5" d="M85.4 12.2H92V14h-5v3h4.5v1.6H87v3h5v1.7h-6.7v-11Z"/>
-              </g>
-              <g class="st1">
-                <path class="st5" d="M95 22.7a4 4 0 0 1-1.5-2.3l1.6-.6c.1.6.4 1 .9 1.5s.9.5 1.5.5c.5 0 1-.1 1.3-.4.4-.3.6-.7.6-1.1 0-.5-.2-.9-.5-1.2s-.9-.6-1.7-.9l-.7-.2a5 5 0 0 1-1.9-1.1c-.5-.5-.7-1.1-.7-2 0-.5.1-1 .4-1.4.3-.5.7-.9 1.3-1.1a3 3 0 0 1 1.7-.4c1 0 1.8.2 2.4.7s1 1 1.1 1.5l-1.5.7a2 2 0 0 0-2-1.3c-.4 0-.9.1-1.2.4s-.5.5-.5 1c0 .3.1.6.5.9.3.2.7.5 1.4.7l.7.2c1 .4 1.7.8 2.2 1.3s.8 1.3.8 2.1a3 3 0 0 1-.6 1.9c-.4.4-.8.8-1.4 1a4 4 0 0 1-1.8.4 4 4 0 0 1-2.4-.8Z"/>
-              </g>
-              <g class="st1">
-                <path class="st5" d="M105.5 22.7a5.5 5.5 0 0 1-2-2 6 6 0 0 1 0-5.9c.5-.9 1.2-1.6 2-2 1-.6 1.9-.8 3-.8.8 0 1.6.1 2.2.4s1.3.8 1.8 1.4l-1.2 1.2c-.4-.5-.8-.8-1.2-1a3 3 0 0 0-1.6-.4 4 4 0 0 0-2 .5c-.7.4-1.2.8-1.5 1.5a4.3 4.3 0 0 0 0 4.3c.3.6.8 1 1.4 1.4a4.1 4.1 0 0 0 5.2-1l1.3 1.2a5.6 5.6 0 0 1-4.4 2c-1.1 0-2-.3-3-.8Z"/>
-              </g>
-              <g class="st1">
-                <path class="st5" d="M118 12.2h2l4.2 11h-2l-1-2.8h-4.4l-1 2.8H114l4.1-11Zm2.7 6.6-1.2-3.3-.4-1.2h-.1l-.4 1.2-1.2 3.3h3.3Z"/>
-              </g>
-              <g class="st1">
-                <path class="st5" d="M125.9 12.2h3.8c.7 0 1.3.2 1.8.4s1 .7 1.3 1.2.5 1.1.5 1.8a3 3 0 0 1-.7 2c-.5.5-1.1 1-1.8 1.1l3 4.4v.1h-2l-3-4.3h-1.2v4.3h-1.7v-11Zm3.8 5.1c.5 0 1-.1 1.3-.5s.5-.7.5-1.2c0-.3 0-.6-.2-.8-.1-.3-.3-.5-.6-.7s-.6-.3-1-.3h-2.1v3.5h2Z"/>
-              </g>
-              <g class="st1">
-                <path class="st5" d="M137.7 22.7a5.6 5.6 0 0 1-2.9-5 5.6 5.6 0 0 1 3-5c.8-.5 1.8-.7 2.8-.7.8 0 1.6.1 2.3.4s1.4.7 1.8 1.3l-1.2 1.2c-.3-.4-.8-.7-1.3-1a4 4 0 0 0-1.6-.3 4 4 0 0 0-2 .5c-.6.4-1.1.9-1.5 1.5-.4.6-.5 1.3-.5 2.2a4 4 0 0 0 4 4c.7 0 1.2 0 1.6-.2l1.2-.8c.3-.2.5-.5.6-.8l.3-1.2h-3.7v-1.5h5.4v.9c0 .7 0 1.4-.3 2-.2.7-.5 1.2-1 1.7a5.4 5.4 0 0 1-4 1.6 6 6 0 0 1-3-.7Z"/>
-              </g>
-              <g class="st1">
-                <path class="st5" d="M151 12.2h1.9l4.1 11h-1.9l-1-2.8h-4.4l-1 2.8h-2l4.2-11Zm2.6 6.6-1.2-3.3-.4-1.2h-.1l-.5 1.2-1.1 3.3h3.3Z"/>
-              </g>
-              <g class="st1">
-                <path class="st5" d="M158.7 12.2h4c.6 0 1.2.2 1.7.4s1 .7 1.3 1.2.5 1.1.5 1.8a3 3 0 0 1-.8 2c-.4.5-1 1-1.7 1.1l3 4.4v.1h-2l-3-4.3h-1.2v4.3h-1.8v-11Zm3.9 5.1c.5 0 1-.1 1.3-.5s.5-.7.5-1.2c0-.3 0-.6-.2-.8-.1-.3-.4-.5-.6-.7s-.6-.3-1-.3h-2.1v3.5h2Z"/>
-              </g>
-              <g class="st1">
-                <path class="st5" d="M171.7 12.2h6.7V14h-5v3h4.5v1.6h-4.5v3h5v1.7h-6.7v-11Z"/>
-              </g>
-              <g class="st1">
-                <path class="st5" d="M180.8 12.2h2l5 8v-8h1.6v11h-1.8l-5.1-8.4h-.1v8.4h-1.6v-11Z"/>
-              </g>
+              <path fill="#fff" d="M74 12.2h3.5a5.3 5.3 0 0 1 5 2.6c.4.9.6 1.8.6 3s-.2 2-.6 2.8c-.5.8-1.2 1.5-2 2s-1.9.6-3 .6H74v-11Zm3.5 9.4a4 4 0 0 0 2.9-1c.6-.7 1-1.7 1-2.9s-.3-2.1-1-2.8a4 4 0 0 0-3-1h-1.7v7.7h1.8ZM85.4 12.2H92V14h-5v3h4.5v1.6H87v3h5v1.7h-6.7v-11ZM95 22.7a4 4 0 0 1-1.5-2.3l1.6-.6c.1.6.4 1 .9 1.5s.9.5 1.5.5c.5 0 1-.1 1.3-.4.4-.3.6-.7.6-1.1 0-.5-.2-.9-.5-1.2s-.9-.6-1.7-.9l-.7-.2a5 5 0 0 1-1.9-1.1c-.5-.5-.7-1.1-.7-2 0-.5.1-1 .4-1.4.3-.5.7-.9 1.3-1.1a3 3 0 0 1 1.7-.4c1 0 1.8.2 2.4.7s1 1 1.1 1.5l-1.5.7a2 2 0 0 0-2-1.3c-.4 0-.9.1-1.2.4s-.5.5-.5 1c0 .3.1.6.5.9.3.2.7.5 1.4.7l.7.2c1 .4 1.7.8 2.2 1.3s.8 1.3.8 2.1a3 3 0 0 1-.6 1.9c-.4.4-.8.8-1.4 1a4 4 0 0 1-1.8.4 4 4 0 0 1-2.4-.8ZM105.5 22.7a5.5 5.5 0 0 1-2-2 6 6 0 0 1 0-5.9c.5-.9 1.2-1.6 2-2 1-.6 1.9-.8 3-.8.8 0 1.6.1 2.2.4s1.3.8 1.8 1.4l-1.2 1.2c-.4-.5-.8-.8-1.2-1a3 3 0 0 0-1.6-.4 4 4 0 0 0-2 .5c-.7.4-1.2.8-1.5 1.5a4.3 4.3 0 0 0 0 4.3c.3.6.8 1 1.4 1.4a4.1 4.1 0 0 0 5.2-1l1.3 1.2a5.6 5.6 0 0 1-4.4 2c-1.1 0-2-.3-3-.8ZM118 12.2h2l4.2 11h-2l-1-2.8h-4.4l-1 2.8H114l4.1-11Zm2.7 6.6-1.2-3.3-.4-1.2h-.1l-.4 1.2-1.2 3.3h3.3ZM125.9 12.2h3.8c.7 0 1.3.2 1.8.4s1 .7 1.3 1.2.5 1.1.5 1.8a3 3 0 0 1-.7 2c-.5.5-1.1 1-1.8 1.1l3 4.4v.1h-2l-3-4.3h-1.2v4.3h-1.7v-11Zm3.8 5.1c.5 0 1-.1 1.3-.5s.5-.7.5-1.2c0-.3 0-.6-.2-.8-.1-.3-.3-.5-.6-.7s-.6-.3-1-.3h-2.1v3.5h2ZM137.7 22.7a5.6 5.6 0 0 1-2.9-5 5.6 5.6 0 0 1 3-5c.8-.5 1.8-.7 2.8-.7.8 0 1.6.1 2.3.4s1.4.7 1.8 1.3l-1.2 1.2c-.3-.4-.8-.7-1.3-1a4 4 0 0 0-1.6-.3 4 4 0 0 0-2 .5c-.6.4-1.1.9-1.5 1.5-.4.6-.5 1.3-.5 2.2a4 4 0 0 0 4 4c.7 0 1.2 0 1.6-.2l1.2-.8c.3-.2.5-.5.6-.8l.3-1.2h-3.7v-1.5h5.4v.9c0 .7 0 1.4-.3 2-.2.7-.5 1.2-1 1.7a5.4 5.4 0 0 1-4 1.6 6 6 0 0 1-3-.7ZM151 12.2h1.9l4.1 11h-1.9l-1-2.8h-4.4l-1 2.8h-2l4.2-11Zm2.6 6.6-1.2-3.3-.4-1.2h-.1l-.5 1.2-1.1 3.3h3.3ZM158.7 12.2h4c.6 0 1.2.2 1.7.4s1 .7 1.3 1.2.5 1.1.5 1.8a3 3 0 0 1-.8 2c-.4.5-1 1-1.7 1.1l3 4.4v.1h-2l-3-4.3h-1.2v4.3h-1.8v-11Zm3.9 5.1c.5 0 1-.1 1.3-.5s.5-.7.5-1.2c0-.3 0-.6-.2-.8-.1-.3-.4-.5-.6-.7s-.6-.3-1-.3h-2.1v3.5h2ZM171.7 12.2h6.7V14h-5v3h4.5v1.6h-4.5v3h5v1.7h-6.7v-11ZM180.8 12.2h2l5 8v-8h1.6v11h-1.8l-5.1-8.4h-.1v8.4h-1.6v-11Z"/>
             </svg>
-            <!-- Official English Google Play Store Badge SVG -->
-            <svg class="lang-en" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 155 60"><defs><linearGradient id="a" x1="31.8" y1="183.29" x2="15.02" y2="166.51" gradientTransform="matrix(1 0 0 -1 0 202)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#00a0ff"/><stop offset=".01" stop-color="#00a1ff"/><stop offset=".26" stop-color="#00beff"/><stop offset=".51" stop-color="#00d2ff"/><stop offset=".76" stop-color="#00dfff"/><stop offset="1" stop-color="#00e3ff"/></linearGradient><linearGradient id="b" x1="43.83" y1="172" x2="19.64" y2="172" gradientTransform="matrix(1 0 0 -1 0 202)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ffe000"/><stop offset=".41" stop-color="#ffbd00"/><stop offset=".78" stop-color="orange"/><stop offset="1" stop-color="#ff9c00"/></linearGradient><linearGradient id="c" x1="34.83" y1="169.7" x2="12.07" y2="146.95" gradientTransform="matrix(1 0 0 -1 0 202)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ff3a44"/><stop offset="1" stop-color="#c31162"/></linearGradient><linearGradient id="d" x1="17.3" y1="191.82" x2="27.46" y2="181.66" gradientTransform="matrix(1 0 0 -1 0 202)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#32a071"/><stop offset=".07" stop-color="#2da771"/><stop offset=".48" stop-color="#15cf74"/><stop offset=".8" stop-color="#06e775"/><stop offset="1" stop-color="#00f076"/></linearGradient></defs><title>fil_get</title><path fill="none" d="M0 0h155v60H0z"/><rect x="10" y="10" width="135" height="40" rx="5" ry="5"/><path d="M140 10.8a4.2 4.2 0 0 1 4.2 4.2v30a4.2 4.2 0 0 1-4.2 4.2H15a4.2 4.2 0 0 1-4.2-4.2V15a4.2 4.2 0 0 1 4.2-4.2h125m0-.8H15a5 5 0 0 0-5 5v30a5 5 0 0 0 5 5h125a5 5 0 0 0 5-5V15a5 5 0 0 0-5-5z" fill="#a6a6a6"/><path d="M57.42 20.24a2.71 2.71 0 0 1-.75 2 2.91 2.91 0 0 1-2.2.89 3.15 3.15 0 0 1-2.21-5.37 3 3 0 0 1 2.21-.9 3.1 3.1 0 0 1 1.23.25 2.47 2.47 0 0 1 .94.67l-.53.53a2 2 0 0 0-1.64-.71 2.32 2.32 0 0 0-2.33 2.4 2.36 2.36 0 0 0 4 1.73 1.89 1.89 0 0 0 .5-1.22h-2.17v-.72h2.91a2.54 2.54 0 0 1 .04.45zM62 17.74h-2.7v1.9h2.46v.72H59.3v1.9H62V23h-3.5v-6H62zM65.28 23h-.77v-5.26h-1.68V17H67v.74h-1.72zM69.94 23v-6h.77v6zM74.13 23h-.77v-5.26h-1.68V17h4.12v.74h-1.67zM83.61 22.22a3.12 3.12 0 0 1-4.4 0 3.24 3.24 0 0 1 0-4.45 3.1 3.1 0 0 1 4.4 0 3.23 3.23 0 0 1 0 4.45zm-3.83-.5a2.31 2.31 0 0 0 3.26 0 2.56 2.56 0 0 0 0-3.44 2.31 2.31 0 0 0-3.26 0 2.56 2.56 0 0 0 0 3.44zM85.58 23v-6h.94l2.92 4.67V17h.77v6h-.8l-3.05-4.89V23z" fill="#fff" stroke="#fff" stroke-miterlimit="10" stroke-width=".2"/><path d="M78.14 31.75A4.25 4.25 0 1 0 82.41 36a4.19 4.19 0 0 0-4.27-4.25zm0 6.83a2.58 2.58 0 1 1 2.4-2.58 2.46 2.46 0 0 1-2.4 2.58zm-9.31-6.83A4.25 4.25 0 1 0 73.09 36a4.19 4.19 0 0 0-4.27-4.25zm0 6.83A2.58 2.58 0 1 1 71.22 36a2.46 2.46 0 0 1-2.4 2.58zm-11.09-5.52v1.8h4.32a3.77 3.77 0 0 1-1 2.27 4.42 4.42 0 0 1-3.33 1.32 4.8 4.8 0 0 1 0-9.6A4.6 4.6 0 0 1 61 30.14l1.27-1.27A6.29 6.29 0 0 0 57.74 27a6.61 6.61 0 1 0 0 13.21 6 6 0 0 0 4.61-1.85 6 6 0 0 0 1.56-4.22 5.87 5.87 0 0 0-.1-1.13zm45.31 1.4a4 4 0 0 0-3.64-2.71 4 4 0 0 0-4 4.25 4.16 4.16 0 0 0 4.22 4.25 4.23 4.23 0 0 0 3.54-1.88l-1.45-1a2.43 2.43 0 0 1-2.09 1.18 2.16 2.16 0 0 1-2.06-1.29l5.69-2.35zm-5.8 1.42a2.33 2.33 0 0 1 2.22-2.48 1.65 1.65 0 0 1 1.58.9zM92.63 40h1.87V27.5h-1.87zm-3.06-7.3h-.07a3 3 0 0 0-2.24-1 4.26 4.26 0 0 0 0 8.51 2.9 2.9 0 0 0 2.24-1h.06v.61c0 1.63-.87 2.5-2.27 2.5a2.35 2.35 0 0 1-2.14-1.51l-1.63.68A4.05 4.05 0 0 0 87.29 44c2.19 0 4-1.29 4-4.43V32h-1.72zm-2.14 5.88a2.59 2.59 0 0 1 0-5.16A2.4 2.4 0 0 1 89.7 36a2.38 2.38 0 0 1-2.28 2.58zm24.38-11.08h-4.47V40h1.87v-4.74h2.61a3.89 3.89 0 1 0 0-7.76zm0 6h-2.61v-4.26h2.65a2.14 2.14 0 1 1 0 4.29zm11.53-1.8a3.5 3.5 0 0 0-3.33 1.91l1.66.69a1.77 1.77 0 0 1 1.7-.92 1.8 1.8 0 0 1 2 1.61v.13a4.13 4.13 0 0 0-1.95-.48c-1.79 0-3.6 1-3.6 2.81a2.89 2.89 0 0 0 3.1 2.75 2.63 2.63 0 0 0 2.4-1.2h.06v1h1.8v-4.81c0-2.19-1.66-3.46-3.79-3.46zm-.23 6.85c-.61 0-1.46-.31-1.46-1.06 0-1 1.06-1.33 2-1.33a3.32 3.32 0 0 1 1.7.42 2.26 2.26 0 0 1-2.19 2zM133.74 32l-2.14 5.42h-.06L129.32 32h-2l3.33 7.58-1.9 4.21h1.95L135.82 32zm-16.81 8h1.87V27.5h-1.87z" fill="#fff"/><path d="M20.44 17.54a2 2 0 0 0-.46 1.4v22.12a2 2 0 0 0 .46 1.4l.07.07L32.9 30.15v-.29L20.51 17.47z" fill="url(#a)"/><path d="M37 34.28l-4.1-4.13v-.29l4.1-4.14.09.05L42 28.56c1.4.79 1.4 2.09 0 2.89l-4.89 2.78z" fill="url(#b)"/><path d="M37.12 34.22L32.9 30 20.44 42.46a1.63 1.63 0 0 0 2.08.06l14.61-8.3" fill="url(#c)"/><path d="M37.12 25.78l-14.61-8.3a1.63 1.63 0 0 0-2.08.06L32.9 30z" fill="url(#d)"/><path d="M37 34.13l-14.49 8.25a1.67 1.67 0 0 1-2 0l-.07.07.07.07a1.66 1.66 0 0 0 2 0l14.61-8.3z" style="isolation:isolate" opacity=".2"/><path d="M20.44 42.32a2 2 0 0 1-.46-1.4v.15a2 2 0 0 0 .46 1.4l.07-.07zM42 31.3l-5 2.83.09.09L42 31.44A1.75 1.75 0 0 0 43 30a1.86 1.86 0 0 1-1 1.3z" style="isolation:isolate" opacity=".12"/><path d="M22.51 17.62L42 28.7a1.86 1.86 0 0 1 1 1.3 1.75 1.75 0 0 0-1-1.44L22.51 17.48c-1.4-.79-2.54-.13-2.54 1.47v.15c.03-1.61 1.15-2.27 2.54-1.48z" style="isolation:isolate" fill="#fff" opacity=".25"/></svg>
+            <svg class="lang-en" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 155 60" style="margin: 0 auto;"><defs><linearGradient id="a2" x1="31.8" y1="183.29" x2="15.02" y2="166.51" gradientTransform="matrix(1 0 0 -1 0 202)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#00a0ff"/><stop offset=".01" stop-color="#00a1ff"/><stop offset=".26" stop-color="#00beff"/><stop offset=".51" stop-color="#00d2ff"/><stop offset=".76" stop-color="#00dfff"/><stop offset="1" stop-color="#00e3ff"/></linearGradient><linearGradient id="b2" x1="43.83" y1="172" x2="19.64" y2="172" gradientTransform="matrix(1 0 0 -1 0 202)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ffe000"/><stop offset=".41" stop-color="#ffbd00"/><stop offset=".78" stop-color="orange"/><stop offset="1" stop-color="#ff9c00"/></linearGradient><linearGradient id="c2" x1="34.83" y1="169.7" x2="12.07" y2="146.95" gradientTransform="matrix(1 0 0 -1 0 202)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ff3a44"/><stop offset="1" stop-color="#c31162"/></linearGradient><linearGradient id="d2" x1="17.3" y1="191.82" x2="27.46" y2="181.66" gradientTransform="matrix(1 0 0 -1 0 202)" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#32a071"/><stop offset=".07" stop-color="#2da771"/><stop offset=".48" stop-color="#15cf74"/><stop offset=".8" stop-color="#06e775"/><stop offset="1" stop-color="#00f076"/></linearGradient></defs><path fill="none" d="M0 0h155v60H0z"/><rect x="10" y="10" width="135" height="40" rx="5" ry="5"/><path d="M140 10.8a4.2 4.2 0 0 1 4.2 4.2v30a4.2 4.2 0 0 1-4.2 4.2H15a4.2 4.2 0 0 1-4.2-4.2V15a4.2 4.2 0 0 1 4.2-4.2h125m0-.8H15a5 5 0 0 0-5 5v30a5 5 0 0 0 5 5h125a5 5 0 0 0 5-5V15a5 5 0 0 0-5-5z" fill="#a6a6a6"/><path d="M57.42 20.24a2.71 2.71 0 0 1-.75 2 2.91 2.91 0 0 1-2.2.89 3.15 3.15 0 0 1-2.21-5.37 3 3 0 0 1 2.21-.9 3.1 3.1 0 0 1 1.23.25 2.47 2.47 0 0 1 .94.67l-.53.53a2 2 0 0 0-1.64-.71 2.32 2.32 0 0 0-2.33 2.4 2.36 2.36 0 0 0 4 1.73 1.89 1.89 0 0 0 .5-1.22h-2.17v-.72h2.91a2.54 2.54 0 0 1 .04.45zM62 17.74h-2.7v1.9h2.46v.72H59.3v1.9H62V23h-3.5v-6H62zM65.28 23h-.77v-5.26h-1.68V17H67v.74h-1.72zM69.94 23v-6h.77v6zM74.13 23h-.77v-5.26h-1.68V17h4.12v.74h-1.67zM83.61 22.22a3.12 3.12 0 0 1-4.4 0 3.24 3.24 0 0 1 0-4.45 3.1 3.1 0 0 1 4.4 0 3.23 3.23 0 0 1 0 4.45zm-3.83-.5a2.31 2.31 0 0 0 3.26 0 2.56 2.56 0 0 0 0-3.44 2.31 2.31 0 0 0-3.26 0 2.56 2.56 0 0 0 0 3.44zM85.58 23v-6h.94l2.92 4.67V17h.77v6h-.8l-3.05-4.89V23z" fill="#fff" stroke="#fff" stroke-miterlimit="10" stroke-width=".2"/><path d="M78.14 31.75A4.25 4.25 0 1 0 82.41 36a4.19 4.19 0 0 0-4.27-4.25zm0 6.83a2.58 2.58 0 1 1 2.4-2.58 2.46 2.46 0 0 1-2.4 2.58zm-9.31-6.83A4.25 4.25 0 1 0 73.09 36a4.19 4.19 0 0 0-4.27-4.25zm0 6.83A2.58 2.58 0 1 1 71.22 36a2.46 2.46 0 0 1-2.4 2.58zm-11.09-5.52v1.8h4.32a3.77 3.77 0 0 1-1 2.27 4.42 4.42 0 0 1-3.33 1.32 4.8 4.8 0 0 1 0-9.6A4.6 4.6 0 0 1 61 30.14l1.27-1.27A6.29 6.29 0 0 0 57.74 27a6.61 6.61 0 1 0 0 13.21 6 6 0 0 0 4.61-1.85 6 6 0 0 0 1.56-4.22 5.87 5.87 0 0 0-.1-1.13zm45.31 1.4a4 4 0 0 0-3.64-2.71 4 4 0 0 0-4 4.25 4.16 4.16 0 0 0 4.22 4.25 4.23 4.23 0 0 0 3.54-1.88l-1.45-1a2.43 2.43 0 0 1-2.09 1.18 2.16 2.16 0 0 1-2.06-1.29l5.69-2.35zm-5.8 1.42a2.33 2.33 0 0 1 2.22-2.48 1.65 1.65 0 0 1 1.58.9zM92.63 40h1.87V27.5h-1.87zm-3.06-7.3h-.07a3 3 0 0 0-2.24-1 4.26 4.26 0 0 0 0 8.51 2.9 2.9 0 0 0 2.24-1h.06v.61c0 1.63-.87 2.5-2.27 2.5a2.35 2.35 0 0 1-2.14-1.51l-1.63.68A4.05 4.05 0 0 0 87.29 44c2.19 0 4-1.29 4-4.43V32h-1.72zm-2.14 5.88a2.59 2.59 0 0 1 0-5.16A2.4 2.4 0 0 1 89.7 36a2.38 2.38 0 0 1-2.28 2.58zm24.38-11.08h-4.47V40h1.87v-4.74h2.61a3.89 3.89 0 1 0 0-7.76zm0 6h-2.61v-4.26h2.65a2.14 2.14 0 1 1 0 4.29zm11.53-1.8a3.5 3.5 0 0 0-3.33 1.91l1.66.69a1.77 1.77 0 0 1 1.7-.92 1.8 1.8 0 0 1 2 1.61v.13a4.13 4.13 0 0 0-1.95-.48c-1.79 0-3.6 1-3.6 2.81a2.89 2.89 0 0 0 3.1 2.75 2.63 2.63 0 0 0 2.4-1.2h.06v1h1.8v-4.81c0-2.19-1.66-3.46-3.79-3.46zm-.23 6.85c-.61 0-1.46-.31-1.46-1.06 0-1 1.06-1.33 2-1.33a3.32 3.32 0 0 1 1.7.42 2.26 2.26 0 0 1-2.19 2zM133.74 32l-2.14 5.42h-.06L129.32 32h-2l3.33 7.58-1.9 4.21h1.95L135.82 32zm-16.81 8h1.87V27.5h-1.87z" fill="#fff"/><path d="M20.44 17.54a2 2 0 0 0-.46 1.4v22.12a2 2 0 0 0 .46 1.4l.07.07L32.9 30.15v-.29L20.51 17.47z" fill="url(#a2)"/><path d="M37 34.28l-4.1-4.13v-.29l4.1-4.14.09.05L42 28.56c1.4.79 1.4 2.09 0 2.89l-4.89 2.78z" fill="url(#b2)"/><path d="M37.12 34.22L32.9 30 20.44 42.46a1.63 1.63 0 0 0 2.08.06l14.61-8.3" fill="url(#c2)"/><path d="M37.12 25.78l-14.61-8.3a1.63 1.63 0 0 0-2.08.06L32.9 30z" fill="url(#d2)"/></svg>
           </a>
+          <p class="cta-note">
+            <span class="lang-es">Al usar Mesgot aceptas los <a href="terms-and-conditions.html">Términos y Condiciones</a>.</span>
+            <span class="lang-en">By using Mesgot you agree to the <a href="terms-and-conditions.html">Terms & Conditions</a>.</span>
+          </p>
         </div>
       </div>
-      
-      <div class="hero-visual">
-        <div class="glow-circle"></div>
-        <!-- Phone Mockup -->
-        <div class="phone-mockup">
-          <div class="phone-screen">
-            <img src="chats_screenshot.png?v=3" alt="Mesgot Screenshot" style="width: 100%; height: auto; display: block;" />
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Features Section -->
-  <section id="features" class="features">
-    <div class="container">
-      <div class="section-header">
-        <h2 class="section-title">
-          <span class="lang-es">Diseñado para la comunicación moderna</span>
-          <span class="lang-en">Designed for modern communication</span>
-        </h2>
-        <p class="section-subtitle">
-          <span class="lang-es">Mesgot combina las mejores características de mensajería clásica en una sola app.</span>
-          <span class="lang-en">Mesgot combines the best features of classic messaging in a single app.</span>
-        </p>
-      </div>
-
-      <div class="features-container">
-        <!-- Feature 1: Chats en tiempo real -->
-        <div class="feature-row">
-          <div class="feature-text-block">
-            <div class="feature-icon-wrapper">
-              <svg class="feature-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2ZM20 16H5.2L4 17.2V4H20V16Z" fill="currentColor"/>
-              </svg>
-            </div>
-            <h3 class="feature-row-title">
-              <span class="lang-es">Chats en tiempo real</span>
-              <span class="lang-en">Real-time chats</span>
-            </h3>
-            <p class="feature-row-desc">
-              <span class="lang-es">Chatea de forma rápida y fluida con otras personas. Envía stickers, comparte archivos, organiza tus conversaciones con la máxima comodidad y protegelos con nuestro encriptado extremo a extremo </span>
-              <span class="lang-en">Chat quickly and smoothly with others. Send stickers, share files, organize your conversations with ultimate comfort, and protect them with our end-to-end encryption </span>
-            </p>
-          </div>
-          <div class="feature-visual-block">
-            <div class="glow-circle"></div>
-            <div class="phone-mockup" style="width: 280px;">
-              <div class="phone-screen">
-                <img src="screenshot.png?v=3" alt="Chats en tiempo real" style="width: 100%; height: auto; display: block;" />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Feature 2: Llamadas y video HD -->
-        <div class="feature-row reverse">
-          <div class="feature-text-block">
-            <div class="feature-icon-wrapper">
-              <svg class="feature-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M20.01 15.38C18.78 15.38 17.59 15.18 16.48 14.82C16.13 14.7 15.74 14.79 15.47 15.06L13.9 17.03C11.07 15.68 8.42 13.13 7.01 10.2L8.96 8.54C9.23 8.26 9.31 7.87 9.2 7.52C8.83 6.41 8.64 5.22 8.64 3.99C8.64 3.45 8.19 3 7.65 3H4.19C3.65 3 3 3.24 3 3.99C3 13.28 10.73 21 20.01 21C20.72 21 21 20.37 21 19.82V16.37C21 15.83 20.55 15.38 20.01 15.38Z" fill="currentColor"/>
-              </svg>
-            </div>
-            <h3 class="feature-row-title">
-              <span class="lang-es">Llamadas y video HD</span>
-              <span class="lang-en">HD voice & video</span>
-            </h3>
-            <p class="feature-row-desc">
-              <span class="lang-es">Llamadas de voz y videollamadas seguras. Siéntete más cerca de los tuyos.</span>
-              <span class="lang-en">Secure voice and video calls. Feel closer to your loved ones.</span>
-            </p>
-          </div>
-          <div class="feature-visual-block">
-            <div class="glow-circle"></div>
-            <div class="phone-mockup" style="width: 280px;">
-              <div class="phone-screen">
-                <img src="calls_screenshot.png?v=3" alt="Llamadas y video HD" style="width: 100%; height: auto; display: block;" />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Feature 3: Asistente Mesgot IA -->
-        <div class="feature-row">
-          <div class="feature-text-block">
-            <div class="feature-icon-wrapper">
-              <svg class="feature-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 2L14.85 8.15L21 11L14.85 13.85L12 20L9.15 13.85L3 11L9.15 8.15L12 2Z" fill="currentColor"/>
-                <path d="M19 19L19.5 21L20 19L22 18.5L20 18L19.5 16L19 18L17 18.5L19 19Z" fill="currentColor"/>
-                <path d="M6 6L6.5 8L7 6L9 5.5L7 5L6.5 3L6 5L4 5.5L6 6Z" fill="currentColor"/>
-              </svg>
-            </div>
-            <h3 class="feature-row-title">
-              <span class="lang-es">Asistente Mesgot IA</span>
-              <span class="lang-en">Mesgot AI Assistant</span>
-            </h3>
-            <p class="feature-row-desc">
-              <span class="lang-es">Interactúa directamente con nuestro bot de IA donde puedes pedir ayuda, consejos e información.</span>
-              <span class="lang-en">Interact directly with our AI bot to ask for help, advice, and information.</span>
-            </p>
-          </div>
-          <div class="feature-visual-block">
-            <div class="glow-circle"></div>
-            <div class="phone-mockup" style="width: 280px;">
-              <div class="phone-screen">
-                <img src="ai_screenshot.png?v=3" alt="Asistente Mesgot IA" style="width: 100%; height: auto; display: block;" />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Feature 4: Personalización absoluta -->
-        <div class="feature-row reverse">
-          <div class="feature-text-block">
-            <div class="feature-icon-wrapper">
-              <svg class="feature-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 3C7.58 3 4 6.58 4 11C4 12.5 4.8 13.8 6 14.5C6 14.8 6.1 15.2 6.1 15.5C6.1 17.5 7.7 19.1 9.7 19.1C10.2 19.1 10.6 19 11 18.8C11.4 20.1 12.6 21 14 21C15.9 21 17.5 19.4 17.5 17.5C17.5 17.2 17.4 16.8 17.3 16.5C18.6 15.6 19.5 14.1 19.5 12.5C19.5 7.3 16.1 3 12 3ZM7.5 11.5C6.7 11.5 6 10.8 6 10C6 9.2 6.7 8.5 7.5 8.5C8.3 8.5 9 9.2 9 10C9 10.8 8.3 11.5 7.5 11.5ZM11.5 8.5C10.7 8.5 10 7.8 10 7C10 6.2 10.7 5.5 11.5 5.5C12.3 5.5 13 6.2 13 7C13 7.8 12.3 8.5 11.5 8.5ZM15.5 10.5C14.7 10.5 14 9.8 14 9C14 8.2 14.7 7.5 15.5 7.5C16.3 7.5 17 8.2 17 9C17 9.8 16.3 10.5 15.5 10.5Z" fill="currentColor"/>
-              </svg>
-            </div>
-            <h3 class="feature-row-title">
-              <span class="lang-es">Personalización avanzada</span>
-              <span class="lang-en">Advanced customization</span>
-            </h3>
-            <p class="feature-row-desc">
-              <span class="lang-es">Elige entre una amplia gama de temas, colores y configuraciones para que tu app se adapte perfectamente a tu estilo personal.</span>
-              <span class="lang-en">Choose from a wide range of themes, colors, and settings to make your app perfectly fit your personal style.</span>
-            </p>
-          </div>
-          <div class="feature-visual-block">
-            <div class="glow-circle"></div>
-            <div class="phone-mockup" style="width: 280px;">
-              <div class="phone-screen">
-                <img src="styles_screenshot.png?v=3" alt="Personalización absoluta" style="width: 100%; height: auto; display: block;" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
+  </main>
 
   <!-- Footer -->
-  <footer>
-    <div class="container footer-grid">
-      <a href="#" class="footer-logo">
-        <img src="mesgot_logo.svg" alt="Mesgot Logo" width="44" height="44" />
-        <span class="logo-text">Mesgot</span>
-      </a>
-      
-      <div class="footer-links">
-        <a href="#features" class="footer-link">
-          <span class="lang-es">Funciones</span>
-          <span class="lang-en">Features</span>
-        </a>
-        <a href="privacy.html" class="footer-link">
-          <span class="lang-es">Política de Privacidad</span>
-          <span class="lang-en">Privacy Policy</span>
-        </a>
-        <a href="terms-and-conditions.html" class="footer-link">
-          <span class="lang-es">Términos y Condiciones</span>
-          <span class="lang-en">Terms & Conditions</span>
-        </a>
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="/" class="logo-container" aria-label="Mesgot">
+            <img src="mesgot_logo.svg" alt="" width="32" height="32" />
+            <span class="logo-text">Mesgot</span>
+          </a>
+          <p>
+            <span class="lang-es">Mensajería rápida, personalizable y privada para Android.</span>
+            <span class="lang-en">Fast, customizable, private messaging for Android.</span>
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>
+            <span class="lang-es">Producto</span>
+            <span class="lang-en">Product</span>
+          </h4>
+          <ul>
+            <li><a href="#features">
+              <span class="lang-es">Funciones</span>
+              <span class="lang-en">Features</span>
+            </a></li>
+            <li><a href="https://play.google.com/store/apps/details?id=com.projectbert.netsus" target="_blank" rel="noopener">Google Play</a></li>
+            <li><a href="mailto:support@mesgot.com">
+              <span class="lang-es">Soporte</span>
+              <span class="lang-en">Support</span>
+            </a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="privacy.html">
+              <span class="lang-es">Política de Privacidad</span>
+              <span class="lang-en">Privacy Policy</span>
+            </a></li>
+            <li><a href="terms-and-conditions.html">
+              <span class="lang-es">Términos y Condiciones</span>
+              <span class="lang-en">Terms & Conditions</span>
+            </a></li>
+            <li><a href="https://nextsus.netlify.app/account/delete" target="_blank" rel="noopener">
+              <span class="lang-es">Eliminar cuenta</span>
+              <span class="lang-en">Delete account</span>
+            </a></li>
+          </ul>
+        </div>
       </div>
-      
+
       <div class="copyright">
-        <span class="lang-es">© 2026 Mesgot. Todos los derechos reservados.</span>
-        <span class="lang-en">© 2026 Mesgot. All rights reserved.</span>
+        <span>
+          <span class="lang-es">© <span data-year>2026</span> Mesgot. Todos los derechos reservados.</span>
+          <span class="lang-en">© <span data-year>2026</span> Mesgot. All rights reserved.</span>
+        </span>
+        <span>
+          <span class="lang-es">Google Play es una marca de Google LLC.</span>
+          <span class="lang-en">Google Play is a trademark of Google LLC.</span>
+        </span>
       </div>
     </div>
   </footer>
 
   <script>
-    (function() {
-      var button = document.getElementById('langSwitch');
-      var label = document.getElementById('langLabel');
-      
+    (function () {
+      // Año automático
+      var year = String(new Date().getFullYear());
+      document.querySelectorAll("[data-year]").forEach(function (el) { el.textContent = year; });
+
+      // Metadatos según idioma
       function updateMetadata(lang) {
-        if (lang === 'es') {
-          document.title = "Mesgot - Conéctate de forma privada";
-          document.querySelector('meta[name="description"]').setAttribute('content', "Chats rápidos, personalizables y seguros, llamadas de voz y video, encriptación de extremo a extremo, un asistente de inteligencia artificial ¡entre muchas más cosas!");
-          document.querySelector('meta[property="og:title"]').setAttribute('content', "Mesgot - Conéctate de forma privada");
-          document.querySelector('meta[property="og:description"]').setAttribute('content', "Chats rápidos, personalizables y seguros, llamadas de voz y video, encriptación de extremo a extremo, un asistente de inteligencia artificial ¡entre muchas más cosas!");
+        var d = document;
+        if (lang === "es") {
+          d.title = "Mesgot — Mensajería privada para Android";
+          d.querySelector('meta[name="description"]').setAttribute("content", "Chats rápidos y personalizables, cifrado de extremo a extremo, llamadas de voz y video HD y un asistente de IA. Sin acceso a tus contactos y sin rastreadores de análisis.");
+          d.querySelector('meta[property="og:title"]').setAttribute("content", "Mesgot — Mensajería privada para Android");
+          d.querySelector('meta[property="og:description"]').setAttribute("content", "Chats rápidos y personalizables, cifrado de extremo a extremo, llamadas de voz y video HD y un asistente de IA.");
         } else {
-          document.title = "Mesgot - Connect privately";
-          document.querySelector('meta[name="description"]').setAttribute('content', "Fast, customizable, and secure chats, voice and video calls, end-to-end encryption, an AI assistant, and much more!");
-          document.querySelector('meta[property="og:title"]').setAttribute('content', "Mesgot - Connect privately");
-          document.querySelector('meta[property="og:description"]').setAttribute('content', "Fast, customizable, and secure chats, voice and video calls, end-to-end encryption, an AI assistant, and much more!");
+          d.title = "Mesgot — Private messaging for Android";
+          d.querySelector('meta[name="description"]').setAttribute("content", "Fast, customizable chats with end-to-end encryption, HD voice & video calls and an AI assistant. No access to your contacts, no analytics trackers.");
+          d.querySelector('meta[property="og:title"]').setAttribute("content", "Mesgot — Private messaging for Android");
+          d.querySelector('meta[property="og:description"]').setAttribute("content", "Fast, customizable chats with end-to-end encryption, HD voice & video calls and an AI assistant.");
         }
       }
-      
+
+      // Idioma
+      var langBtn = document.getElementById("langSwitch");
+      var langLabel = document.getElementById("langLabel");
+
       function setLanguage(lang) {
-        document.documentElement.setAttribute('lang', lang);
-        localStorage.setItem('lang', lang);
-        label.textContent = lang === 'es' ? 'EN' : 'ES';
+        document.documentElement.setAttribute("lang", lang);
+        try { localStorage.setItem("lang", lang); } catch (e) {}
+        langLabel.textContent = lang === "es" ? "EN" : "ES";
         updateMetadata(lang);
       }
-      
-      var currentLang = document.documentElement.getAttribute('lang') || 'en';
-      setLanguage(currentLang);
-      
-      button.addEventListener('click', function() {
-        var nextLang = document.documentElement.getAttribute('lang') === 'es' ? 'en' : 'es';
-        setLanguage(nextLang);
+
+      setLanguage(document.documentElement.getAttribute("lang") || "en");
+
+      langBtn.addEventListener("click", function () {
+        setLanguage(document.documentElement.getAttribute("lang") === "es" ? "en" : "es");
+      });
+
+      // Tema
+      var themeBtn = document.getElementById("themeSwitch");
+      themeBtn.addEventListener("click", function () {
+        var next = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", next);
+        try { localStorage.setItem("theme", next); } catch (e) {}
       });
     })();
   </script>

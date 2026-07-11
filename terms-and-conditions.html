@@ -1,824 +1,910 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    (function () {
+      var t = null, l = null;
+      try { t = localStorage.getItem("theme"); l = localStorage.getItem("lang"); } catch (e) {}
+      if (t !== "light" && t !== "dark") {
+        t = (window.matchMedia && matchMedia("(prefers-color-scheme: light)").matches) ? "light" : "dark";
+      }
+      if (l !== "es" && l !== "en") {
+        var ul = (navigator.language || navigator.userLanguage || "").toLowerCase();
+        l = ul.indexOf("es") === 0 ? "es" : "en";
+      }
+      document.documentElement.setAttribute("data-theme", t);
+      document.documentElement.setAttribute("lang", l);
+    })();
+  </script>
   <title>Términos y Condiciones | Mesgot</title>
-  <meta name="description" content="Términos y Condiciones de uso de Mesgot: regulan los derechos, obligaciones y normas al usar nuestra plataforma." />
-  
+  <meta name="description" content="Términos y Condiciones de Mesgot: reglas de uso, suscripciones, contenido, cifrado, limitación de responsabilidad, ley aplicable y arbitraje." />
+  <link rel="canonical" href="https://mesgot.com/terms-and-conditions.html" />
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
   <link rel="icon" type="image/png" href="favicon.png" />
-  
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f6f8fb" />
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b1017" />
+
   <style>
     :root {
-      --bg-1: #060913;
-      --bg-2: #0d1222;
-      --primary: #16a7ff;
-      --primary-grad: linear-gradient(135deg, #8ef8ff 0%, #16a7ff 48%, #6e57ff 100%);
-      --accent: #6e57ff;
-      --text: #f8fafc;
-      --text-muted: #94a3b8;
-      --glass: rgba(255, 255, 255, 0.03);
-      --glass-border: rgba(255, 255, 255, 0.08);
-      --glass-hover: rgba(255, 255, 255, 0.06);
-      --border-radius-lg: 24px;
-      --border-radius-md: 16px;
-      --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-      --font-headings: 'Outfit', sans-serif;
-      --font-body: 'Inter', sans-serif;
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+      --radius: 14px;
+      --container: 1080px;
+      --header-h: 68px;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
+    :root[data-theme="light"] {
+      color-scheme: light;
+      --bg: #f6f8fb;
+      --bg-soft: #eef2f7;
+      --surface: #ffffff;
+      --text: #101828;
+      --text-2: #43536b;
+      --text-3: #64748b;
+      --accent: #0a78cf;
+      --accent-ink: #085d9e;
+      --accent-soft: rgba(10, 120, 207, 0.08);
+      --border: #e3e9f1;
+      --border-strong: #cfd9e4;
+      --shadow: 0 1px 2px rgba(16, 24, 40, .04), 0 12px 32px -16px rgba(16, 24, 40, .18);
+      --header-bg: rgba(246, 248, 251, .85);
+      --note-bg: #f2f7fc;
+      --warn-bg: #fdf6ec;
+      --warn-border: #ecc994;
+      --warn-ink: #8a5a13;
     }
 
-    html {
-      scroll-behavior: smooth;
-      scroll-padding-top: 100px;
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #0b1017;
+      --bg-soft: #0e141d;
+      --surface: #121a26;
+      --text: #e9eef5;
+      --text-2: #aab8ca;
+      --text-3: #7f90a6;
+      --accent: #4ab3ff;
+      --accent-ink: #86ccff;
+      --accent-soft: rgba(74, 179, 255, 0.1);
+      --border: rgba(255, 255, 255, .09);
+      --border-strong: rgba(255, 255, 255, .17);
+      --shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 16px 40px -20px rgba(0, 0, 0, .55);
+      --header-bg: rgba(11, 16, 23, .82);
+      --note-bg: rgba(74, 179, 255, .06);
+      --warn-bg: rgba(240, 173, 78, .08);
+      --warn-border: rgba(240, 173, 78, .35);
+      --warn-ink: #f3c063;
     }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: calc(var(--header-h) + 20px); }
 
     body {
-      font-family: var(--font-body);
+      font-family: var(--font);
+      background: var(--bg);
       color: var(--text);
-      background-color: var(--bg-1);
-      background-image: 
-        radial-gradient(circle at 10% 20%, rgba(22, 167, 255, 0.15) 0%, transparent 40%),
-        radial-gradient(circle at 90% 80%, rgba(110, 87, 255, 0.12) 0%, transparent 40%),
-        linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 100%);
-      background-attachment: fixed;
-      min-height: 100vh;
-      line-height: 1.6;
+      line-height: 1.7;
+      font-size: 16.5px;
+      -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
     }
 
-    /* Container */
-    .container {
-      width: 100%;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 24px;
-    }
+    .container { width: 100%; max-width: var(--container); margin: 0 auto; padding: 0 24px; }
+    a { color: var(--accent-ink); }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+
+    .skip-link { position: absolute; left: -9999px; top: 0; z-index: 200; background: var(--surface); color: var(--text); padding: 10px 16px; border: 1px solid var(--border-strong); border-radius: 0 0 10px 0; }
+    .skip-link:focus { left: 0; }
+
+    html[lang="en"] .lang-es { display: none !important; }
+    html[lang="es"] .lang-en { display: none !important; }
 
     /* Header */
-    header {
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      background: rgba(6, 9, 19, 0.7);
-      border-bottom: 1px solid var(--glass-border);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      transition: all 0.3s ease;
-    }
+    header.site-header { position: sticky; top: 0; z-index: 100; background: var(--header-bg); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); }
+    .nav-container { display: flex; align-items: center; justify-content: space-between; height: var(--header-h); gap: 16px; }
+    .logo-container { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); }
+    .logo-container img { width: 32px; height: 32px; display: block; }
+    .logo-text { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.02em; }
+    .nav-right { display: flex; align-items: center; gap: 8px; }
+    .nav-links { display: flex; align-items: center; gap: 4px; margin-right: 8px; }
+    .nav-link { color: var(--text-2); text-decoration: none; font-size: 0.92rem; font-weight: 500; padding: 8px 12px; border-radius: 10px; transition: color .15s ease, background .15s ease; }
+    .nav-link:hover { color: var(--text); background: var(--accent-soft); }
+    .icon-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 36px; min-width: 36px; padding: 0 10px; background: transparent; color: var(--text-2); border: 1px solid var(--border); border-radius: 999px; font-family: var(--font); font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: color .15s ease, border-color .15s ease, background .15s ease; }
+    .icon-btn:hover { color: var(--text); border-color: var(--border-strong); background: var(--accent-soft); }
+    .icon-btn svg { width: 17px; height: 17px; flex: none; }
+    :root[data-theme="dark"] .icon-sun { display: none; }
+    :root[data-theme="light"] .icon-moon { display: none; }
 
-    .nav-container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 80px;
-    }
+    /* Page head */
+    .page-head { padding: 56px 0 36px; border-bottom: 1px solid var(--border); }
+    .page-head h1 { font-size: clamp(1.9rem, 3.6vw, 2.6rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.12; margin-bottom: 14px; }
+    .page-lead { color: var(--text-2); font-size: 1.08rem; max-width: 46em; }
+    .meta-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+    .meta-pill { background: var(--surface); border: 1px solid var(--border); padding: 7px 14px; border-radius: 999px; font-size: 0.84rem; color: var(--text-2); }
+    .meta-pill strong { color: var(--text); font-weight: 600; }
 
-    .logo-container {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-      color: var(--text);
-    }
+    /* Doc layout */
+    .doc-layout { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 56px; padding: 44px 0 88px; }
 
-    .logo-text {
-      font-family: var(--font-headings);
-      font-size: 1.6rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      background: var(--primary-grad);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
+    .toc { position: sticky; top: calc(var(--header-h) + 24px); align-self: start; max-height: calc(100vh - var(--header-h) - 48px); overflow-y: auto; padding-right: 8px; }
+    .toc::-webkit-scrollbar { width: 4px; }
+    .toc::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 2px; }
+    .toc-title { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: var(--text-3); margin-bottom: 12px; }
+    .toc ol { list-style: none; display: flex; flex-direction: column; gap: 2px; }
+    .toc a { display: block; color: var(--text-3); text-decoration: none; font-size: 0.88rem; padding: 6px 10px; border-left: 2px solid transparent; border-radius: 0 8px 8px 0; line-height: 1.4; transition: color .15s ease, background .15s ease, border-color .15s ease; }
+    .toc a:hover { color: var(--text); background: var(--accent-soft); }
+    .toc a.active { color: var(--accent-ink); border-left-color: var(--accent); background: var(--accent-soft); font-weight: 600; }
 
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 24px;
-    }
+    /* Content */
+    .doc-body { max-width: 74ch; min-width: 0; }
+    .doc-body section { padding: 8px 0 36px; }
+    .doc-body section + section { border-top: 1px solid var(--border); padding-top: 36px; }
+    .doc-body h2 { font-size: 1.42rem; font-weight: 750; letter-spacing: -0.02em; line-height: 1.25; margin-bottom: 16px; }
+    .doc-body h2 .secnum { color: var(--accent-ink); font-variant-numeric: tabular-nums; margin-right: 8px; }
+    .doc-body h3 { font-size: 1.05rem; font-weight: 700; margin: 22px 0 8px; }
+    .doc-body p { color: var(--text-2); margin-bottom: 14px; }
+    .doc-body p strong, .doc-body li strong { color: var(--text); font-weight: 650; }
+    .doc-body ul, .doc-body ol { color: var(--text-2); padding-left: 22px; margin: 0 0 14px; display: flex; flex-direction: column; gap: 8px; }
+    .doc-body li::marker { color: var(--accent-ink); }
 
-    .nav-link {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 0.95rem;
-      font-weight: 500;
-      transition: color 0.2s ease;
-    }
+    .tldr { background: var(--note-bg); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 10px; padding: 14px 18px; margin: 0 0 18px; font-size: 0.95rem; color: var(--text-2); }
+    .tldr .tldr-label { display: block; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; color: var(--accent-ink); margin-bottom: 4px; }
 
-    .nav-link:hover {
-      color: var(--text);
-    }
+    .notice-warn { background: var(--warn-bg); border: 1px solid var(--warn-border); border-radius: 12px; padding: 16px 20px; margin: 0 0 26px; font-size: 0.95rem; color: var(--text-2); }
+    .notice-warn strong { color: var(--warn-ink); }
 
-    .nav-cta {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 10px 20px;
-      border-radius: 999px;
-      background: var(--glass);
-      border: 1px solid var(--glass-border);
-      color: var(--text);
-      font-weight: 600;
-      font-size: 0.9rem;
-      text-decoration: none;
-      transition: all 0.25s ease;
-    }
-
-    .nav-cta:hover {
-      background: var(--glass-hover);
-      border-color: rgba(255, 255, 255, 0.15);
-      transform: translateY(-1px);
-    }
-
-    /* Hero Section */
-    .hero {
-      padding: 60px 0 20px 0;
-      position: relative;
-    }
-
-    .hero-title {
-      font-family: var(--font-headings);
-      font-size: clamp(2rem, 4vw, 3rem);
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      margin-bottom: 16px;
-    }
-
-    .hero-title span {
-      background: var(--primary-grad);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .hero-description {
-      font-size: 1.05rem;
-      color: var(--text-muted);
-      line-height: 1.7;
-    }
-
-    /* Glow Behind Title */
-    .glow-circle {
-      position: absolute;
-      width: 300px;
-      height: 300px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(22, 167, 255, 0.1) 0%, transparent 70%);
-      z-index: -1;
-      filter: blur(45px);
-    }
-
-    /* Meta details */
-    .meta-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 24px;
-    }
-
-    .meta-pill {
-      background: var(--glass);
-      border: 1px solid var(--glass-border);
-      padding: 8px 16px;
-      border-radius: 999px;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .meta-pill strong {
-      color: var(--text);
-      font-weight: 600;
-    }
-
-    /* Layout structure */
-    .policy-layout {
-      display: grid;
-      grid-template-columns: 280px 1fr;
-      gap: 40px;
-      margin-top: 40px;
-      margin-bottom: 80px;
-    }
-
-    /* Sidebar Navigation */
-    .policy-sidebar {
-      position: sticky;
-      top: 110px;
-      height: fit-content;
-      max-height: calc(100vh - 140px);
-      overflow-y: auto;
-      padding-right: 12px;
-    }
-
-    .policy-sidebar::-webkit-scrollbar {
-      width: 4px;
-    }
-
-    .policy-sidebar::-webkit-scrollbar-thumb {
-      background: var(--glass-border);
-      border-radius: 2px;
-    }
-
-    .sidebar-menu {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .sidebar-link {
-      display: block;
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 0.95rem;
-      font-weight: 500;
-      padding: 10px 16px;
-      border-radius: 12px;
-      border-left: 2px solid transparent;
-      transition: all 0.2s ease;
-      background: transparent;
-    }
-
-    .sidebar-link:hover {
-      color: var(--text);
-      background: var(--glass);
-    }
-
-    .sidebar-link.active {
-      color: var(--primary);
-      background: rgba(22, 167, 255, 0.08);
-      border-left-color: var(--primary);
-      font-weight: 600;
-    }
-
-    /* Cards */
-    .policy-card {
-      background: var(--glass);
-      border: 1px solid var(--glass-border);
-      border-radius: var(--border-radius-md);
-      padding: 32px;
-      margin-bottom: 24px;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      transition: border-color 0.3s ease;
-    }
-
-    .policy-card:hover {
-      border-color: rgba(255, 255, 255, 0.15);
-      background: var(--glass-hover);
-    }
-
-    .policy-card h3 {
-      font-family: var(--font-headings);
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: #fff;
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      letter-spacing: -0.01em;
-    }
-
-    .policy-card h3 span {
-      background: var(--primary-grad);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .policy-card p {
-      color: var(--text-muted);
-      font-size: 1rem;
-      line-height: 1.7;
-      margin-bottom: 16px;
-    }
-
-    .policy-card p:last-child {
-      margin-bottom: 0;
-    }
-
-    /* Custom list styling */
-    .policy-list {
-      list-style: none;
-      padding: 0;
-      margin: 16px 0;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .policy-list li {
-      color: var(--text-muted);
-      position: relative;
-      padding-left: 28px;
-      line-height: 1.6;
-      font-size: 0.95rem;
-    }
-
-    .policy-list li::before {
-      content: "";
-      position: absolute;
-      left: 8px;
-      top: 10px;
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background-color: var(--primary);
-      box-shadow: 0 0 8px var(--primary);
-    }
-
-    .policy-list li strong {
-      color: var(--text);
-      font-weight: 600;
-    }
-
-    /* Info Note Alert Box */
-    .info-note {
-      background: rgba(22, 167, 255, 0.05);
-      border: 1px solid rgba(22, 167, 255, 0.15);
-      border-radius: 12px;
-      padding: 18px 20px;
-      margin-top: 20px;
-      font-size: 0.95rem;
-      line-height: 1.6;
-      color: var(--text-muted);
-    }
-
-    .info-note strong {
-      color: #8ef8ff;
-      font-weight: 600;
-    }
-
-    /* Code highlights */
-    code {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      font-size: 0.9em;
-      color: #8ef8ff;
-      background: rgba(22, 167, 255, 0.1);
-      border: 1px solid rgba(22, 167, 255, 0.2);
-      padding: 2px 6px;
-      border-radius: 6px;
-    }
-
-    /* Buttons */
-    .actions-bar {
-      display: flex;
-      gap: 16px;
-      margin-top: 32px;
-      flex-wrap: wrap;
-    }
-
-    .btn-action {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 12px 28px;
-      border-radius: 999px;
-      background: var(--primary-grad);
-      color: #060913;
-      font-weight: 700;
-      font-size: 0.95rem;
-      text-decoration: none;
-      transition: all 0.25s ease;
-      border: none;
-      box-shadow: 0 4px 15px rgba(22, 167, 255, 0.2);
-      cursor: pointer;
-    }
-
-    .btn-action:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(22, 167, 255, 0.35);
-    }
-
-    .btn-action-outline {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 12px 28px;
-      border-radius: 999px;
-      background: var(--glass);
-      border: 1px solid var(--glass-border);
-      color: var(--text);
-      font-weight: 600;
-      font-size: 0.95rem;
-      text-decoration: none;
-      transition: all 0.25s ease;
-      cursor: pointer;
-      border: 1px solid var(--glass-border);
-    }
-
-    .btn-action-outline:hover {
-      background: var(--glass-hover);
-      border-color: rgba(255, 255, 255, 0.15);
-      transform: translateY(-1px);
-    }
-
-    .kbd-arrow {
-      font-family: var(--font-body);
-      font-size: 0.95rem;
-      margin-left: 6px;
-    }
+    .btn-action-outline { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 999px; background: transparent; border: 1px solid var(--border-strong); color: var(--text); font-weight: 600; font-size: 0.9rem; text-decoration: none; cursor: pointer; }
+    .btn-action-outline:hover { background: var(--accent-soft); }
 
     /* Footer */
-    footer {
-      border-top: 1px solid var(--glass-border);
-      background: #04060d;
-      padding: 60px 0 40px 0;
-    }
-
-    .footer-grid {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      gap: 32px;
-    }
-
-    .footer-logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
-      color: var(--text);
-    }
-
-    .footer-links {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 32px;
-    }
-
-    .footer-link {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 0.95rem;
-      transition: color 0.2s ease;
-    }
-
-    .footer-link:hover {
-      color: var(--text);
-    }
-
-    .copyright {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      border-top: 1px solid rgba(255,255,255,0.05);
-      width: 100%;
-      padding-top: 32px;
-      margin-top: 16px;
-    }
+    footer.site-footer { border-top: 1px solid var(--border); background: var(--bg-soft); padding: 44px 0 32px; }
+    .footer-inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px; }
+    .footer-links { display: flex; flex-wrap: wrap; gap: 20px; }
+    .footer-links a { color: var(--text-2); text-decoration: none; font-size: 0.9rem; }
+    .footer-links a:hover { color: var(--text); text-decoration: underline; }
+    .copyright { color: var(--text-3); font-size: 0.84rem; }
 
     /* Responsive */
-    @media (max-width: 968px) {
-      .policy-layout {
-        grid-template-columns: 1fr;
-        gap: 30px;
-      }
-
-      .policy-sidebar {
-        position: static;
-        max-height: none;
-        overflow-y: visible;
-        padding-right: 0;
-        border-bottom: 1px solid var(--glass-border);
-        padding-bottom: 20px;
-      }
-
-      .sidebar-menu {
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: 10px;
-        justify-content: center;
-      }
-
-      .sidebar-link {
-        padding: 8px 14px;
-        border-left: none;
-        border-bottom: 2px solid transparent;
-        font-size: 0.85rem;
-      }
-
-      .sidebar-link.active {
-        border-left-color: transparent;
-        border-bottom-color: var(--primary);
-      }
+    @media (max-width: 900px) {
+      .doc-layout { grid-template-columns: 1fr; gap: 28px; padding-top: 32px; }
+      .toc { position: static; max-height: none; border: 1px solid var(--border); border-radius: 12px; background: var(--surface); padding: 16px; }
+      .toc a.active { border-left-color: transparent; }
     }
+    @media (max-width: 620px) {
+      .nav-links { display: none; }
+      body { font-size: 16px; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
 
-    @media (max-width: 576px) {
-      .nav-links {
-        display: none;
-      }
-      .policy-card {
-        padding: 20px;
-      }
-      .actions-bar {
-        flex-direction: column;
-        width: 100%;
-      }
-      .btn-action, .btn-action-outline {
-        width: 100%;
-      }
+    /* Print */
+    @media print {
+      header.site-header, .toc, footer.site-footer, .icon-btn { display: none !important; }
+      body { background: #fff; color: #000; font-size: 11.5pt; }
+      .doc-body { max-width: none; }
+      .doc-body p, .doc-body li, .tldr, .page-lead, .meta-pill, .notice-warn { color: #000; }
+      .doc-layout { display: block; padding: 0; }
+      a { color: #000; text-decoration: underline; }
     }
   </style>
 </head>
 <body>
 
+  <a class="skip-link" href="#main">
+    <span class="lang-es">Saltar al contenido</span>
+    <span class="lang-en">Skip to content</span>
+  </a>
+
   <!-- Header -->
-  <header>
+  <header class="site-header">
     <div class="container nav-container">
-      <a href="index.html" class="logo-container">
-        <!-- Mesgot Logo -->
-        <img src="mesgot_logo.svg" alt="Mesgot Logo" width="38" height="38" />
+      <a href="index.html" class="logo-container" aria-label="Mesgot">
+        <img src="mesgot_logo.svg" alt="" width="32" height="32" />
         <span class="logo-text">Mesgot</span>
       </a>
-      
-      <div style="display: flex; align-items: center; gap: 16px;">
-        <nav class="nav-links">
-          <a href="index.html" class="nav-link">Inicio</a>
-          <a href="privacy.html" class="nav-cta">Política de Privacidad</a>
+      <div class="nav-right">
+        <nav class="nav-links" aria-label="Principal">
+          <a href="index.html" class="nav-link">
+            <span class="lang-es">Inicio</span>
+            <span class="lang-en">Home</span>
+          </a>
+          <a href="privacy.html" class="nav-link">
+            <span class="lang-es">Política de Privacidad</span>
+            <span class="lang-en">Privacy Policy</span>
+          </a>
         </nav>
+        <button class="icon-btn" id="themeSwitch" type="button" aria-label="Cambiar tema">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 13A8 8 0 1 1 11 4a6.5 6.5 0 0 0 9 9z"/></svg>
+        </button>
+        <button class="icon-btn" id="langSwitch" type="button" aria-label="Change language">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.7 2.7 4 5.9 4 9s-1.3 6.3-4 9c-2.7-2.7-4-5.9-4-9s1.3-6.3 4-9z"/></svg>
+          <span id="langLabel">EN</span>
+        </button>
       </div>
     </div>
   </header>
 
-  <!-- Hero Section -->
-  <section class="hero">
-    <div class="container">
-      <div class="glow-circle"></div>
-      <h1 class="hero-title"><span>Términos y Condiciones</span></h1>
-      <p class="hero-description">
-        Estos términos regulan el acceso y uso de la plataforma de mensajería y servicios de Mesgot. Al registrarte o utilizar nuestro servicio, aceptas cumplir con estas cláusulas.
-      </p>
-      <div class="meta-container">
-        <div class="meta-pill"><strong>Vigencia:</strong> <span id="effectiveDate">2026-06-04</span></div>
-        <div class="meta-pill"><strong>Última actualización:</strong> <span id="lastUpdated">2026-06-04</span></div>
+  <main id="main">
+    <!-- Page head -->
+    <div class="page-head">
+      <div class="container">
+        <h1>
+          <span class="lang-es">Términos y Condiciones</span>
+          <span class="lang-en">Terms &amp; Conditions</span>
+        </h1>
+        <p class="page-lead">
+          <span class="lang-es">Estos términos regulan el acceso y uso de Mesgot. Al crear una cuenta o usar el Servicio, aceptas quedar vinculado por ellos.</span>
+          <span class="lang-en">These terms govern access to and use of Mesgot. By creating an account or using the Service, you agree to be bound by them.</span>
+        </p>
+        <div class="meta-row">
+          <span class="meta-pill"><strong class="lang-es">Vigente desde:</strong><strong class="lang-en">Effective:</strong> <span class="lang-es">11 de julio de 2026</span><span class="lang-en">July 11, 2026</span></span>
+          <span class="meta-pill"><strong class="lang-es">Sustituye a la versión del:</strong><strong class="lang-en">Replaces version of:</strong> <span class="lang-es">4 de junio de 2026</span><span class="lang-en">June 4, 2026</span></span>
+          <span class="meta-pill"><strong class="lang-es">Contacto:</strong><strong class="lang-en">Contact:</strong> support@mesgot.com</span>
+        </div>
       </div>
     </div>
-  </section>
 
-  <!-- Main Content Layout -->
-  <main class="container">
-    <div class="policy-layout">
-      
-      <!-- Sticky Sidebar -->
-      <aside class="policy-sidebar">
-        <ul class="sidebar-menu">
-          <li><a href="#definiciones" class="sidebar-link active">1) Definiciones</a></li>
-          <li><a href="#cuenta" class="sidebar-link">2) Cuenta y elegibilidad</a></li>
-          <li><a href="#uso-aceptable" class="sidebar-link">3) Uso aceptable</a></li>
-          <li><a href="#abuso-seguridad" class="sidebar-link">4) Abuso y seguridad</a></li>
-          <li><a href="#contenido" class="sidebar-link">5) Contenido y moderación</a></li>
-          <li><a href="#privacidad" class="sidebar-link">6) Privacidad y datos</a></li>
-          <li><a href="#suscripciones" class="sidebar-link">7) Suscripciones y Pagos</a></li>
-          <li><a href="#suspension" class="sidebar-link">8) Suspensión de cuenta</a></li>
-          <li><a href="#disponibilidad" class="sidebar-link">9) Disponibilidad</a></li>
-          <li><a href="#responsabilidad" class="sidebar-link">10) Responsabilidad</a></li>
-          <li><a href="#indemnidad" class="sidebar-link">11) Indemnidad</a></li>
-          <li><a href="#ley" class="sidebar-link">12) Ley aplicable</a></li>
-          <li><a href="#cambios" class="sidebar-link">13) Cambios</a></li>
-          <li><a href="#contacto" class="sidebar-link">14) Contacto</a></li>
-        </ul>
-      </aside>
+    <!-- ============================== ESPAÑOL ============================== -->
+    <div class="doc lang-es">
+      <div class="container doc-layout">
+        <aside class="toc" aria-label="Contenido">
+          <p class="toc-title">Contenido</p>
+          <nav>
+            <ol>
+              <li><a href="#es-aceptacion">1. Aceptación y elegibilidad</a></li>
+              <li><a href="#es-definiciones">2. Definiciones</a></li>
+              <li><a href="#es-cuenta">3. Tu cuenta y seguridad</a></li>
+              <li><a href="#es-licencia-app">4. Licencia de uso de la app</a></li>
+              <li><a href="#es-tu-contenido">5. Tu contenido</a></li>
+              <li><a href="#es-uso-aceptable">6. Uso aceptable</a></li>
+              <li><a href="#es-aleatorio">7. Chat aleatorio</a></li>
+              <li><a href="#es-ia">8. Asistente Mesgot IA</a></li>
+              <li><a href="#es-e2ee">9. Cifrado y claves</a></li>
+              <li><a href="#es-emergencias">10. No es un servicio de emergencia</a></li>
+              <li><a href="#es-privacidad">11. Privacidad</a></li>
+              <li><a href="#es-pro">12. Mesgot Pro</a></li>
+              <li><a href="#es-virtuales">13. Elementos virtuales</a></li>
+              <li><a href="#es-moderacion">14. Moderación</a></li>
+              <li><a href="#es-terminacion">15. Suspensión y terminación</a></li>
+              <li><a href="#es-pi">16. Propiedad intelectual</a></li>
+              <li><a href="#es-dmca">17. Reclamaciones de PI</a></li>
+              <li><a href="#es-terceros">18. Servicios de terceros</a></li>
+              <li><a href="#es-disponibilidad">19. Disponibilidad</a></li>
+              <li><a href="#es-garantias">20. Exclusión de garantías</a></li>
+              <li><a href="#es-responsabilidad">21. Limitación de responsabilidad</a></li>
+              <li><a href="#es-indemnidad">22. Indemnización</a></li>
+              <li><a href="#es-ley">23. Ley aplicable</a></li>
+              <li><a href="#es-arbitraje">24. Arbitraje y renuncia colectiva</a></li>
+              <li><a href="#es-generales">25. Disposiciones generales</a></li>
+              <li><a href="#es-cambios">26. Cambios a estos términos</a></li>
+              <li><a href="#es-contacto">27. Contacto</a></li>
+            </ol>
+          </nav>
+        </aside>
 
-      <!-- Content Column -->
-      <section class="policy-content">
-        
-        <div class="info-note" style="margin-top: 0; margin-bottom: 24px; border-color: rgba(220, 38, 38, 0.3); background: rgba(220, 38, 38, 0.05);">
-          <strong style="color: #fca5a5;">Aviso Importante:</strong> Si utilizas el Servicio para acosar, enviar spam, suplantar identidades, intentar vulnerar sistemas o distribuir contenido ilegal, <strong>podemos suspender o eliminar tu cuenta de inmediato</strong> y colaborar con las autoridades cuando corresponda.
-        </div>
+        <article class="doc-body">
 
-        <article class="policy-card" id="definiciones">
-          <h3><span>1) Definiciones</span></h3>
-          <p>Para efectos de este documento y el uso de la plataforma:</p>
-          <ul class="policy-list">
-            <li><strong>“Servicio”</strong>: se refiere a la aplicación móvil Mesgot, el sitio web y todas sus funciones asociadas (chats, videollamadas, asistente IA, perfiles, etc.).</li>
-            <li><strong>“Usuario”</strong>: cualquier persona que accede, descarga, se registra o usa el Servicio.</li>
-            <li><strong>“Contenido”</strong>: cualquier mensaje de texto, foto, video, audio, archivo, enlace, nombre de usuario, foto de perfil u otro material compartido en el Servicio.</li>
-          </ul>
-        </article>
-
-        <article class="policy-card" id="cuenta">
-          <h3><span>2) Cuenta y elegibilidad</span></h3>
-          <p>Para acceder a las funcionalidades del chat debes crear una cuenta de usuario:</p>
-          <ul class="policy-list">
-            <li>Debes proporcionar información de registro veraz, exacta.</li>
-            <li>Eres el único responsable de salvaguardar las credenciales de seguridad de tu cuenta (contraseña, tokens de acceso o el dispositivo móvil en uso).</li>
-            <li>Si sospechas de cualquier acceso no autorizado o incidente de seguridad, debes cambiar tu contraseña de inmediato o contactar a soporte.</li>
-          </ul>
-        </article>
-
-        <article class="policy-card" id="uso-aceptable">
-          <h3><span>3) Uso aceptable (normas de conducta)</span></h3>
-          <p>Te comprometes a usar el Servicio de forma legal, respetuosa y ética. Está estrictamente prohibido:</p>
-          <ul class="policy-list">
-            <li>Acosar, amenazar, extorsionar, difamar, abusar o humillar a cualquier otra persona u usuario.</li>
-            <li>Enviar correo basura (spam), esquemas de fraude, suplantaciones de identidad (phishing), publicidad no solicitada o mensajes automatizados masivos.</li>
-            <li>Suplantar identidades, haciendo pasar tu perfil por el de otra persona, marca registrada u organización sin autorización.</li>
-            <li>Publicar, almacenar o transmitir contenido ilegal, violento, que incite al odio, al terrorismo o que promueva actividades delictivas.</li>
-            <li>Compartir contenido sexual explícito no permitido por las leyes vigentes o material de explotación infantil (tolerancia cero).</li>
-            <li><strong>Búsqueda de Personas Aleatorias:</strong> En las interacciones con usuarios aleatorios, existe tolerancia cero contra conductas inapropiadas, acoso, envío de contenido sexual explícito, spam comercial o enlaces maliciosos. Cualquier reporte verificado resultará en la suspensión inmediata del dispositivo y la cuenta.</li>
-            <li>Infringir la propiedad intelectual, derechos de autor, patentes o marcas de terceros.</li>
-          </ul>
-        </article>
-
-        <article class="policy-card" id="abuso-seguridad">
-          <h3><span>4) Abuso, seguridad y uso indebido del sistema</span></h3>
-          <p>Para garantizar la seguridad del proyecto y el rendimiento del chat:</p>
-          <ul class="policy-list">
-            <li>No debes intentar vulnerar la seguridad de la app mediante el uso de exploits, inyecciones de código, rastreos agresivos (scraping), ataques de fuerza bruta o ingeniería inversa del software.</li>
-            <li>Está prohibido interferir con el normal funcionamiento de los servidores mediante ataques de denegación de servicio (DDoS), pruebas de carga no autorizadas o abuso de los endpoints de la API.</li>
-            <li>No se permite el uso de bots, scripts u herramientas de automatización dentro del chat sin permiso expreso por escrito.</li>
-            <li>Queda prohibido distribuir código malicioso, virus, troyanos, ransomware, malware o enlaces a sitios dañinos.</li>
-          </ul>
-          <div class="info-note">
-            <strong>Monitoreo técnico:</strong> Nos reservamos el derecho de implementar límites de tasa (rate limits), cortafuegos y medidas técnicas automáticas de prevención de abuso para mantener la estabilidad del chat.
+          <div class="notice-warn">
+            <strong>AVISO IMPORTANTE:</strong> la sección 24 contiene un <strong>acuerdo de arbitraje individual vinculante y una renuncia a acciones colectivas y a juicio con jurado</strong> que afectan a cómo se resuelven las disputas entre tú y Mesgot. Léela con atención. Asimismo, el uso del Servicio para acosar, estafar, suplantar identidades, vulnerar sistemas o distribuir contenido ilegal puede conllevar la <strong>suspensión o eliminación inmediata de tu cuenta</strong> y la colaboración con las autoridades cuando corresponda.
           </div>
+
+          <section id="es-aceptacion">
+            <h2><span class="secnum">1.</span>Aceptación y elegibilidad</h2>
+            <p>Al crear una cuenta, acceder o usar la aplicación Mesgot o el sitio mesgot.com (el «Servicio»), celebras un contrato vinculante con el operador de Mesgot («Mesgot», «nosotros») y aceptas estos Términos y la <a href="privacy.html">Política de Privacidad</a>. Si no estás de acuerdo, no uses el Servicio.</p>
+            <ul>
+              <li>Debes tener al menos <strong>13 años</strong> y, si tu país exige una edad superior para consentir el tratamiento de datos o celebrar este contrato, esa edad superior.</li>
+              <li>Si eres menor de edad en tu jurisdicción, declaras contar con la autorización de tus padres o tutores.</li>
+              <li>Declaras que la información de registro que proporcionas (incluida tu fecha de nacimiento) es veraz y exacta, y que no has sido suspendido previamente del Servicio.</li>
+              <li>Solo puedes registrar cuentas para tu uso personal; no está permitido crear cuentas de forma automatizada ni en nombre de terceros sin autorización.</li>
+            </ul>
+          </section>
+
+          <section id="es-definiciones">
+            <h2><span class="secnum">2.</span>Definiciones</h2>
+            <ul>
+              <li><strong>«Servicio»</strong>: la aplicación móvil Mesgot, el sitio web mesgot.com y todas sus funciones (chats, grupos, llamadas, asistente IA, chat aleatorio, perfiles y demás).</li>
+              <li><strong>«Usuario»</strong> o <strong>«tú»</strong>: toda persona que accede o usa el Servicio.</li>
+              <li><strong>«Contenido»</strong>: cualquier texto, foto, video, audio, archivo, enlace, sticker, encuesta, ubicación, nombre de usuario, foto de perfil u otro material enviado o mostrado a través del Servicio.</li>
+              <li><strong>«Tu Contenido»</strong>: el Contenido que tú envías o subes al Servicio.</li>
+            </ul>
+          </section>
+
+          <section id="es-cuenta">
+            <h2><span class="secnum">3.</span>Tu cuenta y seguridad</h2>
+            <ul>
+              <li>Eres el único responsable de la actividad que ocurra en tu cuenta y de custodiar tus credenciales (contraseña, dispositivos con sesión iniciada y contraseñas de copias de seguridad).</li>
+              <li>Cada cuenta admite un máximo de <strong>5 dispositivos activos</strong>; al superar el límite, la sesión más antigua se cierra automáticamente.</li>
+              <li>Si sospechas de un acceso no autorizado, cambia tu contraseña de inmediato y contacta con <a href="mailto:support@mesgot.com">support@mesgot.com</a>.</li>
+              <li>Podemos negarnos a registrar, o requerir el cambio de, nombres de usuario que infrinjan derechos de terceros, suplanten identidades o resulten ofensivos.</li>
+            </ul>
+          </section>
+
+          <section id="es-licencia-app">
+            <h2><span class="secnum">4.</span>Licencia de uso de la app</h2>
+            <p>Te concedemos una licencia limitada, personal, no exclusiva, intransferible y revocable para instalar y usar la app en dispositivos Android de tu propiedad o bajo tu control, únicamente conforme a estos Términos. No te vendemos la app: todos los derechos no concedidos expresamente quedan reservados (ver sección 16).</p>
+          </section>
+
+          <section id="es-tu-contenido">
+            <h2><span class="secnum">5.</span>Tu contenido y la licencia que nos concedes</h2>
+            <div class="tldr"><span class="tldr-label">En corto</span>Tu contenido sigue siendo tuyo. Nos das solo el permiso técnico imprescindible para almacenarlo y entregarlo, y ese permiso termina cuando lo borras.</div>
+            <ul>
+              <li><strong>Propiedad:</strong> conservas todos los derechos sobre Tu Contenido. Estos Términos no nos transfieren su propiedad.</li>
+              <li><strong>Licencia limitada:</strong> para poder operar el Servicio, nos concedes una licencia mundial, no exclusiva, gratuita y sublicenciable únicamente a nuestros proveedores de infraestructura, para almacenar, reproducir, transmitir, mostrar, adaptar técnicamente (por ejemplo, comprimir, transcodificar o generar miniaturas) y distribuir Tu Contenido, <strong>con el único fin de prestar, mantener, proteger y mejorar el Servicio</strong>.</li>
+              <li><strong>Fin de la licencia:</strong> esta licencia termina cuando eliminas Tu Contenido o tu cuenta, salvo respecto de (a) el Contenido que otros usuarios ya hayan recibido o guardado, (b) copias residuales en sistemas de respaldo durante un periodo limitado, y (c) lo que debamos conservar por obligación legal.</li>
+              <li><strong>Tus garantías:</strong> declaras que posees los derechos o licencias necesarios sobre Tu Contenido y que este no infringe la ley ni derechos de terceros. <strong>Eres el único responsable de Tu Contenido</strong>; Mesgot no lo respalda ni asume responsabilidad por él.</li>
+              <li>El contenido protegido con cifrado de extremo a extremo se almacena y transmite cifrado: no podemos leerlo ni moderarlo.</li>
+            </ul>
+          </section>
+
+          <section id="es-uso-aceptable">
+            <h2><span class="secnum">6.</span>Uso aceptable</h2>
+            <p>Te comprometes a usar el Servicio de forma legal y respetuosa. Está estrictamente prohibido:</p>
+            <ul>
+              <li>Acosar, amenazar, extorsionar, difamar, intimidar o humillar a otras personas.</li>
+              <li>Enviar spam, esquemas de fraude, phishing, publicidad no solicitada o mensajes automatizados masivos.</li>
+              <li>Suplantar la identidad de otra persona, marca u organización, o tergiversar tu vinculación con ellas.</li>
+              <li>Publicar o transmitir contenido ilegal, que incite al odio o a la violencia, o que promueva actividades delictivas.</li>
+              <li>Compartir contenido sexual no consentido o ilegal. <strong>Existe tolerancia cero con el material de abuso sexual infantil (CSAM):</strong> lo reportaremos a las autoridades competentes y eliminaremos las cuentas implicadas.</li>
+              <li>Infringir derechos de propiedad intelectual de terceros.</li>
+              <li>Intentar vulnerar la seguridad del Servicio: exploits, inyección de código, scraping, fuerza bruta, ataques de denegación de servicio, pruebas de carga no autorizadas o abuso de la API y de las cuotas del Servicio.</li>
+              <li>Usar bots, scripts o automatizaciones sin nuestro permiso expreso por escrito.</li>
+              <li>Distribuir malware o enlaces a sitios dañinos.</li>
+              <li>Realizar ingeniería inversa, descompilar o desensamblar la app, salvo en la medida en que la ley aplicable lo permita expresamente pese a esta prohibición.</li>
+              <li>Revender, alquilar o explotar comercialmente el Servicio sin autorización.</li>
+            </ul>
+            <p>Nos reservamos el derecho de aplicar límites técnicos (límites de tasa, cuotas, bloqueos automáticos) para proteger la estabilidad y seguridad del Servicio.</p>
+          </section>
+
+          <section id="es-aleatorio">
+            <h2><span class="secnum">7.</span>Chat aleatorio (Person Finder)</h2>
+            <ul>
+              <li>El chat aleatorio te conecta con desconocidos. <strong>Úsalo bajo tu propio criterio</strong>: no compartas datos personales, financieros ni tu ubicación con personas que no conoces.</li>
+              <li>Existe <strong>tolerancia cero</strong> con el acoso, el contenido sexual explícito, el spam comercial y los enlaces maliciosos en el chat aleatorio. Los reportes verificados pueden conllevar la suspensión inmediata de la cuenta y del dispositivo.</li>
+              <li>Las interacciones con otros usuarios son responsabilidad exclusiva de quienes participan en ellas (ver sección 21).</li>
+            </ul>
+          </section>
+
+          <section id="es-ia">
+            <h2><span class="secnum">8.</span>Asistente Mesgot IA</h2>
+            <div class="tldr"><span class="tldr-label">En corto</span>La IA puede equivocarse. No es un profesional ni un servicio de emergencia, y no debes tomar decisiones importantes basándote solo en sus respuestas.</div>
+            <ul>
+              <li>Las respuestas del asistente se generan automáticamente mediante modelos de inteligencia artificial de terceros (Google). <strong>Pueden ser inexactas, incompletas, desactualizadas o inapropiadas</strong>, y no representan la opinión de Mesgot.</li>
+              <li>El asistente <strong>no proporciona asesoramiento profesional</strong> de ningún tipo (médico, legal, financiero, psicológico ni de otra índole). Sus respuestas no sustituyen la consulta a un profesional cualificado, y no debes usarlas como única base para decisiones con consecuencias legales, económicas, de salud o de seguridad.</li>
+              <li>No uses el asistente para generar contenido ilegal o dañino, ni para eludir las normas de la sección 6. El uso del asistente está sujeto además a las políticas de uso del proveedor del modelo.</li>
+              <li>El asistente tiene cuotas y límites de uso que podemos ajustar en cualquier momento; podemos modificar, suspender o retirar el asistente sin previo aviso.</li>
+              <li><strong>En la máxima medida permitida por la ley, Mesgot no será responsable de daños derivados de confiar en las respuestas del asistente.</strong></li>
+            </ul>
+          </section>
+
+          <section id="es-e2ee">
+            <h2><span class="secnum">9.</span>Cifrado de extremo a extremo, claves y copias</h2>
+            <ul>
+              <li>El cifrado de extremo a extremo (E2EE) es opcional y se activa por chat 1 a 1. Su alcance exacto está descrito en la sección 5 de la <a href="privacy.html">Política de Privacidad</a>.</li>
+              <li>Las claves privadas del E2EE se generan y guardan <strong>solo en tus dispositivos</strong>. Mesgot no las conoce, no las respalda y <strong>no puede recuperar contenido cifrado</strong> si pierdes tus dispositivos, tus claves o la contraseña de tu copia de seguridad.</li>
+              <li>Las copias de seguridad se guardan cifradas en tu propia cuenta de Google Drive y están protegidas por una contraseña que solo tú conoces. <strong>Eres el único custodio de esa contraseña.</strong></li>
+              <li>Aceptas que la pérdida de acceso a contenido cifrado por pérdida de claves, dispositivos o contraseñas es tu responsabilidad exclusiva y no genera responsabilidad alguna para Mesgot.</li>
+            </ul>
+          </section>
+
+          <section id="es-emergencias">
+            <h2><span class="secnum">10.</span>No es un servicio de emergencia</h2>
+            <p><strong>Mesgot no es un sustituto del servicio telefónico convencional y no permite realizar llamadas a los servicios de emergencia</strong> (911, 112 u otros números de emergencia). Debes asegurarte de poder contactar con los servicios de emergencia por otros medios. Las funciones del Servicio (incluidas las llamadas y los mensajes «urgentes») dependen de la conectividad y pueden fallar o retrasarse; no confíes en ellas para situaciones críticas.</p>
+          </section>
+
+          <section id="es-privacidad">
+            <h2><span class="secnum">11.</span>Privacidad</h2>
+            <p>El tratamiento de tus datos personales se describe en la <a href="privacy.html">Política de Privacidad</a>, que forma parte integrante de estos Términos. En caso de discrepancia sobre el tratamiento de datos, prevalece la Política de Privacidad.</p>
+          </section>
+
+          <section id="es-pro">
+            <h2><span class="secnum">12.</span>Suscripciones y pagos (Mesgot Pro)</h2>
+            <ul>
+              <li><strong>Beneficios:</strong> Mesgot Pro ofrece una experiencia sin anuncios y funciones adicionales. Los beneficios concretos pueden variar y se describen en la app; podemos ajustarlos razonablemente sin que ello constituya incumplimiento, manteniendo la esencia de lo contratado.</li>
+              <li><strong>Facturación:</strong> la suscripción se contrata, factura y renueva automáticamente a través de <strong>Google Play</strong>, conforme a sus condiciones. Mesgot no recibe ni almacena tus datos de pago.</li>
+              <li><strong>Cancelación:</strong> puedes cancelar en cualquier momento desde los ajustes de suscripciones de Google Play; conservarás los beneficios hasta el final del periodo ya pagado.</li>
+              <li><strong>Reembolsos:</strong> los pagos no son reembolsables y no se conceden devoluciones por periodos parciales, salvo lo que exijan la ley aplicable o las políticas de reembolso de Google Play.</li>
+              <li><strong>Precios:</strong> podemos cambiar el precio de la suscripción; el cambio se aplicará en el siguiente periodo de renovación y Google Play te lo notificará conforme a sus procesos.</li>
+              <li>Los beneficios de Pro son personales e intransferibles.</li>
+            </ul>
+          </section>
+
+          <section id="es-virtuales">
+            <h2><span class="secnum">13.</span>Elementos virtuales</h2>
+            <p>Las rachas, insignias, stickers, temas, logros y demás elementos o características virtuales del Servicio <strong>no tienen valor monetario</strong>, no son canjeables por dinero, no son transferibles y pueden modificarse, reiniciarse o eliminarse en cualquier momento (por ejemplo, una racha puede perderse por inactividad o por errores técnicos) sin que ello genere compensación alguna.</p>
+          </section>
+
+          <section id="es-moderacion">
+            <h2><span class="secnum">14.</span>Contenido y moderación</h2>
+            <ul>
+              <li>Mesgot <strong>no revisa de forma previa</strong> el Contenido de los usuarios y no garantiza su revisión. El Contenido de otros usuarios no representa nuestras opiniones.</li>
+              <li>Nos reservamos el <strong>derecho, pero no la obligación</strong>, de moderar, restringir, ocultar o eliminar Contenido que a nuestro criterio razonable infrinja estos Términos o la ley, y de conservar Contenido cuando la ley lo exija.</li>
+              <li>Puedes reportar contenido o conductas desde la propia app o escribiendo a <a href="mailto:support@mesgot.com">support@mesgot.com</a>.</li>
+              <li>El contenido cifrado de extremo a extremo no puede ser revisado por Mesgot; la moderación en esos casos se basa en reportes de los participantes y en metadatos.</li>
+            </ul>
+          </section>
+
+          <section id="es-terminacion">
+            <h2><span class="secnum">15.</span>Suspensión y terminación</h2>
+            <ul>
+              <li>Puedes dejar de usar el Servicio y eliminar tu cuenta en cualquier momento (desde la app o en la página de <a href="https://nextsus.netlify.app/account/delete" target="_blank" rel="noopener">eliminación de cuenta</a>).</li>
+              <li>Podemos suspender o eliminar tu cuenta, restringir funciones o bloquear dispositivos si incumples estos Términos, si tu conducta crea riesgo legal o de seguridad, si lo exige la ley, o si el Servicio se descontinúa.</li>
+              <li>La respuesta podrá ser progresiva (advertencia, restricción temporal) o inmediata en casos graves, a nuestro criterio razonable. Cuando sea factible y legalmente permitido, te informaremos del motivo.</li>
+              <li><strong>La terminación por incumplimiento no da derecho a reembolso</strong> de periodos de suscripción no disfrutados, salvo que la ley disponga lo contrario.</li>
+              <li>Las secciones que por su naturaleza deban sobrevivir a la terminación (incluidas las secciones 5, 16 y 20 a 25) seguirán vigentes.</li>
+            </ul>
+          </section>
+
+          <section id="es-pi">
+            <h2><span class="secnum">16.</span>Propiedad intelectual de Mesgot y feedback</h2>
+            <ul>
+              <li>La app, el sitio, el nombre «Mesgot», los logotipos, el diseño, el software y demás materiales del Servicio (excluido el Contenido de los usuarios) son propiedad del operador de Mesgot o de sus licenciantes y están protegidos por las leyes de propiedad intelectual. No adquieres ningún derecho sobre ellos salvo la licencia limitada de la sección 4.</li>
+              <li>Si nos envías sugerencias, ideas o comentarios sobre el Servicio («feedback»), nos concedes el derecho a usarlos sin restricción ni compensación.</li>
+            </ul>
+          </section>
+
+          <section id="es-dmca">
+            <h2><span class="secnum">17.</span>Reclamaciones de propiedad intelectual</h2>
+            <p>Respetamos los derechos de propiedad intelectual. Si consideras que un contenido del Servicio infringe tus derechos de autor u otros derechos, envía una notificación a <a href="mailto:support@mesgot.com">support@mesgot.com</a> que incluya:</p>
+            <ul>
+              <li>Identificación de la obra protegida y del material presuntamente infractor (con información suficiente para localizarlo).</li>
+              <li>Tus datos de contacto.</li>
+              <li>Una declaración de buena fe de que el uso no está autorizado por el titular, su agente o la ley.</li>
+              <li>Una declaración, bajo pena de perjurio, de que la información es exacta y de que estás autorizado a actuar en nombre del titular.</li>
+              <li>Tu firma física o electrónica.</li>
+            </ul>
+            <p>Podremos retirar el material señalado, notificar al usuario afectado (que podrá presentar una contranotificación) y cancelar las cuentas de infractores reincidentes.</p>
+          </section>
+
+          <section id="es-terceros">
+            <h2><span class="secnum">18.</span>Servicios de terceros</h2>
+            <p>El Servicio se apoya en servicios de terceros (Google Play, Google — incluidos FCM, AdMob, Sign-In, Drive y los modelos de IA —, Supabase, OpenStreetMap, entre otros) y puede contener enlaces a sitios de terceros. Esos servicios se rigen por sus propios términos y políticas, no los controlamos y <strong>no somos responsables de ellos</strong>. Reconoces que Google no es parte de estos Términos ni responsable del Servicio.</p>
+          </section>
+
+          <section id="es-disponibilidad">
+            <h2><span class="secnum">19.</span>Disponibilidad y cambios del Servicio</h2>
+            <ul>
+              <li>Mesgot es un proyecto en evolución operado por un desarrollador independiente. El Servicio puede experimentar interrupciones, errores o pérdidas de conectividad.</li>
+              <li>Podemos añadir, modificar, suspender o retirar funciones o partes del Servicio en cualquier momento, por mantenimiento, seguridad, requisitos legales o decisiones de producto, sin que ello genere responsabilidad frente a ti.</li>
+              <li>Te recomendamos mantener copias de seguridad de tu información importante (sección 9).</li>
+            </ul>
+          </section>
+
+          <section id="es-garantias">
+            <h2><span class="secnum">20.</span>Exclusión de garantías</h2>
+            <p>EN LA MÁXIMA MEDIDA PERMITIDA POR LA LEY, EL SERVICIO SE PROPORCIONA <strong>«TAL CUAL» Y «SEGÚN DISPONIBILIDAD»</strong>, SIN GARANTÍAS DE NINGÚN TIPO, EXPRESAS O IMPLÍCITAS, INCLUIDAS, ENTRE OTRAS, LAS GARANTÍAS IMPLÍCITAS DE COMERCIABILIDAD, IDONEIDAD PARA UN FIN DETERMINADO, TITULARIDAD Y NO INFRACCIÓN. NO GARANTIZAMOS QUE EL SERVICIO SEA ININTERRUMPIDO, SEGURO, PUNTUAL O LIBRE DE ERRORES, NI QUE EL CONTENIDO (INCLUIDAS LAS RESPUESTAS DEL ASISTENTE IA) SEA EXACTO O FIABLE. ALGUNAS JURISDICCIONES NO PERMITEN EXCLUIR CIERTAS GARANTÍAS, POR LO QUE ALGUNAS DE ESTAS EXCLUSIONES PUEDEN NO APLICARTE.</p>
+          </section>
+
+          <section id="es-responsabilidad">
+            <h2><span class="secnum">21.</span>Limitación de responsabilidad</h2>
+            <p>EN LA MÁXIMA MEDIDA PERMITIDA POR LA LEY:</p>
+            <ul>
+              <li>MESGOT Y SU DESARROLLADOR NO SERÁN RESPONSABLES DE DAÑOS INDIRECTOS, INCIDENTALES, ESPECIALES, CONSECUENCIALES, EJEMPLARES O PUNITIVOS, NI DE PÉRDIDA DE BENEFICIOS, INGRESOS, DATOS, FONDO DE COMERCIO U OPORTUNIDADES, AUNQUE SE HAYA ADVERTIDO DE SU POSIBILIDAD.</li>
+              <li>LA RESPONSABILIDAD TOTAL Y ACUMULADA DE MESGOT POR TODAS LAS RECLAMACIONES RELACIONADAS CON EL SERVICIO NO EXCEDERÁ LA CANTIDAD MAYOR ENTRE (A) LOS IMPORTES QUE HAYAS PAGADO A MESGOT A TRAVÉS DEL SERVICIO EN LOS 12 MESES ANTERIORES AL HECHO QUE ORIGINE LA RECLAMACIÓN Y (B) 100 USD.</li>
+              <li>MESGOT NO ES RESPONSABLE DE LAS CONDUCTAS, CONTENIDOS O INTERACCIONES DE OTROS USUARIOS, DENTRO O FUERA DEL SERVICIO, NI DE FALLOS ATRIBUIBLES A SERVICIOS DE TERCEROS O A TU CONECTIVIDAD.</li>
+              <li>ESTAS LIMITACIONES SON UN ELEMENTO ESENCIAL DEL ACUERDO ENTRE LAS PARTES Y SE APLICAN CUALQUIERA QUE SEA LA TEORÍA JURÍDICA INVOCADA, INCLUSO SI UN REMEDIO LIMITADO FALLA EN SU PROPÓSITO ESENCIAL.</li>
+            </ul>
+            <p>Nada en estos Términos excluye o limita responsabilidades que no puedan excluirse legalmente, ni afecta a los derechos irrenunciables que te correspondan como consumidor en tu país de residencia.</p>
+          </section>
+
+          <section id="es-indemnidad">
+            <h2><span class="secnum">22.</span>Indemnización</h2>
+            <p>Aceptas indemnizar, defender y mantener indemne a Mesgot y a su desarrollador frente a cualquier reclamación, demanda, daño, pérdida, sanción y coste (incluidos honorarios razonables de abogados) de terceros que derive de: (a) tu incumplimiento de estos Términos; (b) Tu Contenido; (c) tu uso del Servicio en violación de la ley o de derechos de terceros; o (d) tus interacciones con otros usuarios. Nos reservamos el derecho de asumir la defensa exclusiva de cualquier asunto sujeto a indemnización, en cuyo caso cooperarás con nosotros.</p>
+          </section>
+
+          <section id="es-ley">
+            <h2><span class="secnum">23.</span>Ley aplicable</h2>
+            <p>Estos Términos y cualquier disputa derivada de ellos o del Servicio se rigen por las leyes de la <strong>Mancomunidad de Massachusetts, Estados Unidos</strong>, y las leyes federales de los Estados Unidos aplicables, sin dar efecto a sus normas sobre conflicto de leyes. La Ley Federal de Arbitraje de los EE. UU. (FAA) rige la sección 24. Para las disputas no sujetas a arbitraje, las partes se someten a la jurisdicción exclusiva de los tribunales estatales y federales ubicados en Massachusetts. Esta elección no priva a los consumidores de las protecciones irrenunciables de la ley de su lugar de residencia habitual.</p>
+          </section>
+
+          <section id="es-arbitraje">
+            <h2><span class="secnum">24.</span>Arbitraje vinculante y renuncia a acciones colectivas</h2>
+            <div class="tldr"><span class="tldr-label">En corto</span>Las disputas se resuelven primero de forma amistosa y, si no es posible, mediante arbitraje individual — no ante un jurado ni mediante demandas colectivas. Puedes excluirte de este acuerdo dentro de los 30 días siguientes a aceptarlo.</div>
+            <ul>
+              <li><strong>Resolución informal previa:</strong> antes de iniciar cualquier procedimiento, tú y Mesgot os comprometéis a intentar resolver la disputa de buena fe: envía una descripción escrita a <a href="mailto:support@mesgot.com">support@mesgot.com</a> y espera al menos 30 días.</li>
+              <li><strong>Arbitraje individual vinculante:</strong> toda disputa, reclamación o controversia derivada de estos Términos o del Servicio que no se resuelva informalmente será resuelta de manera definitiva mediante <strong>arbitraje individual y vinculante</strong> administrado por la American Arbitration Association (AAA) conforme a sus Consumer Arbitration Rules. El arbitraje podrá celebrarse de forma remota (por videoconferencia o por escrito) o, si se requiere audiencia presencial, en Massachusetts o en otro lugar razonable acordado por las partes.</li>
+              <li><strong>Excepciones:</strong> cualquiera de las partes puede (a) acudir a un tribunal de reclamaciones de menor cuantía (small claims court) para reclamaciones dentro de su competencia, y (b) solicitar ante un tribunal medidas cautelares para proteger derechos de propiedad intelectual o frente a accesos no autorizados al Servicio.</li>
+              <li><strong>RENUNCIA A ACCIONES COLECTIVAS:</strong> TÚ Y MESGOT ACORDÁIS QUE LAS RECLAMACIONES SOLO PODRÁN PLANTEARSE A TÍTULO INDIVIDUAL, Y NO COMO DEMANDANTE O MIEMBRO DE UNA CLASE EN NINGUNA ACCIÓN COLECTIVA, REPRESENTATIVA O CONSOLIDADA. EL ÁRBITRO NO PODRÁ CONSOLIDAR RECLAMACIONES DE MÁS DE UNA PERSONA.</li>
+              <li><strong>RENUNCIA A JUICIO CON JURADO:</strong> en la medida en que alguna disputa se ventile ante un tribunal, ambas partes renuncian al juicio con jurado en la máxima medida permitida.</li>
+              <li><strong>Derecho de exclusión (opt-out):</strong> puedes rechazar este acuerdo de arbitraje sin penalización enviando un correo a <a href="mailto:support@mesgot.com">support@mesgot.com</a> dentro de los <strong>30 días</strong> siguientes a la primera aceptación de estos Términos, indicando tu nombre, tu nombre de usuario y tu voluntad de excluirte del arbitraje. En tal caso, las disputas se resolverán conforme a la sección 23.</li>
+              <li><strong>Plazo para reclamar:</strong> en la máxima medida permitida por la ley, cualquier reclamación deberá iniciarse dentro de <strong>1 año</strong> desde que pudo ejercitarse; transcurrido ese plazo, quedará permanentemente excluida.</li>
+              <li><strong>Divisibilidad:</strong> si la renuncia a acciones colectivas se declara inválida o inaplicable respecto de una disputa concreta, este acuerdo de arbitraje será nulo en su totalidad respecto de esa disputa, que se resolverá ante los tribunales indicados en la sección 23. El resto de esta sección permanecerá en vigor en todos los demás casos.</li>
+            </ul>
+          </section>
+
+          <section id="es-generales">
+            <h2><span class="secnum">25.</span>Disposiciones generales</h2>
+            <ul>
+              <li><strong>Acuerdo completo:</strong> estos Términos y la Política de Privacidad constituyen el acuerdo íntegro entre tú y Mesgot respecto del Servicio y sustituyen cualquier acuerdo anterior.</li>
+              <li><strong>Divisibilidad:</strong> si alguna disposición se declara inválida, se aplicará en la máxima medida posible y el resto conservará plena vigencia.</li>
+              <li><strong>No renuncia:</strong> que no exijamos el cumplimiento de alguna disposición no supone renunciar a ella.</li>
+              <li><strong>Cesión:</strong> no puedes ceder estos Términos ni tu cuenta. Mesgot puede ceder sus derechos y obligaciones a un sucesor del proyecto (por ejemplo, en caso de transferencia o reorganización), notificándolo cuando la ley lo exija.</li>
+              <li><strong>Fuerza mayor:</strong> Mesgot no será responsable de incumplimientos causados por hechos fuera de su control razonable (fallos de proveedores, cortes de red, desastres, actos de autoridad, etc.).</li>
+              <li><strong>Comunicaciones electrónicas:</strong> aceptas recibir avisos y comunicaciones de forma electrónica (dentro de la app, en este sitio o al correo de tu cuenta), y que estas satisfacen cualquier requisito de forma escrita.</li>
+              <li><strong>Idioma:</strong> estos Términos se publican en español e inglés. En caso de discrepancia, prevalece la versión en español.</li>
+              <li><strong>Supervivencia:</strong> las disposiciones que por su naturaleza deban subsistir (licencias necesarias, exclusiones, limitaciones, indemnización, ley aplicable y arbitraje) sobrevivirán a la terminación.</li>
+            </ul>
+          </section>
+
+          <section id="es-cambios">
+            <h2><span class="secnum">26.</span>Cambios a estos términos</h2>
+            <p>Podemos modificar estos Términos. Si el cambio es material, haremos esfuerzos razonables por avisarte con antelación (en la app o en este sitio). Los cambios entran en vigor en la fecha indicada arriba; el uso continuado del Servicio tras esa fecha constituye tu aceptación. Si no estás de acuerdo con un cambio, debes dejar de usar el Servicio y puedes eliminar tu cuenta. Los cambios no se aplican retroactivamente a disputas surgidas antes de su entrada en vigor.</p>
+          </section>
+
+          <section id="es-contacto">
+            <h2><span class="secnum">27.</span>Contacto</h2>
+            <p>Para soporte, reportes de abuso o notificaciones legales relacionadas con estos Términos:</p>
+            <ul>
+              <li><strong>Correo:</strong> <a href="mailto:support@mesgot.com">support@mesgot.com</a></li>
+              <li><strong>Proyecto:</strong> Mesgot (Estados Unidos)</li>
+            </ul>
+          </section>
+
         </article>
+      </div>
+    </div>
 
-        <article class="policy-card" id="contenido">
-          <h3><span>5) Contenido del usuario y moderación</span></h3>
-          <p>Normas sobre el contenido subido por el usuario:</p>
-          <ul class="policy-list">
-            <li>Tú retienes los derechos de propiedad intelectual que poseas sobre el contenido que envíes, pero eres el único responsable legal por dicho material.</li>
-            <li>Mesgot no realiza un filtrado preventivo ni garantiza la revisión de todo el Contenido del chat. Sin embargo, nos reservamos el derecho a moderar, bloquear, ocultar o eliminar contenido que viole estas directrices o las normativas legales aplicables.</li>
-            <li>Al enviar contenido, garantizas que posees los derechos o licencias necesarios para su distribución.</li>
-          </ul>
+    <!-- ============================== ENGLISH ============================== -->
+    <div class="doc lang-en">
+      <div class="container doc-layout">
+        <aside class="toc" aria-label="Contents">
+          <p class="toc-title">Contents</p>
+          <nav>
+            <ol>
+              <li><a href="#en-acceptance">1. Acceptance and eligibility</a></li>
+              <li><a href="#en-definitions">2. Definitions</a></li>
+              <li><a href="#en-account">3. Your account and security</a></li>
+              <li><a href="#en-app-license">4. App license</a></li>
+              <li><a href="#en-your-content">5. Your content</a></li>
+              <li><a href="#en-acceptable-use">6. Acceptable use</a></li>
+              <li><a href="#en-random">7. Random chat</a></li>
+              <li><a href="#en-ai">8. Mesgot AI assistant</a></li>
+              <li><a href="#en-e2ee">9. Encryption and keys</a></li>
+              <li><a href="#en-emergency">10. Not an emergency service</a></li>
+              <li><a href="#en-privacy">11. Privacy</a></li>
+              <li><a href="#en-pro">12. Mesgot Pro</a></li>
+              <li><a href="#en-virtual">13. Virtual items</a></li>
+              <li><a href="#en-moderation">14. Moderation</a></li>
+              <li><a href="#en-termination">15. Suspension and termination</a></li>
+              <li><a href="#en-ip">16. Intellectual property</a></li>
+              <li><a href="#en-dmca">17. IP claims</a></li>
+              <li><a href="#en-thirdparty">18. Third-party services</a></li>
+              <li><a href="#en-availability">19. Availability</a></li>
+              <li><a href="#en-warranty">20. Disclaimer of warranties</a></li>
+              <li><a href="#en-liability">21. Limitation of liability</a></li>
+              <li><a href="#en-indemnity">22. Indemnification</a></li>
+              <li><a href="#en-law">23. Governing law</a></li>
+              <li><a href="#en-arbitration">24. Arbitration and class waiver</a></li>
+              <li><a href="#en-general">25. General provisions</a></li>
+              <li><a href="#en-changes">26. Changes to these terms</a></li>
+              <li><a href="#en-contact">27. Contact</a></li>
+            </ol>
+          </nav>
+        </aside>
+
+        <article class="doc-body">
+
+          <div class="notice-warn">
+            <strong>IMPORTANT NOTICE:</strong> Section 24 contains a <strong>binding individual arbitration agreement and a waiver of class actions and jury trial</strong> that affect how disputes between you and Mesgot are resolved. Read it carefully. Additionally, using the Service to harass, defraud, impersonate, breach systems or distribute illegal content may result in the <strong>immediate suspension or deletion of your account</strong> and cooperation with authorities where appropriate.
+          </div>
+
+          <section id="en-acceptance">
+            <h2><span class="secnum">1.</span>Acceptance and eligibility</h2>
+            <p>By creating an account, accessing or using the Mesgot app or the mesgot.com website (the "Service"), you enter into a binding contract with the operator of Mesgot ("Mesgot", "we") and accept these Terms and the <a href="privacy.html">Privacy Policy</a>. If you do not agree, do not use the Service.</p>
+            <ul>
+              <li>You must be at least <strong>13 years old</strong> — or older where your country requires a higher age to consent to data processing or to enter into this contract.</li>
+              <li>If you are a minor in your jurisdiction, you represent that you have your parent's or guardian's permission.</li>
+              <li>You represent that the registration information you provide (including your date of birth) is truthful and accurate, and that you have not previously been suspended from the Service.</li>
+              <li>Accounts are for your personal use only; automated account creation or accounts on behalf of third parties without authorization are not allowed.</li>
+            </ul>
+          </section>
+
+          <section id="en-definitions">
+            <h2><span class="secnum">2.</span>Definitions</h2>
+            <ul>
+              <li><strong>"Service"</strong>: the Mesgot mobile app, the mesgot.com website and all their features (chats, groups, calls, AI assistant, random chat, profiles and more).</li>
+              <li><strong>"User"</strong> or <strong>"you"</strong>: any person who accesses or uses the Service.</li>
+              <li><strong>"Content"</strong>: any text, photo, video, audio, file, link, sticker, poll, location, username, profile photo or other material sent or displayed through the Service.</li>
+              <li><strong>"Your Content"</strong>: Content that you send or upload to the Service.</li>
+            </ul>
+          </section>
+
+          <section id="en-account">
+            <h2><span class="secnum">3.</span>Your account and security</h2>
+            <ul>
+              <li>You are solely responsible for activity on your account and for safeguarding your credentials (password, logged-in devices and backup passwords).</li>
+              <li>Each account supports a maximum of <strong>5 active devices</strong>; when the limit is exceeded, the oldest session is automatically signed out.</li>
+              <li>If you suspect unauthorized access, change your password immediately and contact <a href="mailto:support@mesgot.com">support@mesgot.com</a>.</li>
+              <li>We may refuse to register, or require you to change, usernames that infringe third-party rights, impersonate others or are offensive.</li>
+            </ul>
+          </section>
+
+          <section id="en-app-license">
+            <h2><span class="secnum">4.</span>App license</h2>
+            <p>We grant you a limited, personal, non-exclusive, non-transferable and revocable license to install and use the app on Android devices you own or control, solely in accordance with these Terms. The app is licensed, not sold: all rights not expressly granted are reserved (see section 16).</p>
+          </section>
+
+          <section id="en-your-content">
+            <h2><span class="secnum">5.</span>Your content and the license you grant us</h2>
+            <div class="tldr"><span class="tldr-label">In short</span>Your content remains yours. You give us only the technical permission strictly needed to store and deliver it, and that permission ends when you delete it.</div>
+            <ul>
+              <li><strong>Ownership:</strong> you keep all rights to Your Content. These Terms do not transfer its ownership to us.</li>
+              <li><strong>Limited license:</strong> so that we can operate the Service, you grant us a worldwide, non-exclusive, royalty-free license — sublicensable only to our infrastructure providers — to store, reproduce, transmit, display, technically adapt (e.g. compress, transcode or generate thumbnails) and distribute Your Content, <strong>solely to provide, maintain, protect and improve the Service</strong>.</li>
+              <li><strong>End of license:</strong> this license ends when you delete Your Content or your account, except for (a) Content other users have already received or saved, (b) residual copies in backup systems for a limited period, and (c) anything we must retain by legal obligation.</li>
+              <li><strong>Your warranties:</strong> you represent that you own the necessary rights or licenses to Your Content and that it does not violate the law or third-party rights. <strong>You are solely responsible for Your Content</strong>; Mesgot does not endorse it and assumes no liability for it.</li>
+              <li>End-to-end encrypted content is stored and transmitted encrypted: we cannot read or moderate it.</li>
+            </ul>
+          </section>
+
+          <section id="en-acceptable-use">
+            <h2><span class="secnum">6.</span>Acceptable use</h2>
+            <p>You agree to use the Service lawfully and respectfully. The following is strictly prohibited:</p>
+            <ul>
+              <li>Harassing, threatening, extorting, defaming, intimidating or humiliating others.</li>
+              <li>Sending spam, fraud schemes, phishing, unsolicited advertising or mass automated messages.</li>
+              <li>Impersonating any person, brand or organization, or misrepresenting your affiliation with them.</li>
+              <li>Posting or transmitting illegal content, content inciting hatred or violence, or content promoting criminal activity.</li>
+              <li>Sharing non-consensual or illegal sexual content. <strong>There is zero tolerance for child sexual abuse material (CSAM):</strong> we will report it to the competent authorities and delete the accounts involved.</li>
+              <li>Infringing third-party intellectual property rights.</li>
+              <li>Attempting to breach the Service's security: exploits, code injection, scraping, brute force, denial-of-service attacks, unauthorized load testing or abuse of the API and Service quotas.</li>
+              <li>Using bots, scripts or automation without our express written permission.</li>
+              <li>Distributing malware or links to harmful sites.</li>
+              <li>Reverse engineering, decompiling or disassembling the app, except to the extent applicable law expressly permits it despite this prohibition.</li>
+              <li>Reselling, renting or commercially exploiting the Service without authorization.</li>
+            </ul>
+            <p>We reserve the right to apply technical limits (rate limits, quotas, automatic blocks) to protect the stability and security of the Service.</p>
+          </section>
+
+          <section id="en-random">
+            <h2><span class="secnum">7.</span>Random chat (Person Finder)</h2>
+            <ul>
+              <li>Random chat connects you with strangers. <strong>Use your judgment</strong>: do not share personal or financial details or your location with people you don't know.</li>
+              <li>There is <strong>zero tolerance</strong> for harassment, sexually explicit content, commercial spam and malicious links in random chat. Verified reports may lead to immediate account and device suspension.</li>
+              <li>Interactions with other users are the sole responsibility of those who take part in them (see section 21).</li>
+            </ul>
+          </section>
+
+          <section id="en-ai">
+            <h2><span class="secnum">8.</span>Mesgot AI assistant</h2>
+            <div class="tldr"><span class="tldr-label">In short</span>The AI can be wrong. It is not a professional or an emergency service, and you should not make important decisions based solely on its answers.</div>
+            <ul>
+              <li>Assistant responses are generated automatically by third-party AI models (Google). <strong>They may be inaccurate, incomplete, outdated or inappropriate</strong>, and do not represent Mesgot's views.</li>
+              <li>The assistant <strong>does not provide professional advice</strong> of any kind (medical, legal, financial, psychological or otherwise). Its answers are no substitute for consulting a qualified professional, and you must not use them as the sole basis for decisions with legal, financial, health or safety consequences.</li>
+              <li>Do not use the assistant to generate illegal or harmful content, or to circumvent section 6. Use of the assistant is also subject to the model provider's usage policies.</li>
+              <li>The assistant has usage quotas and limits that we may adjust at any time; we may modify, suspend or withdraw the assistant without notice.</li>
+              <li><strong>To the maximum extent permitted by law, Mesgot will not be liable for damages arising from reliance on the assistant's answers.</strong></li>
+            </ul>
+          </section>
+
+          <section id="en-e2ee">
+            <h2><span class="secnum">9.</span>End-to-end encryption, keys and backups</h2>
+            <ul>
+              <li>End-to-end encryption (E2EE) is optional and enabled per 1-on-1 chat. Its exact scope is described in section 5 of the <a href="privacy.html">Privacy Policy</a>.</li>
+              <li>E2EE private keys are generated and stored <strong>only on your devices</strong>. Mesgot does not know them, does not back them up and <strong>cannot recover encrypted content</strong> if you lose your devices, your keys or your backup password.</li>
+              <li>Backups are stored encrypted in your own Google Drive account and protected by a password only you know. <strong>You are the sole custodian of that password.</strong></li>
+              <li>You accept that losing access to encrypted content due to lost keys, devices or passwords is your sole responsibility and creates no liability for Mesgot.</li>
+            </ul>
+          </section>
+
+          <section id="en-emergency">
+            <h2><span class="secnum">10.</span>Not an emergency service</h2>
+            <p><strong>Mesgot is not a replacement for conventional telephone service and does not support calls to emergency services</strong> (911, 112 or other emergency numbers). You must ensure you can reach emergency services by other means. Service features (including calls and "urgent" messages) depend on connectivity and may fail or be delayed; do not rely on them in critical situations.</p>
+          </section>
+
+          <section id="en-privacy">
+            <h2><span class="secnum">11.</span>Privacy</h2>
+            <p>How we handle your personal data is described in the <a href="privacy.html">Privacy Policy</a>, which forms an integral part of these Terms. In case of conflict regarding data processing, the Privacy Policy prevails.</p>
+          </section>
+
+          <section id="en-pro">
+            <h2><span class="secnum">12.</span>Subscriptions and payments (Mesgot Pro)</h2>
+            <ul>
+              <li><strong>Benefits:</strong> Mesgot Pro offers an ad-free experience and additional features. Specific benefits may vary and are described in the app; we may reasonably adjust them without breach, preserving the essence of what you purchased.</li>
+              <li><strong>Billing:</strong> the subscription is purchased, billed and automatically renewed through <strong>Google Play</strong>, under its terms. Mesgot does not receive or store your payment details.</li>
+              <li><strong>Cancellation:</strong> you can cancel at any time from Google Play's subscription settings; you keep the benefits until the end of the paid period.</li>
+              <li><strong>Refunds:</strong> payments are non-refundable and no refunds are granted for partial periods, except as required by applicable law or Google Play's refund policies.</li>
+              <li><strong>Pricing:</strong> we may change the subscription price; changes apply from the next renewal period and Google Play will notify you under its processes.</li>
+              <li>Pro benefits are personal and non-transferable.</li>
+            </ul>
+          </section>
+
+          <section id="en-virtual">
+            <h2><span class="secnum">13.</span>Virtual items</h2>
+            <p>Streaks, badges, stickers, themes, achievements and other virtual items or features of the Service <strong>have no monetary value</strong>, are not redeemable for money, are non-transferable and may be modified, reset or removed at any time (for example, a streak may be lost due to inactivity or technical errors) without any compensation.</p>
+          </section>
+
+          <section id="en-moderation">
+            <h2><span class="secnum">14.</span>Content and moderation</h2>
+            <ul>
+              <li>Mesgot does <strong>not pre-screen</strong> user Content and does not guarantee its review. Other users' Content does not represent our views.</li>
+              <li>We reserve the <strong>right, but not the obligation</strong>, to moderate, restrict, hide or remove Content that in our reasonable judgment violates these Terms or the law, and to preserve Content where required by law.</li>
+              <li>You can report content or conduct from within the app or by writing to <a href="mailto:support@mesgot.com">support@mesgot.com</a>.</li>
+              <li>End-to-end encrypted content cannot be reviewed by Mesgot; moderation in those cases relies on participant reports and metadata.</li>
+            </ul>
+          </section>
+
+          <section id="en-termination">
+            <h2><span class="secnum">15.</span>Suspension and termination</h2>
+            <ul>
+              <li>You may stop using the Service and delete your account at any time (from the app or via the <a href="https://nextsus.netlify.app/account/delete" target="_blank" rel="noopener">account deletion page</a>).</li>
+              <li>We may suspend or delete your account, restrict features or block devices if you breach these Terms, if your conduct creates legal or security risk, if required by law, or if the Service is discontinued.</li>
+              <li>Enforcement may be progressive (warning, temporary restriction) or immediate in serious cases, at our reasonable discretion. Where feasible and legally permitted, we will tell you the reason.</li>
+              <li><strong>Termination for breach does not entitle you to a refund</strong> of unused subscription periods, unless the law provides otherwise.</li>
+              <li>Sections that by their nature should survive termination (including sections 5, 16 and 20 through 25) will remain in force.</li>
+            </ul>
+          </section>
+
+          <section id="en-ip">
+            <h2><span class="secnum">16.</span>Mesgot's intellectual property and feedback</h2>
+            <ul>
+              <li>The app, the website, the "Mesgot" name, logos, design, software and other Service materials (excluding user Content) are owned by the operator of Mesgot or its licensors and are protected by intellectual property laws. You acquire no rights to them other than the limited license in section 4.</li>
+              <li>If you send us suggestions, ideas or feedback about the Service, you grant us the right to use them without restriction or compensation.</li>
+            </ul>
+          </section>
+
+          <section id="en-dmca">
+            <h2><span class="secnum">17.</span>Intellectual property claims</h2>
+            <p>We respect intellectual property rights. If you believe content on the Service infringes your copyright or other rights, send a notice to <a href="mailto:support@mesgot.com">support@mesgot.com</a> including:</p>
+            <ul>
+              <li>Identification of the protected work and of the allegedly infringing material (with enough information to locate it).</li>
+              <li>Your contact details.</li>
+              <li>A good-faith statement that the use is not authorized by the rights holder, their agent or the law.</li>
+              <li>A statement, under penalty of perjury, that the information is accurate and that you are authorized to act on behalf of the rights holder.</li>
+              <li>Your physical or electronic signature.</li>
+            </ul>
+            <p>We may remove the identified material, notify the affected user (who may submit a counter-notice) and terminate the accounts of repeat infringers.</p>
+          </section>
+
+          <section id="en-thirdparty">
+            <h2><span class="secnum">18.</span>Third-party services</h2>
+            <p>The Service relies on third-party services (Google Play, Google — including FCM, AdMob, Sign-In, Drive and AI models —, Supabase, OpenStreetMap, among others) and may contain links to third-party sites. Those services are governed by their own terms and policies, we do not control them, and <strong>we are not responsible for them</strong>. You acknowledge that Google is not a party to these Terms and is not responsible for the Service.</p>
+          </section>
+
+          <section id="en-availability">
+            <h2><span class="secnum">19.</span>Availability and changes to the Service</h2>
+            <ul>
+              <li>Mesgot is an evolving project operated by an independent developer. The Service may experience outages, errors or connectivity loss.</li>
+              <li>We may add, modify, suspend or withdraw features or parts of the Service at any time — for maintenance, security, legal requirements or product decisions — without liability to you.</li>
+              <li>We recommend keeping backups of your important information (section 9).</li>
+            </ul>
+          </section>
+
+          <section id="en-warranty">
+            <h2><span class="secnum">20.</span>Disclaimer of warranties</h2>
+            <p>TO THE MAXIMUM EXTENT PERMITTED BY LAW, THE SERVICE IS PROVIDED <strong>"AS IS" AND "AS AVAILABLE"</strong>, WITHOUT WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE AND NON-INFRINGEMENT. WE DO NOT WARRANT THAT THE SERVICE WILL BE UNINTERRUPTED, SECURE, TIMELY OR ERROR-FREE, OR THAT CONTENT (INCLUDING AI ASSISTANT RESPONSES) WILL BE ACCURATE OR RELIABLE. SOME JURISDICTIONS DO NOT ALLOW THE EXCLUSION OF CERTAIN WARRANTIES, SO SOME OF THESE EXCLUSIONS MAY NOT APPLY TO YOU.</p>
+          </section>
+
+          <section id="en-liability">
+            <h2><span class="secnum">21.</span>Limitation of liability</h2>
+            <p>TO THE MAXIMUM EXTENT PERMITTED BY LAW:</p>
+            <ul>
+              <li>MESGOT AND ITS DEVELOPER WILL NOT BE LIABLE FOR INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, EXEMPLARY OR PUNITIVE DAMAGES, OR FOR LOSS OF PROFITS, REVENUE, DATA, GOODWILL OR OPPORTUNITIES, EVEN IF ADVISED OF THEIR POSSIBILITY.</li>
+              <li>MESGOT'S TOTAL, CUMULATIVE LIABILITY FOR ALL CLAIMS RELATING TO THE SERVICE WILL NOT EXCEED THE GREATER OF (A) THE AMOUNTS YOU PAID TO MESGOT THROUGH THE SERVICE IN THE 12 MONTHS BEFORE THE EVENT GIVING RISE TO THE CLAIM AND (B) USD 100.</li>
+              <li>MESGOT IS NOT RESPONSIBLE FOR THE CONDUCT, CONTENT OR INTERACTIONS OF OTHER USERS, INSIDE OR OUTSIDE THE SERVICE, OR FOR FAILURES ATTRIBUTABLE TO THIRD-PARTY SERVICES OR YOUR CONNECTIVITY.</li>
+              <li>THESE LIMITATIONS ARE AN ESSENTIAL ELEMENT OF THE BARGAIN BETWEEN THE PARTIES AND APPLY REGARDLESS OF THE LEGAL THEORY INVOKED, EVEN IF A LIMITED REMEDY FAILS OF ITS ESSENTIAL PURPOSE.</li>
+            </ul>
+            <p>Nothing in these Terms excludes or limits liability that cannot legally be excluded, or affects non-waivable consumer rights in your country of residence.</p>
+          </section>
+
+          <section id="en-indemnity">
+            <h2><span class="secnum">22.</span>Indemnification</h2>
+            <p>You agree to indemnify, defend and hold harmless Mesgot and its developer from any third-party claim, demand, damage, loss, penalty and cost (including reasonable attorneys' fees) arising from: (a) your breach of these Terms; (b) Your Content; (c) your use of the Service in violation of the law or third-party rights; or (d) your interactions with other users. We reserve the right to assume the exclusive defense of any matter subject to indemnification, in which case you will cooperate with us.</p>
+          </section>
+
+          <section id="en-law">
+            <h2><span class="secnum">23.</span>Governing law</h2>
+            <p>These Terms and any dispute arising from them or the Service are governed by the laws of the <strong>Commonwealth of Massachusetts, United States</strong>, and applicable U.S. federal law, without giving effect to conflict-of-laws rules. The U.S. Federal Arbitration Act (FAA) governs section 24. For disputes not subject to arbitration, the parties submit to the exclusive jurisdiction of the state and federal courts located in Massachusetts. This choice does not deprive consumers of non-waivable protections under the law of their place of habitual residence.</p>
+          </section>
+
+          <section id="en-arbitration">
+            <h2><span class="secnum">24.</span>Binding arbitration and class action waiver</h2>
+            <div class="tldr"><span class="tldr-label">In short</span>Disputes are first resolved amicably and, failing that, through individual arbitration — not before a jury or through class actions. You can opt out of this agreement within 30 days of accepting it.</div>
+            <ul>
+              <li><strong>Informal resolution first:</strong> before starting any proceeding, you and Mesgot agree to try to resolve the dispute in good faith: send a written description to <a href="mailto:support@mesgot.com">support@mesgot.com</a> and wait at least 30 days.</li>
+              <li><strong>Binding individual arbitration:</strong> any dispute, claim or controversy arising from these Terms or the Service that is not resolved informally will be finally resolved by <strong>binding individual arbitration</strong> administered by the American Arbitration Association (AAA) under its Consumer Arbitration Rules. The arbitration may be conducted remotely (by videoconference or on written submissions) or, if an in-person hearing is required, in Massachusetts or another reasonable location agreed by the parties.</li>
+              <li><strong>Exceptions:</strong> either party may (a) bring claims in small claims court where they qualify, and (b) seek injunctive relief in court to protect intellectual property rights or against unauthorized access to the Service.</li>
+              <li><strong>CLASS ACTION WAIVER:</strong> YOU AND MESGOT AGREE THAT CLAIMS MAY ONLY BE BROUGHT IN AN INDIVIDUAL CAPACITY, AND NOT AS A PLAINTIFF OR CLASS MEMBER IN ANY CLASS, REPRESENTATIVE OR CONSOLIDATED ACTION. THE ARBITRATOR MAY NOT CONSOLIDATE CLAIMS OF MORE THAN ONE PERSON.</li>
+              <li><strong>JURY TRIAL WAIVER:</strong> to the extent any dispute proceeds in court, both parties waive trial by jury to the maximum extent permitted.</li>
+              <li><strong>Opt-out right:</strong> you may reject this arbitration agreement without penalty by emailing <a href="mailto:support@mesgot.com">support@mesgot.com</a> within <strong>30 days</strong> of first accepting these Terms, stating your name, your username and your wish to opt out of arbitration. In that case, disputes will be resolved as set out in section 23.</li>
+              <li><strong>Time limit for claims:</strong> to the maximum extent permitted by law, any claim must be filed within <strong>1 year</strong> of when it could first be asserted; after that period it is permanently barred.</li>
+              <li><strong>Severability:</strong> if the class action waiver is found invalid or unenforceable as to a particular dispute, this arbitration agreement will be void in its entirety as to that dispute, which will be resolved in the courts identified in section 23. The remainder of this section stays in force in all other cases.</li>
+            </ul>
+          </section>
+
+          <section id="en-general">
+            <h2><span class="secnum">25.</span>General provisions</h2>
+            <ul>
+              <li><strong>Entire agreement:</strong> these Terms and the Privacy Policy are the entire agreement between you and Mesgot regarding the Service and supersede any prior agreements.</li>
+              <li><strong>Severability:</strong> if any provision is held invalid, it will be enforced to the maximum extent possible and the rest will remain in full force.</li>
+              <li><strong>No waiver:</strong> our failure to enforce a provision is not a waiver of it.</li>
+              <li><strong>Assignment:</strong> you may not assign these Terms or your account. Mesgot may assign its rights and obligations to a successor of the project (for example, in a transfer or reorganization), with notice where required by law.</li>
+              <li><strong>Force majeure:</strong> Mesgot is not liable for failures caused by events beyond its reasonable control (provider outages, network failures, disasters, acts of authorities, etc.).</li>
+              <li><strong>Electronic communications:</strong> you agree to receive notices and communications electronically (in the app, on this site or at your account email), and that they satisfy any written-form requirement.</li>
+              <li><strong>Language:</strong> these Terms are published in Spanish and English. In case of discrepancy, the Spanish version prevails.</li>
+              <li><strong>Survival:</strong> provisions that by their nature should survive (necessary licenses, disclaimers, limitations, indemnification, governing law and arbitration) survive termination.</li>
+            </ul>
+          </section>
+
+          <section id="en-changes">
+            <h2><span class="secnum">26.</span>Changes to these terms</h2>
+            <p>We may modify these Terms. If a change is material, we will make reasonable efforts to notify you in advance (in the app or on this site). Changes take effect on the date indicated above; continued use of the Service after that date constitutes acceptance. If you disagree with a change, you must stop using the Service and may delete your account. Changes do not apply retroactively to disputes that arose before they took effect.</p>
+          </section>
+
+          <section id="en-contact">
+            <h2><span class="secnum">27.</span>Contact</h2>
+            <p>For support, abuse reports or legal notices related to these Terms:</p>
+            <ul>
+              <li><strong>Email:</strong> <a href="mailto:support@mesgot.com">support@mesgot.com</a></li>
+              <li><strong>Project:</strong> Mesgot (United States)</li>
+            </ul>
+          </section>
+
         </article>
-
-        <article class="policy-card" id="privacidad">
-          <h3><span>6) Privacidad y tratamiento de datos</span></h3>
-          <p>El tratamiento de tus datos personales se gestiona bajo los siguientes criterios:</p>
-          <ul class="policy-list">
-            <li>Recopilamos únicamente los datos mínimos indispensables para el funcionamiento y seguridad de la app (correo, identificador de dispositivo, sesión, registros de errores).</li>
-            <li>El almacenamiento de archivos multimedia (fotos, audios, documentos) se realiza en servidores de Supabase de acuerdo a tu decisión de conservarlos en el chat. Si eliminas el archivo del chat, este se elimina de nuestros sistemas de inmediato.</li>
-            <li>El uso de nuestra plataforma está regido complementariamente por nuestra Política de Privacidad detallada.</li>
-          </ul>
-        </article>
-
-        <article class="policy-card" id="suscripciones">
-          <h3><span>7) Suscripciones y Pagos (Mesgot Pro)</span></h3>
-          <p>Ofrecemos una opción de suscripción de pago denominada "Mesgot Pro" bajo los siguientes términos:</p>
-          <ul class="policy-list">
-            <li><strong>Beneficios Premium:</strong> Al suscribirte, obtienes acceso a una experiencia sin publicidad, stickers premium exclusivos, la posibilidad de personalizar tu llave de cifrado de extremo a extremo, temas visuales y acceso prioritario a nuevas funciones.</li>
-            <li><strong>Facturación y Renovación:</strong> La suscripción se factura de manera mensual y se renueva automáticamente a través de la tienda de aplicaciones correspondiente (Google Play Store). El cargo se realiza al inicio de cada período de facturación.</li>
-            <li><strong>Cancelación:</strong> Puedes cancelar tu suscripción a Mesgot Pro en cualquier momento desde los ajustes de suscripción de tu cuenta de Google Play. Seguirás teniendo acceso a los beneficios hasta el final del ciclo de facturación en curso.</li>
-            <li><strong>Reembolsos:</strong> Los pagos no son reembolsables y no se ofrecen devoluciones ni créditos por períodos parciales de suscripción, salvo lo dispuesto por las políticas de reembolso de Google Play.</li>
-          </ul>
-        </article>
-
-        <article class="policy-card" id="suspension">
-          <h3><span>8) Suspensión, restricciones y cierre de cuentas</span></h3>
-          <p>En caso de infracción a los términos aquí descritos:</p>
-          <ul class="policy-list">
-            <li>Podemos suspender temporalmente o eliminar definitivamente cuentas que representen riesgos informáticos, legales o de abuso hacia la comunidad de Mesgot.</li>
-            <li>La penalización puede ser progresiva (advertencia, restricción temporal de envío de mensajes, bloqueo de IP) o directa en función de la gravedad de la falta.</li>
-            <li>Siempre que sea factible y seguro, te notificaremos los motivos de la sanción, aunque en situaciones graves o de riesgo inminente actuaremos de inmediato y sin previo aviso.</li>
-          </ul>
-        </article>
-
-        <article class="policy-card" id="disponibilidad">
-          <h3><span>9) Disponibilidad y cambios del Servicio</span></h3>
-          <p>Mesgot es una aplicación en evolución constante:</p>
-          <ul class="policy-list">
-            <li>El Servicio se ofrece "tal cual es" y "según disponibilidad", pudiendo experimentar caídas temporales de servidores o fallos de conexión ajenos al control de la plataforma.</li>
-            <li>Nos reservamos el derecho a modificar, suspender o discontinuar funciones o partes de la app con el fin de realizar labores de mantenimiento, actualizaciones de seguridad o mejoras de rendimiento.</li>
-          </ul>
-        </article>
-
-        <article class="policy-card" id="responsabilidad">
-          <h3><span>10) Limitación de responsabilidad</span></h3>
-          <p>Alcance de nuestra responsabilidad sobre el Servicio:</p>
-          <ul class="policy-list">
-            <li>En la máxima medida permitida por las leyes, Mesgot y sus desarrolladores no serán responsables por daños indirectos, incidentales, pérdida de datos o lucro cesante derivados del uso o la imposibilidad de uso del Servicio.</li>
-            <li>No podemos garantizar que la plataforma esté libre de errores, bugs informáticos o interrupciones en todo momento.</li>
-            <li><strong>Claves de cifrado personalizadas:</strong> Mesgot no gestiona ni respalda tus claves de cifrado personalizadas de extremo a extremo (E2EE). Eres el único custodio de tus llaves y de tus contraseñas de respaldo. Mesgot no podrá recuperar tus conversaciones ni archivos cifrados si pierdes el acceso a estas llaves.</li>
-            <li>Tú eres responsable exclusivo de tus interacciones con otros usuarios dentro y fuera de la app.</li>
-          </ul>
-        </article>
-
-        <article class="policy-card" id="indemnidad">
-          <h3><span>11) Indemnidad</span></h3>
-          <p>
-            Aceptas indemnizar, defender y mantener indemne a Mesgot y a sus desarrolladores de cualquier reclamación, demanda judicial, daños, pérdidas, multas y costes (incluidos honorarios de abogados razonables) que surjan de o estén relacionados con (a) tu incumplimiento de estos términos, (b) el contenido ilegal que publiques en la plataforma, o (c) tu violación de los derechos de cualquier tercero.
-          </p>
-        </article>
-
-        <article class="policy-card" id="ley">
-          <h3><span>12) Ley aplicable y jurisdicción</span></h3>
-          <p>
-            Estos términos se regirán e interpretarán de acuerdo con las leyes aplicables de la jurisdicción del responsable del Servicio.
-          </p>
-        </article>
-
-        <article class="policy-card" id="cambios">
-          <h3><span>13) Cambios a estos términos</span></h3>
-          <p>
-            Podemos actualizar estos Términos y Condiciones periódicamente. Si realizamos cambios significativos, actualizaremos la fecha en la parte superior del documento y/o te lo notificaremos directamente en la aplicación. El uso continuado del Servicio constituirá tu aceptación de los nuevos términos.
-          </p>
-        </article>
-
-        <article class="policy-card" id="contacto">
-          <h3><span>14) Contacto e información legal</span></h3>
-          <p>
-            Para consultas de soporte, reporte de abuso o notificaciones legales relacionadas con estos Términos, puedes contactar al administrador del proyecto:
-          </p>
-          <ul class="policy-list">
-            <li><strong>Email de soporte:</strong> <a href="mailto:cristian@netsus.me" style="color: var(--primary); text-decoration: none;">cristian@netsus.me</a></li>
-            <li><strong>Proyecto oficial:</strong> Mesgot App</li>
-          </ul>
-        </article>
-
-        <!-- Action buttons inside container -->
-        <div class="actions-bar">
-          <button class="btn-action-outline" id="backBtn" type="button">Volver</button>
-        </div>
-
-      </section>
+      </div>
     </div>
   </main>
 
   <!-- Footer -->
-  <footer>
-    <div class="container footer-grid">
-      <a href="index.html" class="footer-logo">
-        <img src="mesgot_logo.svg" alt="Mesgot Logo" width="44" height="44" />
-        <span class="logo-text">Mesgot</span>
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <a href="index.html" class="logo-container" aria-label="Mesgot">
+        <img src="mesgot_logo.svg" alt="" width="28" height="28" />
+        <span class="logo-text" style="font-size:1.05rem;">Mesgot</span>
       </a>
-      
       <div class="footer-links">
-        <a href="index.html#features" class="footer-link">Funciones</a>
-        <a href="privacy.html" class="footer-link">Política de Privacidad</a>
-        <a href="terms-and-conditions.html" class="footer-link">Términos y Condiciones</a>
+        <a href="index.html#features"><span class="lang-es">Funciones</span><span class="lang-en">Features</span></a>
+        <a href="privacy.html"><span class="lang-es">Política de Privacidad</span><span class="lang-en">Privacy Policy</span></a>
+        <a href="terms-and-conditions.html"><span class="lang-es">Términos y Condiciones</span><span class="lang-en">Terms &amp; Conditions</span></a>
+        <a href="https://nextsus.netlify.app/account/delete" target="_blank" rel="noopener"><span class="lang-es">Eliminar cuenta</span><span class="lang-en">Delete account</span></a>
       </div>
-      
-      <div class="copyright">
-        © <span id="year"></span> Mesgot. Todos los derechos reservados.
-      </div>
+      <div class="copyright">© <span data-year>2026</span> Mesgot</div>
     </div>
   </footer>
 
   <script>
-    // Fechas dinámicas configurables
-    const EFFECTIVE_DATE = "2026-06-04";
-    const LAST_UPDATED = "2026-06-04";
+    (function () {
+      var year = String(new Date().getFullYear());
+      document.querySelectorAll("[data-year]").forEach(function (el) { el.textContent = year; });
 
-    document.getElementById("effectiveDate").textContent = EFFECTIVE_DATE;
-    document.getElementById("lastUpdated").textContent = LAST_UPDATED;
+      // Idioma
+      var langBtn = document.getElementById("langSwitch");
+      var langLabel = document.getElementById("langLabel");
 
-    // Año automático para el footer
-    document.getElementById("year").textContent = new Date().getFullYear();
+      function setLanguage(lang) {
+        document.documentElement.setAttribute("lang", lang);
+        try { localStorage.setItem("lang", lang); } catch (e) {}
+        langLabel.textContent = lang === "es" ? "EN" : "ES";
+        document.title = lang === "es" ? "Términos y Condiciones | Mesgot" : "Terms & Conditions | Mesgot";
+      }
 
-    // Redirigir siempre a login.html al presionar "Volver"
-    const goToLogin = () => {
-      location.href = "login.html";
-    };
+      setLanguage(document.documentElement.getAttribute("lang") || "es");
+      langBtn.addEventListener("click", function () {
+        setLanguage(document.documentElement.getAttribute("lang") === "es" ? "en" : "es");
+      });
 
-    document.getElementById("backBtn").addEventListener("click", goToLogin);
+      // Tema
+      var themeBtn = document.getElementById("themeSwitch");
+      themeBtn.addEventListener("click", function () {
+        var next = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+        document.documentElement.setAttribute("data-theme", next);
+        try { localStorage.setItem("theme", next); } catch (e) {}
+      });
 
-    // Intersection Observer para destacar sección activa de la barra lateral
-    document.addEventListener("DOMContentLoaded", () => {
-      const links = document.querySelectorAll(".sidebar-link");
-      const cards = document.querySelectorAll(".policy-card");
-      
-      const observerOptions = {
-        root: null,
-        rootMargin: "-20% 0px -60% 0px", // Resalta según la sección visible en el tercio superior/medio
-        threshold: 0
-      };
-
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const id = entry.target.getAttribute("id");
-            links.forEach((link) => {
-              if (link.getAttribute("href") === `#${id}`) {
-                link.classList.add("active");
-              } else {
-                link.classList.remove("active");
-              }
+      // Scrollspy
+      document.addEventListener("DOMContentLoaded", function () {
+        var links = document.querySelectorAll(".toc a");
+        var sections = document.querySelectorAll(".doc-body section[id]");
+        var observer = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            var id = entry.target.getAttribute("id");
+            links.forEach(function (link) {
+              link.classList.toggle("active", link.getAttribute("href") === "#" + id);
             });
-          }
-        });
-      }, observerOptions);
-
-      cards.forEach((card) => observer.observe(card));
-    });
+          });
+        }, { rootMargin: "-15% 0px -70% 0px", threshold: 0 });
+        sections.forEach(function (s) { observer.observe(s); });
+      });
+    })();
   </script>
 </body>
 </html>
