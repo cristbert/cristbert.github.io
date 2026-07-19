@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <!--
+      Content-Security-Policy en meta (GitHub Pages no permite cabeceras HTTP).
+      Nota: en <meta> se IGNORAN frame-ancestors, report-uri y sandbox; por eso no
+      incluimos frame-ancestors aqui (se dejaria a una cabecera real si existiera).
+      connect-src: solo el Supabase de produccion (https + wss para realtime).
+      img-src: Supabase (media/avatars) + tiles de OpenStreetMap + data:/blob: (previews locales).
+    -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="
+        default-src 'self';
+        base-uri 'self';
+        form-action 'self';
+        object-src 'none';
+        script-src 'self';
+        style-src 'self' 'unsafe-inline';
+        font-src 'self' data:;
+        img-src 'self' data: blob: https://ifvxhywcfxsobupctezb.supabase.co https://*.tile.openstreetmap.org;
+        connect-src 'self' https://ifvxhywcfxsobupctezb.supabase.co wss://ifvxhywcfxsobupctezb.supabase.co;
+        worker-src 'self' blob:;
+        manifest-src 'self';
+        media-src 'self' blob: https://ifvxhywcfxsobupctezb.supabase.co
+      "
+    />
+    <meta name="theme-color" content="#0e0f13" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f5f6f8" media="(prefers-color-scheme: light)" />
+    <meta name="description" content="Mesgot Web: mensajeria cifrada, rapida y ligera." />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="icon" type="image/svg+xml" href="icons/icon.svg" />
+    <link rel="apple-touch-icon" href="icons/icon-192.png" />
+    <title>Mesgot</title>
+    <script type="module" crossorigin src="/chat/assets/index-BlWoW6W3.js"></script>
+    <link rel="modulepreload" crossorigin href="/chat/assets/vendor-DozdHFCk.js">
+    <link rel="modulepreload" crossorigin href="/chat/assets/supabase-CN6p1OFh.js">
+    <link rel="modulepreload" crossorigin href="/chat/assets/leaflet-DRoVA2tj.js">
+    <link rel="stylesheet" crossorigin href="/chat/assets/leaflet-CIGW-MKW.css">
+    <link rel="stylesheet" crossorigin href="/chat/assets/index-D2bIeW_e.css">
+  </head>
+  <body>
+    <div id="app" data-app-root>
+      <div class="boot-splash" role="status" aria-live="polite">Mesgot</div>
+    </div>
+  </body>
+</html>
