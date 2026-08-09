@@ -5,6 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>body { background: #10141a; }</style>
     <script>
+        // Puente de recuperacion de contrasena.
+        // Si Supabase redirige a una ruta que no existe pero con los tokens de
+        // recuperacion, los reenviamos a la pagina de cambio de contrasena.
+        (function () {
+            try {
+                if (window.location.pathname.indexOf('newpassword') !== -1) return;
+                var h = window.location.hash.replace(/^#/, '');
+                var q = window.location.search.replace(/^\?/, '');
+                var isRecovery = /(^|&)type=recovery(&|$)/.test(h) || /(^|&)type=recovery(&|$)/.test(q);
+                if (!isRecovery) return;
+                window.location.replace('/newpassword.html' + (q ? '?' + q : '') + (h ? '#' + h : ''));
+            } catch (e) {
+                // Si algo falla, seguimos con el resto de la pagina.
+            }
+        })();
+    </script>
+    <script>
         // GitHub Pages SPA redirect for dynamic routes
         // When accessing /profile/{userId}, GitHub returns 404
         // This redirects to /profile/?p={userId} which serves the invitation page

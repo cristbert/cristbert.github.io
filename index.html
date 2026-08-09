@@ -4,6 +4,24 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script>
+    // Puente de recuperacion de contrasena.
+    // Si la lista blanca de Supabase no incluye newpassword.html, Supabase
+    // redirige aqui con los tokens en la URL y sin avisar de nada. En ese caso
+    // reenviamos a la pagina de cambio de contrasena conservando la URL entera.
+    (function () {
+      try {
+        if (window.location.pathname.indexOf('newpassword') !== -1) return;
+        var h = window.location.hash.replace(/^#/, '');
+        var q = window.location.search.replace(/^\?/, '');
+        var isRecovery = /(^|&)type=recovery(&|$)/.test(h) || /(^|&)type=recovery(&|$)/.test(q);
+        if (!isRecovery) return;
+        window.location.replace('/newpassword.html' + (q ? '?' + q : '') + (h ? '#' + h : ''));
+      } catch (e) {
+        // Si algo falla, seguimos cargando la portada con normalidad.
+      }
+    })();
+  </script>
+  <script>
     (function () {
       var t = null, l = null;
       try { t = localStorage.getItem("theme"); l = localStorage.getItem("lang"); } catch (e) {}
