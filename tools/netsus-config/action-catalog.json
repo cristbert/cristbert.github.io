@@ -1,0 +1,206 @@
+{
+  "generated_from": "flutter_chat_list/lib/core/config/ui_overrides.dart",
+  "note": "generado por tools/netsus-config/gen-catalog.py; no editar a mano",
+  "actions": [
+    {
+      "id": "chat.header.call",
+      "group": "Cabecera del chat",
+      "label": "Llamar"
+    },
+    {
+      "id": "chat.header.videoCall",
+      "group": "Cabecera del chat",
+      "label": "Videollamada"
+    },
+    {
+      "id": "chat.header.menu",
+      "group": "Cabecera del chat",
+      "label": "Menu de tres puntos"
+    },
+    {
+      "id": "chat.menu.profile",
+      "group": "Menú desplegable del chat",
+      "label": "Ver perfil"
+    },
+    {
+      "id": "chat.menu.search",
+      "group": "Menú desplegable del chat",
+      "label": "Buscar en el chat"
+    },
+    {
+      "id": "chat.menu.sync",
+      "group": "Menú desplegable del chat",
+      "label": "Sincronizar"
+    },
+    {
+      "id": "chat.menu.netsusPro",
+      "group": "Menú desplegable del chat",
+      "label": "Netsus Pro"
+    },
+    {
+      "id": "chat.menu.newConversation",
+      "group": "Menú desplegable del chat",
+      "label": "Nueva conversacion"
+    },
+    {
+      "id": "chat.menu.conversationHistory",
+      "group": "Menú desplegable del chat",
+      "label": "Historial de conversaciones"
+    },
+    {
+      "id": "chat.menu.scheduledMessages",
+      "group": "Menú desplegable del chat",
+      "label": "Mensajes programados"
+    },
+    {
+      "id": "chat.menu.games",
+      "group": "Menú desplegable del chat",
+      "label": "Juegos"
+    },
+    {
+      "id": "call.hd",
+      "group": "Pantalla de llamada",
+      "label": "Boton HD"
+    },
+    {
+      "id": "call.hd.tooltip",
+      "group": "Pantalla de llamada",
+      "label": "Tooltip del HD"
+    },
+    {
+      "id": "call.video",
+      "group": "Pantalla de llamada",
+      "label": "Activar video"
+    },
+    {
+      "id": "call.switchCamera",
+      "group": "Pantalla de llamada",
+      "label": "Cambiar de camara"
+    },
+    {
+      "id": "call.hangup",
+      "group": "Pantalla de llamada",
+      "label": "Colgar"
+    },
+    {
+      "id": "chatlist.compose",
+      "group": "Lista de chats",
+      "label": "Lapiz de nuevo chat"
+    },
+    {
+      "id": "newchat.createGroup",
+      "group": "Crear chat / grupo",
+      "label": "Crear grupo"
+    },
+    {
+      "id": "newchat.searchPeople",
+      "group": "Crear chat / grupo",
+      "label": "Personas aleatorias"
+    },
+    {
+      "id": "newchat.addByQr",
+      "group": "Crear chat / grupo",
+      "label": "Anadir por QR"
+    },
+    {
+      "id": "creategroup.search",
+      "group": "Crear chat / grupo",
+      "label": "Buscar al crear grupo"
+    },
+    {
+      "id": "profile.other.notifications",
+      "group": "Perfil de la otra persona",
+      "label": "Silenciar notificaciones"
+    },
+    {
+      "id": "profile.other.customize",
+      "group": "Perfil de la otra persona",
+      "label": "Personalizar chat"
+    },
+    {
+      "id": "profile.other.e2ee",
+      "group": "Perfil de la otra persona",
+      "label": "Archivos multimedia"
+    },
+    {
+      "id": "profile.other.block",
+      "group": "Perfil de la otra persona",
+      "label": "Bloquear contacto"
+    },
+    {
+      "id": "profile.other.report",
+      "group": "Perfil de la otra persona",
+      "label": "Denunciar contacto"
+    },
+    {
+      "id": "profile.other.clearChat",
+      "group": "Perfil de la otra persona",
+      "label": "Vaciar chat"
+    },
+    {
+      "id": "profile.other.deleteChat",
+      "group": "Perfil de la otra persona",
+      "label": "Eliminar chat"
+    },
+    {
+      "id": "settings.account",
+      "group": "Ajustes (hub de perfil y pantallas de settings)",
+      "label": "Mi perfil"
+    },
+    {
+      "id": "settings.requests",
+      "group": "Ajustes (hub de perfil y pantallas de settings)",
+      "label": "Solicitudes"
+    },
+    {
+      "id": "settings.security",
+      "group": "Ajustes (hub de perfil y pantallas de settings)",
+      "label": "Seguridad"
+    },
+    {
+      "id": "settings.privacy",
+      "group": "Ajustes (hub de perfil y pantallas de settings)",
+      "label": "Privacidad"
+    },
+    {
+      "id": "settings.chats",
+      "group": "Ajustes (hub de perfil y pantallas de settings)",
+      "label": "Chats"
+    },
+    {
+      "id": "settings.notifications",
+      "group": "Ajustes (hub de perfil y pantallas de settings)",
+      "label": "Notificaciones"
+    },
+    {
+      "id": "settings.language",
+      "group": "Ajustes (hub de perfil y pantallas de settings)",
+      "label": "Idioma"
+    },
+    {
+      "id": "settings.themes",
+      "group": "Ajustes (hub de perfil y pantallas de settings)",
+      "label": "Temas"
+    },
+    {
+      "id": "settings.backup",
+      "group": "Ajustes (hub de perfil y pantallas de settings)",
+      "label": "Copia de seguridad"
+    },
+    {
+      "id": "settings.storage",
+      "group": "Ajustes (hub de perfil y pantallas de settings)",
+      "label": "Almacenamiento"
+    },
+    {
+      "id": "settings.advanced",
+      "group": "Ajustes (hub de perfil y pantallas de settings)",
+      "label": "Opciones avanzadas"
+    },
+    {
+      "id": "settings.netsusPro",
+      "group": "Ajustes (hub de perfil y pantallas de settings)",
+      "label": "Netsus Pro"
+    }
+  ]
+}

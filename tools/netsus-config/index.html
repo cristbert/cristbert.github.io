@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Netsus · Configuración remota</title>
+  <meta name="theme-color" content="#111722">
+  <meta name="robots" content="noindex">
+  <link rel="stylesheet" href="styles.css?v=5">
+  <link rel="stylesheet" href="panel.css?v=1">
+</head>
+<body>
+  <header class="app-header">
+    <div>
+      <p class="eyebrow">Netsus · Admin</p>
+      <h1>Configuración remota</h1>
+    </div>
+    <div class="header-actions">
+      <span class="auth-chip" id="authChip"></span>
+      <button class="secondary-button" id="reloadButton" type="button" hidden>Recargar</button>
+    </div>
+  </header>
+
+  <main class="admin-shell">
+    <div id="gate" class="detail-card gate-card">
+      <h2>Verificando acceso…</h2>
+      <p class="detail-note">Comprobando tu sesión y permisos de administrador.</p>
+    </div>
+
+    <div id="content" hidden>
+      <!-- Aviso permanente: el alcance real de esta herramienta -->
+      <div class="detail-card panel-warning">
+        <p><strong>Ocultar un botón no cierra la función.</strong> La ruta sigue existiendo en la
+        app y un cliente modificado puede invocarla. Para lo que deba estar realmente cerrado, el
+        corte va en la RPC o en la policy RLS.</p>
+        <p class="detail-note">En release los dispositivos consultan la configuración como máximo
+        cada 12 h, así que un cambio publicado tarda en llegar a todo el mundo.</p>
+      </div>
+
+      <section class="detail-card" id="statusCard">
+        <div class="panel-status-row">
+          <div>
+            <h2>Estado actual</h2>
+            <p class="detail-note" id="statusText">Cargando…</p>
+          </div>
+          <div class="panel-status-actions">
+            <button class="secondary-button" id="rollbackButton" type="button" disabled>
+              Volver a la versión anterior
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Flag global, que no es un override de UI -->
+      <section class="detail-card">
+        <h2>Interruptores generales</h2>
+        <label class="panel-flag">
+          <input type="checkbox" id="postsFeedDisabled">
+          <span>
+            <strong>Apagar el feed de publicaciones</strong>
+            <em class="detail-note">posts_feed_disabled</em>
+          </span>
+        </label>
+      </section>
+
+      <section id="obsoleteCard" class="detail-card panel-obsolete" hidden>
+        <h2>Ids que ya no existen en la app</h2>
+        <p class="detail-note">
+          Están configurados en Firebase pero no aparecen en el APK actual. No hacen nada; se
+          pueden limpiar. No se borran solos a propósito.
+        </p>
+        <ul id="obsoleteList" class="panel-obsolete-list"></ul>
+        <button class="secondary-button" id="cleanObsoleteButton" type="button">
+          Quitar estos ids
+        </button>
+      </section>
+
+      <div id="groups"></div>
+
+      <section class="detail-card">
+        <h2>JSON que se va a publicar</h2>
+        <p class="detail-note">Vista previa de <code>ui_overrides</code>. Solo viajan las
+        excepciones: lo que no aparece se comporta como en la app tal cual está.</p>
+        <pre class="panel-preview" id="preview">{}</pre>
+      </section>
+
+      <div class="panel-publish-bar">
+        <p class="detail-note" id="publishMessage"></p>
+        <button class="primary-button" id="publishButton" type="button">Publicar cambios</button>
+      </div>
+    </div>
+  </main>
+
+  <script src="vendor/supabase/supabase.min.js"></script>
+  <script src="src/supabase-client.js?v=1"></script>
+  <script src="src/panel.js?v=1" defer></script>
+</body>
+</html>

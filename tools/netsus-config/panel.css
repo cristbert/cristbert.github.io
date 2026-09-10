@@ -1,0 +1,210 @@
+/*
+ * Estilos propios del panel de configuración remota.
+ * Se apoya en styles.css (compartido con nsticker-studio) para el marco, tipografía y tarjetas;
+ * aquí solo va lo específico de las filas de acciones.
+ */
+
+.panel-warning {
+  border-left: 3px solid #f59e0b;
+}
+
+.panel-warning p {
+  margin: 0 0 8px;
+}
+
+.panel-warning p:last-child {
+  margin-bottom: 0;
+}
+
+.panel-status-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.panel-status-actions {
+  display: flex;
+  gap: 8px;
+}
+
+/* --- Interruptor general --- */
+
+.panel-flag {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+  padding: 10px 0 2px;
+}
+
+.panel-flag input {
+  margin-top: 3px;
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  cursor: pointer;
+}
+
+.panel-flag span {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* --- Filas de acción --- */
+
+.panel-actions {
+  display: flex;
+  flex-direction: column;
+}
+
+.panel-action {
+  display: grid;
+  grid-template-columns: minmax(210px, 1fr) minmax(240px, 1.2fr);
+  gap: 12px 18px;
+  align-items: center;
+  padding: 11px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.panel-action:first-child {
+  border-top: 0;
+}
+
+/* Una acción oculta se marca en la propia fila: al revisar 40 filas conviene ver de un vistazo
+   cuáles están tocadas sin leer el JSON. */
+.panel-action.is-hidden {
+  opacity: 0.62;
+}
+
+.panel-action.is-hidden strong {
+  text-decoration: line-through;
+}
+
+.panel-action-main {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  cursor: pointer;
+  min-width: 0;
+}
+
+.panel-action-main input {
+  margin-top: 3px;
+  width: 17px;
+  height: 17px;
+  flex: 0 0 auto;
+  cursor: pointer;
+}
+
+.panel-action-main span {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.panel-action-main em {
+  font-style: normal;
+  font-size: 11.5px;
+  word-break: break-all;
+}
+
+.panel-action-labels {
+  display: flex;
+  gap: 8px;
+  min-width: 0;
+}
+
+.panel-action-labels input {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 7px 10px;
+  border-radius: 9px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.05);
+  color: inherit;
+  font: inherit;
+  font-size: 13px;
+}
+
+.panel-action-labels input:focus {
+  outline: none;
+  border-color: rgba(43, 179, 163, 0.75);
+}
+
+@media (max-width: 720px) {
+  .panel-action {
+    grid-template-columns: 1fr;
+    gap: 9px;
+  }
+}
+
+/* --- Ids obsoletos --- */
+
+.panel-obsolete {
+  border-left: 3px solid #f59e0b;
+}
+
+.panel-obsolete-list {
+  margin: 10px 0 14px;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* --- Vista previa --- */
+
+.panel-preview {
+  margin: 10px 0 0;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.32);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12.5px;
+  line-height: 1.45;
+  max-height: 320px;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* --- Barra de publicar --- */
+
+.panel-publish-bar {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+  padding: 14px 16px;
+  border-radius: 16px 16px 0 0;
+  background: rgba(17, 23, 34, 0.94);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 0;
+}
+
+.panel-publish-bar .detail-note {
+  margin: 0;
+  flex: 1 1 240px;
+}
+
+.panel-ok {
+  color: #34d399;
+}
+
+.panel-warn {
+  color: #fbbf24;
+}
+
+.panel-error {
+  color: #f87171;
+}
