@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#111722">
   <meta name="robots" content="noindex">
   <link rel="stylesheet" href="styles.css?v=5">
-  <link rel="stylesheet" href="panel.css?v=1">
+  <link rel="stylesheet" href="panel.css?v=2">
 </head>
 <body>
   <header class="app-header">
@@ -63,6 +63,26 @@
         </label>
       </section>
 
+      <!-- Carteles y avisos -->
+      <section class="detail-card">
+        <div class="panel-status-row">
+          <div>
+            <h2>Carteles y avisos</h2>
+            <p class="detail-note">
+              Cada aviso aparece UNA vez: cuando el usuario lo cierra, ese mismo aviso no vuelve a
+              salirle. Para volver a ensenar uno ya visto, cambiale el id.
+            </p>
+          </div>
+          <div class="panel-status-actions">
+            <button class="secondary-button" id="addAnnouncementButton" type="button">
+              Nuevo aviso
+            </button>
+          </div>
+        </div>
+        <div id="announcementList" class="panel-ann-list"></div>
+        <p class="detail-note" id="announcementEmpty">No hay ningun aviso configurado.</p>
+      </section>
+
       <section id="obsoleteCard" class="detail-card panel-obsolete" hidden>
         <h2>Ids que ya no existen en la app</h2>
         <p class="detail-note">
@@ -82,6 +102,9 @@
         <p class="detail-note">Vista previa de <code>ui_overrides</code>. Solo viajan las
         excepciones: lo que no aparece se comporta como en la app tal cual está.</p>
         <pre class="panel-preview" id="preview">{}</pre>
+        <h2 style="margin-top:18px">Avisos</h2>
+        <p class="detail-note">Vista previa de <code>announcements</code>.</p>
+        <pre class="panel-preview" id="announcementJson">[]</pre>
       </section>
 
       <div class="panel-publish-bar">
@@ -93,6 +116,7 @@
 
   <script src="vendor/supabase/supabase.min.js"></script>
   <script src="src/supabase-client.js?v=1"></script>
-  <script src="src/panel.js?v=1" defer></script>
+  <script src="src/announcement-preview.js?v=1"></script>
+  <script src="src/panel.js?v=2" defer></script>
 </body>
 </html>

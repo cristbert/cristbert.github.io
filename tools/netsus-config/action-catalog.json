@@ -1,6 +1,10 @@
 {
   "generated_from": "flutter_chat_list/lib/core/config/ui_overrides.dart",
   "note": "generado por tools/netsus-config/gen-catalog.py; no editar a mano",
+  "app": {
+    "versionCode": 655,
+    "versionName": "5.110"
+  },
   "actions": [
     {
       "id": "chat.header.call",

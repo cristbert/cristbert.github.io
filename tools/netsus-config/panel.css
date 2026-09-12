@@ -208,3 +208,369 @@
 .panel-error {
   color: #f87171;
 }
+
+/* --- Editor de avisos --- */
+
+.panel-ann-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.panel-ann {
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.panel-ann-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.panel-ann-id {
+  flex: 1 1 0;
+  min-width: 0;
+  padding: 8px 11px;
+  border-radius: 9px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(0, 0, 0, 0.25);
+  color: inherit;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 13px;
+}
+
+.panel-ann-head-actions {
+  display: flex;
+  gap: 6px;
+  flex: 0 0 auto;
+}
+
+.panel-ann-head-actions button {
+  padding: 7px 11px;
+}
+
+/* Dos columnas: los campos a la izquierda, el teléfono a la derecha. La vista previa vale
+   justamente por estar al lado de lo que se edita, no en otra pestaña. */
+.panel-ann-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 260px;
+  gap: 18px;
+  align-items: start;
+}
+
+.panel-ann-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  min-width: 0;
+}
+
+.panel-ann-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 11px;
+}
+
+.panel-ann-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.panel-ann-field > span {
+  font-size: 11.5px;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  opacity: 0.66;
+}
+
+.panel-ann-field input,
+.panel-ann-field select,
+.panel-ann-field textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 9px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.05);
+  color: inherit;
+  font: inherit;
+  font-size: 13px;
+}
+
+.panel-ann-field textarea {
+  resize: vertical;
+  line-height: 1.45;
+}
+
+.panel-ann-field input:focus,
+.panel-ann-field select:focus,
+.panel-ann-field textarea:focus {
+  outline: none;
+  border-color: rgba(43, 179, 163, 0.75);
+}
+
+.panel-ann-problems {
+  margin: 2px 0 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 12.5px;
+  color: #fbbf24;
+}
+
+/* --- Vista previa --- */
+
+.panel-ann-preview {
+  position: sticky;
+  top: 12px;
+}
+
+.panel-ann-preview-bar {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 9px;
+}
+
+.panel-ann-preview-bar button {
+  padding: 5px 12px;
+  font-size: 12px;
+}
+
+/* Silueta de teléfono. Las medidas son de maqueta, no reproducen un dispositivo concreto: lo que
+   importa es juzgar jerarquía, longitud del texto y contraste. */
+.ann-phone {
+  width: 244px;
+  height: 420px;
+  border-radius: 26px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.ann-phone.is-dark {
+  background: #0d1117;
+  color: #fff;
+}
+
+.ann-phone.is-light {
+  background: #f2f7f4;
+  color: #0f172a;
+}
+
+.ann-phone-chrome {
+  height: 22px;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ann-phone-chrome span {
+  width: 54px;
+  height: 5px;
+  border-radius: 3px;
+  background: currentColor;
+  opacity: 0.22;
+}
+
+.ann-phone-body {
+  position: relative;
+  flex: 1 1 auto;
+  overflow: hidden;
+}
+
+/* Filas de chat falsas: un cartel puede verse perfecto sobre un fondo plano y perderse encima de
+   contenido real, así que la vista previa lo enseña sobre algo. */
+.ann-fake-list {
+  position: absolute;
+  inset: 0;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ann-fake-list span {
+  height: 34px;
+  border-radius: 10px;
+  background: currentColor;
+  opacity: 0.07;
+}
+
+.ann-icon {
+  width: 22px;
+  height: 22px;
+  flex: 0 0 auto;
+}
+
+.ann-close {
+  flex: 0 0 auto;
+  font-size: 17px;
+  line-height: 1;
+  padding: 2px 4px;
+  opacity: 0.5;
+}
+
+.ann-button {
+  display: inline-block;
+  padding: 7px 13px;
+  border-radius: 11px;
+  font-size: 11.5px;
+  font-weight: 700;
+}
+
+/* --- Cartel --- */
+
+.ann-banner {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  padding: 11px 9px 11px 12px;
+  border-radius: 16px;
+  border: 1.2px solid;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.ann-phone.is-dark .ann-banner {
+  background: rgba(22, 27, 34, 0.96);
+}
+
+.ann-phone.is-light .ann-banner {
+  background: rgba(255, 255, 255, 0.97);
+}
+
+.ann-banner-text {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.ann-banner-title {
+  margin: 0;
+  font-size: 12.5px;
+  font-weight: 700;
+}
+
+.ann-banner-body {
+  margin: 3px 0 0;
+  font-size: 11.5px;
+  line-height: 1.4;
+  opacity: 0.82;
+  overflow-wrap: break-word;
+}
+
+.ann-banner-action {
+  margin-top: 8px;
+}
+
+/* --- Ventana centrada --- */
+
+.ann-phone.is-modal .ann-phone-body::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(3px);
+}
+
+.ann-modal {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  padding: 20px 18px 18px;
+  border-radius: 22px;
+  border: 1.5px solid;
+  text-align: center;
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4);
+  max-height: calc(100% - 24px);
+  overflow: auto;
+}
+
+.ann-phone.is-dark .ann-modal {
+  background: rgba(22, 27, 34, 0.96);
+}
+
+.ann-phone.is-light .ann-modal {
+  background: rgba(255, 255, 255, 0.97);
+}
+
+.ann-modal .ann-icon {
+  width: 34px;
+  height: 34px;
+  margin: 0 auto;
+}
+
+.ann-modal .ann-close {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+}
+
+.ann-modal-title {
+  margin: 11px 0 0;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -0.2px;
+}
+
+.ann-rule {
+  display: block;
+  width: 44px;
+  height: 3px;
+  border-radius: 2px;
+  margin: 9px auto 0;
+  opacity: 0.85;
+}
+
+.ann-modal-body {
+  margin: 13px 0 0;
+  font-size: 11.5px;
+  line-height: 1.55;
+  opacity: 0.82;
+  overflow-wrap: break-word;
+}
+
+.ann-modal-action {
+  margin-top: 16px;
+}
+
+.ann-modal-action .ann-button {
+  display: block;
+  padding: 11px 13px;
+  border-radius: 14px;
+  font-size: 12.5px;
+}
+
+@media (max-width: 900px) {
+  .panel-ann-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .panel-ann-preview {
+    position: static;
+  }
+
+  .ann-phone {
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 620px) {
+  .panel-ann-row {
+    grid-template-columns: 1fr;
+  }
+}
