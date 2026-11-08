@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="referrer" content="no-referrer">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'nonce-__CAPTCHA_NONCE__' https://challenges.cloudflare.com; style-src 'unsafe-inline'; frame-src 'self' https://challenges.cloudflare.com about:; connect-src 'self' https://challenges.cloudflare.com; img-src data: https://challenges.cloudflare.com; base-uri 'none'; form-action 'none'">
+    <style>
+        :root { color-scheme: light dark; font: 15px system-ui, sans-serif; }
+        body { margin: 0; padding: 16px 12px; text-align: center; }
+        p { margin: 0 0 24px; line-height: 1.5; }
+        #challenge { display: flex; justify-content: center; width: 100%; }
+    </style>
+</head>
+<body>
+    <p id="instructions" role="status"></p>
+    <div id="challenge"></div>
+    <script nonce="__CAPTCHA_NONCE__">
+        (() => {
+            const config = __CAPTCHA_CONFIG__;
+            document.documentElement.lang = config.language;
+            document.getElementById('instructions').textContent = config.message;
+            let completed = false;
+            const finish = (status, token = '') => {
+                if (completed) return;
+                completed = true;
+                window.location.replace(config.callback + '?status=' + status + '#' + encodeURIComponent(token));
+            };
+            window.netsusTurnstileReady = () => {
+                try {
+                    turnstile.render('#challenge', {
+                        sitekey: config.sitekey,
+                        action: config.action,
+                        language: config.language,
+                        theme: 'auto',
+                        size: window.innerWidth < 330 ? 'compact' : 'flexible',
+                        retry: 'never',
+                        'response-field': false,
+                        callback: token => finish('success', token),
+                        'error-callback': () => { finish('failed'); return true; },
+                        'expired-callback': () => finish('expired'),
+                        'timeout-callback': () => finish('expired'),
+                        'unsupported-callback': () => finish('failed')
+                    });
+                } catch (_) {
+                    finish('failed');
+                }
+            };
+            const script = document.createElement('script');
+            script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?onload=netsusTurnstileReady&render=explicit';
+            script.async = true;
+            script.defer = true;
+            script.addEventListener('error', () => finish('failed'));
+            document.head.appendChild(script);
+        })();
+    </script>
+</body>
+</html>
